@@ -1,10 +1,6 @@
-# OpenSAFELY Research Template
+# Do patients taking Hydroxychlorquine for prevention of RA or lupus have 
 
-This is a template repository for making new OpenSAFELY resarch projects.  Eventually it'll become a framework. To get started, create a new repo using this repo as a template, delete this front matter, and edit the text that follows.
-
-# _title goes here_
-
-This is the code and configuration for our paper, _name goes here_
+## This is a wor in progress
 
 * The paper is [here]()
 * Raw model outputs, including charts, crosstabs, etc, are in `released_analysis_results/`
