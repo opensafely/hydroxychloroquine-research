@@ -1,3 +1,5 @@
+opensafely/aplastic-anaemia/2020-04-24
+opensafely/asplenia/2020-06-02
 opensafely/asthma-oral-prednisolone-medication/2020-04-27
 opensafely/cancer-excluding-lung-and-haematological/2020-04-15
 opensafely/chronic-cardiac-disease/2020-04-08
@@ -9,6 +11,7 @@ opensafely/current-copd/2020-05-06
 opensafely/diabetes/2020-04-15
 opensafely/ethnicity/2020-04-27
 opensafely/haematological-cancer/2020-04-15
+opensafely/hiv/2020-04-24
 opensafely/hypertension/2020-04-28
 opensafely/influenza-vaccination/2020-05-12
 opensafely/influenza-vaccination-clinical-codes-given/2020-05-21
@@ -22,5 +25,7 @@ opensafely/pneumococcal-vaccination-clinical-codes-indicative-of-not-being-admin
 opensafely/rheumatoid-arthritis/2020-05-12
 opensafely/smoking-clear/2020-04-29
 opensafely/smoking-unclear/2020-04-29
+opensafely/sickle-cell-disease/2020-04-14
+opensafely/solid-organ-transplantation/2020-04-10
 opensafely/systemic-lupus-erythematosus-sle/2020-05-12
 opensafely/temporary-immunosuppresion/2020-04-24

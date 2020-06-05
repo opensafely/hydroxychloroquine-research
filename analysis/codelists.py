@@ -119,6 +119,36 @@ ckd_codes = codelist_from_csv(
     column="CTV3ID",
 )
 
+aplastic_codes = codelist_from_csv(
+    "codelists/opensafely-aplastic-anaemia.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+
+hiv_codes = codelist_from_csv(
+    "codelists/opensafely-hiv.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+
+organ_transplant_codes = codelist_from_csv(
+    "codelists/opensafely-solid-organ-transplantation.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+
+spleen_codes = codelist_from_csv(
+    "codelists/opensafely-asplenia.csv", 
+    system="ctv3", 
+    column="CTV3ID",
+)
+
+sickle_cell_codes = codelist_from_csv(
+    "codelists/opensafely-sickle-cell-disease.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+
 permanent_immune_codes = codelist_from_csv(
     "codelists/opensafely-permanent-immunosuppresion.csv",
     system="ctv3",
