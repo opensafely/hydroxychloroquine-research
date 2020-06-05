@@ -251,8 +251,4 @@ study = StudyDefinition(
     ),
 
 
-
-
-
-
-    
+)    
