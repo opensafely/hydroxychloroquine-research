@@ -24,8 +24,6 @@ sle_codes = codelist_from_csv(
     column="CTV3ID",
     )
 
-#tbc about including derm codes
-
 #MEDICATIONS - EXPOSURES
 #hydroxychloroquine
 #chloroquine
@@ -139,114 +137,6 @@ temp_immune_codes = codelist_from_csv(
     column="CTV3ID",
 )
 
-
-
-
-
-
-heart_failure_codes = codelist_from_csv(
-    "codelists/opensafely-heart-failure.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
-
-
-other_heart_disease_codes = codelist_from_csv(
-    "codelists/opensafely-other-heart-disease.csv", 
-    system="ctv3", 
-    column="CTV3ID",
-)
-
-
-
-
-
-lung_cancer_codes = codelist_from_csv(
-    "codelists/opensafely-lung-cancer.csv", 
-    system="ctv3", 
-    column="CTV3ID",
-)
-
-haem_cancer_codes = codelist_from_csv(
-    "codelists/opensafely-haematological-cancer.csv", 
-    system="ctv3", 
-    column="CTV3ID",
-)
-
-other_cancer_codes = codelist_from_csv(
-    "codelists/opensafely-cancer-excluding-lung-and-haematological.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
-aplastic_codes = codelist_from_csv(
-    "codelists/opensafely-aplastic-anaemia.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
-hiv_codes = codelist_from_csv(
-    "codelists/opensafely-hiv.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
-permanent_immune_codes = codelist_from_csv(
-    "codelists/opensafely-permanent-immunosuppresion.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
-organ_transplant_codes = codelist_from_csv(
-    "codelists/opensafely-solid-organ-transplantation.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
-spleen_codes = codelist_from_csv(
-    "codelists/opensafely-asplenia.csv", 
-    system="ctv3", 
-    column="CTV3ID",
-)
-
-sickle_cell_codes = codelist_from_csv(
-    "codelists/opensafely-sickle-cell-disease.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
-temp_immune_codes = codelist_from_csv(
-    "codelists/opensafely-temporary-immunosuppresion.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
-
-copd_codes = codelist_from_csv(
-    "codelists/opensafely-current-copd.csv",
-    system="ctv3",
-    column="CTV3ID",
-    )
-
-other_respiratory_codes = codelist_from_csv(
-    "codelists/opensafely-other-respiratory-conditions.csv",
-    system="ctv3",
-    column="CTV3ID",
-    )
-
-#tbc asthma
-#asthma_ever_codes = codelist_from_csv(
-#    "codelists/opensafely-asthma-diagnosis.csv", system="ctv3", column="CTV3ID"
-#)
-
-
-osteoarthritis_codes = codelist_from_csv(
-    "codelists/opensafely-osteoarthritis.csv",
-    system="ctv3",
-    column="CTV3ID",
-    )
-
 #VACCINATION
 flu_med_codes = codelist_from_csv(
     "codelists/opensafely-influenza-vaccination.csv",
@@ -281,17 +171,4 @@ pneumococcal_clinical_not_given_codes = codelist_from_csv(
     "codelists/opensafely-pneumococcal-vaccination-clinical-codes-indicative-of-not-being-administered.csv",
     system="ctv3",
     column="CTV3ID",
-)
-
-#MEDICATIONS
-statin_med_codes = codelist_from_csv(
-    "codelists/opensafely-statin-medication.csv",
-    system="snomed", 
-    column="id",
-)
-
-ppi_med_codes = codelist_from_csv(
-    "codelists/opensafely-proton-pump-inhibitors-ppi-oral.csv",
-    system="snomed", 
-    column="id",
 )
