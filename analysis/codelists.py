@@ -89,8 +89,8 @@ current_asthma_codes = codelist_from_csv(
 
 oral_pred_codes = codelist_from_csv(
     "codelists/opensafely-asthma-oral-prednisolone-medication.csv",
-    system="ctv3",
-    column="CTV3ID",
+    system="snomed",
+    column="snomed_id",
 )
 
 lung_cancer_codes = codelist_from_csv(
