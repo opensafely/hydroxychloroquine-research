@@ -119,12 +119,6 @@ ckd_codes = codelist_from_csv(
     column="CTV3ID",
 )
 
-chronic_liver_disease_codes = codelist_from_csv(
-    "codelists/opensafely-chronic-liver-disease.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
 permanent_immune_codes = codelist_from_csv(
     "codelists/opensafely-permanent-immunosuppresion.csv",
     system="ctv3",
