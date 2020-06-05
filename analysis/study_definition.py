@@ -17,8 +17,8 @@ study = StudyDefinition(
 
     # This line defines the study population
     population=patients.satisfying(
-        """
-        has_follow_up AND
+            """
+            has_follow_up AND
             (age >=18 AND age <= 110) AND
             AND (sex = "M" OR sex = "F") AND
             imd > 0 AND
@@ -35,6 +35,32 @@ study = StudyDefinition(
     has_follow_up = patients.registered_with_one_practice_between(
         "2019-02-28", "2020-02-29"
     ),
+
+    #OUTCOMES
+     died_ons_covid_flag_any=patients.with_these_codes_on_death_certificate(
+        covid_identification,
+        on_or_after="2020-03-01",
+        match_only_underlying_cause=False,
+        return_expectations={"date": {"earliest": "2020-03-01"}},
+    ),
+    died_ons_covid_flag_underlying=patients.with_these_codes_on_death_certificate(
+        covid_identification,
+        on_or_after="2020-03-01",
+        match_only_underlying_cause=True,
+        return_expectations={"date": {"earliest": "2020-03-01"}},
+    ),
+    died_date_ons=patients.died_from_any_cause(
+        on_or_after="2020-03-01",
+        returning="date_of_death",
+        include_month=True,
+        include_day=True,
+        return_expectations={"date": {"earliest": "2020-03-01"}},
+    ),
+    # PLACEHOLDER - SECONDARY OUTCOME:testing +ve for covid
+
+
+
+
     # The rest of the lines define the covariates with associated GitHub issues
     # https://github.com/ebmdatalab/tpp-sql-notebook/issues/33
     age=patients.age_as_of(
