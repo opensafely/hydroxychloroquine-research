@@ -9,20 +9,20 @@ covid_identification = codelist_from_csv(
     "codelists/opensafely-covid-identification.csv",
     system="ICD-10",
     column="icd10_code",
-    )
+)
 
 #INCLUSION CRITERIA
 rheumatoid_codes = codelist_from_csv(
     "codelists/opensafely-rheumatoid-arthritis.csv",
     system="ctv3",
     column="CTV3ID",
-    )
+)
 
 sle_codes = codelist_from_csv(
     "codelists/opensafely-systemic-lupus-erythematosus-sle.csv",
     system="ctv3",
     column="CTV3ID",
-    )
+)
 
 #MEDICATIONS - EXPOSURES
 #hydroxychloroquine
