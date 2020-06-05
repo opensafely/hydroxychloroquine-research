@@ -58,13 +58,24 @@ study = StudyDefinition(
     ),
     # PLACEHOLDER - SECONDARY OUTCOME:testing +ve for covid
 
+     # MEDICATIONS exposures
+    #hydroxychloroquine_etc=patients.with_these_medications(
+    #    hydroxychlorquine_codes,
+    #    between=["2017-02-28", "2020-02-29"],
+    #    returning="number_of_episodes",
+    #    return_expectations={
+    #        "int": {"distribution": "normal", "mean": 3, "stddev": 2},
+    #        "incidence": 0.30,
+    #    },
+    #),
+
 
 
 
     # The rest of the lines define the covariates with associated GitHub issues
     # https://github.com/ebmdatalab/tpp-sql-notebook/issues/33
     age=patients.age_as_of(
-        "2020-02-01",
+        "2020-03-01",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
