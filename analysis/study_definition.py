@@ -51,7 +51,7 @@ study = StudyDefinition(
     ),
     # PLACEHOLDER - SECONDARY OUTCOME:testing +ve for covid
 
-     # MEDICATIONS exposures
+    # MEDICATIONS exposures
     #hydroxychloroquine_etc=patients.with_these_medications(
     #    hydroxychlorquine_codes,
     #    between=["2017-02-28", "2020-02-29"],
@@ -250,5 +250,163 @@ study = StudyDefinition(
         return_expectations={"date": {"latest": "2020-02-29"}},
     ),
 
+    #oral pred
+    
 
-)    
+
+
+    #CANCER - 3 TYPES
+    cancer=patients.with_these_clinical_events(
+        combine_codelists(lung_cancer_codes, haem_cancer_codes, other_cancer_codes),
+        on_or_before="2020-02-29",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={"date": {"latest": "2020-02-29"}},
+    ),
+
+    #CKD
+    creatinine=patients.with_these_clinical_events(
+        creatinine_codes,
+        find_last_match_in_period=True,
+        between=["2019-02-28", "2020-02-29"],
+        returning="numeric_value",
+        include_date_of_match=True,
+        include_month=True,
+        return_expectations={
+            "float": {"distribution": "normal", "mean": 60.0, "stddev": 15},
+            "date": {"earliest": "2019-02-28", "latest": "2020-02-29"},
+            "incidence": 0.95,
+        },
+    ),
+
+    #### end stage renal disease codes incl. dialysis / transplant 
+    esrf=patients.with_these_clinical_events(
+        ckd_codes,  #CHECK IS THIS DEF RIGHT HERE
+        on_or_before="2020-02-29",
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={"date": {"latest": "2020-02-29"}},
+    ),
+
+    #IMMUNOSUPPRESSION
+    #### PERMANENT
+    permanent_immunodeficiency=patients.with_these_clinical_events(
+        combine_codelists(aplastic_codes,
+                          hiv_codes,
+                          permanent_immune_codes,
+                          sickle_cell_codes,
+                          organ_transplant_codes,
+                          spleen_codes)
+        ,
+        on_or_before="2020-02-29",
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={"date": {"latest": "2020-02-29"}},
+    ),
+
+    #### TEMPORARY
+    temporary_immunodeficiency=patients.with_these_clinical_events(
+        temp_immune_codes,
+        between=["2019-03-01", "2020-02-29"],
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-03-01", "latest": "2020-02-29"}
+        },
+    ),
+  
+    #FLU VACCINATION STATUS
+    flu_vaccine_tpp_table=patients.with_tpp_vaccination_record(
+        target_disease_matches="INFLUENZA",
+        between=["2019-09-01", "2020-02-29"],  # current flu season
+        find_first_match_in_period=True,
+        returning="date",
+        return_expectations={
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
+        },
+    ),
+    flu_vaccine_med=patients.with_these_medications(
+        flu_med_codes,
+        between=["2019-09-01", "2020-02-29"],  # current flu season
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
+        },
+    ),
+    flu_vaccine_clinical=patients.with_these_clinical_events(
+        flu_clinical_given_codes,
+        ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
+        between=["2019-09-01", "2020-02-29"],  # current flu season
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
+        },
+    ),
+    flu_vaccine=patients.satisfying(
+        """
+        flu_vaccine_tpp_table OR
+        flu_vaccine_med OR
+        flu_vaccine_clinical
+        """,
+    ),
+
+    #PNEUMOCOCCAL VACCINATION STATUS
+    pneumococcal_vaccine_tpp_table=patients.with_tpp_vaccination_record(
+        target_disease_matches="PNEUMOCOCCAL",
+        between=["2015-03-01", "2020-02-29"],
+        find_first_match_in_period=True,
+        returning="date",
+        return_expectations={
+            "date": {"earliest": "2015-03-01", "latest": "2020-02-29"}
+        },
+    ),
+    pneumococcal_vaccine_med=patients.with_these_medications(
+        pneumococcal_med_codes,
+        between=["2015-03-01", "2020-02-29"],  # past five years
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2015-03-01", "latest": "2020-02-29"}
+        },
+    ),
+    pneumococcal_vaccine_clinical=patients.with_these_clinical_events(
+        pneumococcal_clinical_given_codes,
+        ignore_days_where_these_codes_occur=pneumococcal_clinical_not_given_codes,
+        between=["2015-03-01", "2020-02-29"],  # past five years
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2015-03-01", "latest": "2020-02-29"}
+        },
+    ),
+    pneumococcal_vaccine=patients.satisfying(
+        """
+        pneumococcal_vaccine_tpp_table OR
+        pneumococcal_vaccine_med OR
+        pneumococcal_vaccine_clinical
+        """,
+    ),
+
+    ### GP CONSULTATION RATE
+    gp_consult_count=patients.with_gp_consultations(
+        between=["2019-03-01", "2020-02-29"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 4, "stddev": 2},
+            "date": {"earliest": "2019-03-01", "latest": "2020-02-29"},
+            "incidence": 0.7,
+        },
+    ),
+    has_consultation_history=patients.with_complete_gp_consultation_history_between(
+        "2019-03-01", "2020-02-29", return_expectations={"incidence": 0.9},
+    ),
+
+
+    )
+
+
+
+
+ 
