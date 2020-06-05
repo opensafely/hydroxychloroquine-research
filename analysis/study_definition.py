@@ -26,15 +26,8 @@ study = StudyDefinition(
             """,
             has_follow_up=patients.registered_with_one_practice_between(
             "2019-02-28", "2020-02-29"
-        
-        ),
+              
         )
-
-
-
-    has_follow_up = patients.registered_with_one_practice_between(
-        "2019-02-28", "2020-02-29"
-    ),
 
     #OUTCOMES
      died_ons_covid_flag_any=patients.with_these_codes_on_death_certificate(
@@ -247,7 +240,7 @@ study = StudyDefinition(
         include_month=True,
         return_expectations={"date": {"latest": "2020-02-29"}},
     ),
-    
+
     #CURRENT ASTHMA
     current_asthma=patients.with_these_clinical_events(
         current_asthma_codes,
