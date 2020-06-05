@@ -242,7 +242,7 @@ study = StudyDefinition(
         return_expectations={"date": {"latest": "2020-02-29"}},
     ),
 
-    #CURRENT ASTHMA
+    #CURRENT ASTHMA - confirm if this or ever asthma
     current_asthma=patients.with_these_clinical_events(
         current_asthma_codes,
         on_or_before="2020-02-29",
