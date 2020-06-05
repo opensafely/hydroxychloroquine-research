@@ -54,7 +54,7 @@ unclear_smoking_codes = codelist_from_csv(
 )
 
 # CLINICAL CONDITIONS CODELISTS
-chronic_cardiac_diasease_codes = codelist_from_csv(
+chronic_cardiac_disease_codes = codelist_from_csv(
     "codelists/opensafely-chronic-cardiac-disease.csv",
     system="ctv3",
     column="CTV3ID",
