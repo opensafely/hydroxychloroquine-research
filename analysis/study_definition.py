@@ -7,11 +7,33 @@ study = StudyDefinition(
     # Configure the expectations framework
     default_expectations={
         "date": {"earliest": "1900-01-01", "latest": "today"},
-        "rate": "exponential_increase",
+        "rate": "uniform",
+        "incidence": 0.1,
     },
+    
+
+# STUDY POPULATION
+
+
     # This line defines the study population
-    population=patients.registered_with_one_practice_between(
-        "2019-02-01", "2020-02-01"
+    population=patients.satisfying(
+        """
+        has_follow_up AND
+            (age >=18 AND age <= 110) AND
+            AND (sex = "M" OR sex = "F") AND
+            imd > 0 AND
+            (rheumatoid or sle)
+            """,
+            has_follow_up=patients.registered_with_one_practice_between(
+            "2019-02-28", "2020-02-29"
+        
+        ),
+        )
+
+
+
+    has_follow_up = patients.registered_with_one_practice_between(
+        "2019-02-28", "2020-02-29"
     ),
     # The rest of the lines define the covariates with associated GitHub issues
     # https://github.com/ebmdatalab/tpp-sql-notebook/issues/33
