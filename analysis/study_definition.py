@@ -137,6 +137,10 @@ study = StudyDefinition(
         },
     ),
 
+    ##SHIELDING STATUS PLACEHOLDER
+
+    ##RHEUMATOLOGY OUTPATENT VISITS - HES - PLACEHOLDER
+
     #CLINICAL COVARIATES
     #BMI
     bmi=patients.most_recent_bmi(
@@ -253,6 +257,8 @@ study = StudyDefinition(
         include_month=True,
         return_expectations={"date": {"latest": "2020-02-29"}},
     ),
+
+    #NEUROLOGICAL DISEASE PLACEHOLDER
 
     #CURRENT ASTHMA - confirm if this or ever asthma
     current_asthma=patients.with_these_clinical_events(
