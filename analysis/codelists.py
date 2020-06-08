@@ -1,7 +1,7 @@
 from datalab_cohorts import (
     codelist_from_csv,
     codelist,
-    )
+)
 
 
 # OUTCOME CODELISTS
@@ -11,11 +11,9 @@ covid_identification = codelist_from_csv(
     column="icd10_code",
 )
 
-#INCLUSION CRITERIA
+# INCLUSION CRITERIA
 rheumatoid_codes = codelist_from_csv(
-    "codelists/opensafely-rheumatoid-arthritis.csv",
-    system="ctv3",
-    column="CTV3ID",
+    "codelists/opensafely-rheumatoid-arthritis.csv", system="ctv3", column="CTV3ID",
 )
 
 sle_codes = codelist_from_csv(
@@ -24,10 +22,10 @@ sle_codes = codelist_from_csv(
     column="CTV3ID",
 )
 
-#MEDICATIONS - EXPOSURES
-#hydroxychloroquine
-#chloroquine
-#dmards
+# MEDICATIONS - EXPOSURES
+# hydroxychloroquine
+# chloroquine
+# dmards
 
 
 # DEMOGRAPHIC CODELIST
@@ -55,24 +53,18 @@ unclear_smoking_codes = codelist_from_csv(
 
 # CLINICAL CONDITIONS CODELISTS
 chronic_cardiac_disease_codes = codelist_from_csv(
-    "codelists/opensafely-chronic-cardiac-disease.csv",
-    system="ctv3",
-    column="CTV3ID",
+    "codelists/opensafely-chronic-cardiac-disease.csv", system="ctv3", column="CTV3ID",
 )
 
 diabetes_codes = codelist_from_csv(
-    "codelists/opensafely-diabetes.csv", 
-    system="ctv3", 
-    column="CTV3ID",
+    "codelists/opensafely-diabetes.csv", system="ctv3", column="CTV3ID",
 )
 
 hba1c_new_codes = codelist(["XaPbt", "Xaeze", "Xaezd"], system="ctv3")
 hba1c_old_codes = codelist(["X772q", "XaERo", "XaERp"], system="ctv3")
 
 hypertension_codes = codelist_from_csv(
-    "codelists/opensafely-hypertension.csv",
-    system="ctv3", 
-    column="CTV3ID",
+    "codelists/opensafely-hypertension.csv", system="ctv3", column="CTV3ID",
 )
 
 chronic_respiratory_disease_codes = codelist_from_csv(
@@ -82,15 +74,11 @@ chronic_respiratory_disease_codes = codelist_from_csv(
 )
 
 chronic_liver_disease_codes = codelist_from_csv(
-    "codelists/opensafely-chronic-liver-disease.csv",
-    system="ctv3",
-    column="CTV3ID",
+    "codelists/opensafely-chronic-liver-disease.csv", system="ctv3", column="CTV3ID",
 )
 
 current_asthma_codes = codelist_from_csv(
-    "codelists/opensafely-current-asthma.csv",
-    system="ctv3",
-    column="CTV3ID",
+    "codelists/opensafely-current-asthma.csv", system="ctv3", column="CTV3ID",
 )
 
 oral_pred_codes = codelist_from_csv(
@@ -100,15 +88,11 @@ oral_pred_codes = codelist_from_csv(
 )
 
 lung_cancer_codes = codelist_from_csv(
-    "codelists/opensafely-lung-cancer.csv", 
-    system="ctv3", 
-    column="CTV3ID",
+    "codelists/opensafely-lung-cancer.csv", system="ctv3", column="CTV3ID",
 )
 
 haem_cancer_codes = codelist_from_csv(
-    "codelists/opensafely-haematological-cancer.csv", 
-    system="ctv3", 
-    column="CTV3ID",
+    "codelists/opensafely-haematological-cancer.csv", system="ctv3", column="CTV3ID",
 )
 
 other_cancer_codes = codelist_from_csv(
@@ -120,21 +104,15 @@ other_cancer_codes = codelist_from_csv(
 creatinine_codes = codelist(["XE2q5"], system="ctv3")
 
 ckd_codes = codelist_from_csv(
-    "codelists/opensafely-chronic-kidney-disease.csv",
-    system="ctv3", 
-    column="CTV3ID",
+    "codelists/opensafely-chronic-kidney-disease.csv", system="ctv3", column="CTV3ID",
 )
 
 aplastic_codes = codelist_from_csv(
-    "codelists/opensafely-aplastic-anaemia.csv",
-    system="ctv3",
-    column="CTV3ID",
+    "codelists/opensafely-aplastic-anaemia.csv", system="ctv3", column="CTV3ID",
 )
 
 hiv_codes = codelist_from_csv(
-    "codelists/opensafely-hiv.csv",
-    system="ctv3",
-    column="CTV3ID",
+    "codelists/opensafely-hiv.csv", system="ctv3", column="CTV3ID",
 )
 
 organ_transplant_codes = codelist_from_csv(
@@ -144,15 +122,11 @@ organ_transplant_codes = codelist_from_csv(
 )
 
 spleen_codes = codelist_from_csv(
-    "codelists/opensafely-asplenia.csv", 
-    system="ctv3", 
-    column="CTV3ID",
+    "codelists/opensafely-asplenia.csv", system="ctv3", column="CTV3ID",
 )
 
 sickle_cell_codes = codelist_from_csv(
-    "codelists/opensafely-sickle-cell-disease.csv",
-    system="ctv3",
-    column="CTV3ID",
+    "codelists/opensafely-sickle-cell-disease.csv", system="ctv3", column="CTV3ID",
 )
 
 permanent_immune_codes = codelist_from_csv(
@@ -167,7 +141,7 @@ temp_immune_codes = codelist_from_csv(
     column="CTV3ID",
 )
 
-#VACCINATION
+# VACCINATION
 flu_med_codes = codelist_from_csv(
     "codelists/opensafely-influenza-vaccination.csv",
     system="snomed",
