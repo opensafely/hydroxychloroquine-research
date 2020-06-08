@@ -251,7 +251,7 @@ study = StudyDefinition(
 
     #CHRONIC RESPIRATORY DISEASES - EXCL ASTHMA
     chronic_respiratory_excl_asthma=patients.with_these_clinical_events(
-        chronic_respiratory_diasease_codes,
+        chronic_respiratory_disease_codes,
         on_or_before="2020-02-29",
         return_first_date_in_period=True,
         include_month=True,
