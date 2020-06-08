@@ -75,8 +75,14 @@ hypertension_codes = codelist_from_csv(
     column="CTV3ID",
 )
 
-chronic_respiratory_diasease_codes = codelist_from_csv(
+chronic_respiratory_disease_codes = codelist_from_csv(
     "codelists/opensafely-chronic-respiratory-disease.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+
+chronic_liver_disease_codes = codelist_from_csv(
+    "codelists/opensafely-chronic-liver-disease.csv",
     system="ctv3",
     column="CTV3ID",
 )

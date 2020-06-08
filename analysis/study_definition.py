@@ -201,6 +201,14 @@ study = StudyDefinition(
         return_expectations={"date": {"latest": "2020-02-29"}},
         ),
 
+    chronic_liver_disease=patients.with_these_clinical_events(
+        chronic_liver_disease_codes,
+        on_or_before="2020-02-29",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={"date": {"latest": "2020-02-29"}},
+        ),
+
     diabetes=patients.with_these_clinical_events( #check my understanding I think we need this to detect unmeasured HbA1C
         diabetes_codes,
         on_or_before="2020-02-29",
