@@ -53,6 +53,7 @@ study = StudyDefinition(
     # PLACEHOLDER - SECONDARY OUTCOME:testing +ve for covid
 
     # MEDICATIONS exposures
+    #HYDROXYCHLOROQUINE PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/1
     #hydroxychloroquine_etc=patients.with_these_medications(
     #    hydroxychlorquine_codes,
     #    between=["2017-02-28", "2020-02-29"],
@@ -62,6 +63,9 @@ study = StudyDefinition(
     #        "incidence": 0.30,
     #    },
     #),
+
+    # DMARDS EXPOSURE (PRIMARY CARE)
+    # DMARDS EXPOSURE (SECONDARYCARE)
 
 
 
@@ -252,6 +256,15 @@ study = StudyDefinition(
     ),
 
     #oral pred / current medication tbc
+    oral_presnisolone=patients.with_these_medications(
+        oral_pred_codes,
+        between=["2019-11-01", "2020-02-29"],
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-11-01", "latest": "2020-02-29"},
+        },
+
 
     #CANCER - 3 TYPES
     cancer=patients.with_these_clinical_events(
