@@ -278,6 +278,7 @@ study = StudyDefinition(
         return_expectations={
             "date": {"earliest": "2019-11-01", "latest": "2020-02-29"},
         },
+    ),
 
 
     #CANCER - 3 TYPES
