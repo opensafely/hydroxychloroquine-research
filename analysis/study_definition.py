@@ -52,20 +52,43 @@ study = StudyDefinition(
     ),
     # PLACEHOLDER - SECONDARY OUTCOME:testing +ve for covid
 
-    # MEDICATIONS exposures
-    #HYDROXYCHLOROQUINE PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/1
-    #hydroxychloroquine_etc=patients.with_these_medications(
-    #    hydroxychlorquine_codes,
-    #    between=["2017-02-28", "2020-02-29"],
-    #    returning="number_of_episodes",
-    #    return_expectations={
-    #        "int": {"distribution": "normal", "mean": 3, "stddev": 2},
-    #        "incidence": 0.30,
-    #    },
-    #),
+    # MEDICATIONS EXPOSURES
 
-    # DMARDS EXPOSURE (PRIMARY CARE)
-    # DMARDS EXPOSURE (SECONDARYCARE)
+    #HYDROXYCHLOROQUINE PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/1
+    hydroxychloroquine=patients.with_these_medications(
+        ace_med_codes,
+        between=["2017-02-28", "2020-02-29"],
+        returning="number_of_episodes",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 2},
+            "incidence": 0.30,
+        },
+    ),
+
+    # DMARDS EXPOSURE (PRIMARY CARE) PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/2
+    dmards_primary_care=patients.with_these_medications(
+        ace_med_codes,
+        between=["2017-02-28", "2020-02-29"],
+        returning="number_of_episodes",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 2},
+            "incidence": 0.1,
+        },
+    ),
+
+    #MACROLIDES EXPOSURE PLACEHOLDER -  - https://github.com/opensafely/hydroxychloroquine-research/issues/4
+    macrolides=patients.with_these_medications(
+        ace_med_codes,
+        between=["2017-02-28", "2020-02-29"],
+        returning="number_of_episodes",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 2, "stddev": 2},
+            "incidence": 0.25,
+        },
+    ),
+
+
+    # DMARDS EXPOSURE (SECONDARYCARE) - THIS IS A PLACEHOLDR FOR EXPECTED DATA - IT WILL BE QUEIRED IN DIFFERENT WAY (PROBABLY) TO OTHER MEDS
 
 
 
