@@ -95,6 +95,10 @@ oral_pred_codes = codelist_from_csv(
     column="snomed_id",
 )
 
+other_neuro_codes = codelist_from_csv(
+    "codelists/opensafely-other-neurological-conditions.csv", system="ctv3", column="CTV3ID",
+)
+
 lung_cancer_codes = codelist_from_csv(
     "codelists/opensafely-lung-cancer.csv", system="ctv3", column="CTV3ID",
 )
