@@ -76,6 +76,17 @@ study = StudyDefinition(
         },
     ),
 
+    medicine_exposure=patients.categorised_as(
+        {
+            "D": "dmards_primary_care = 'D'",
+            "H": "hydroxychloroquine = 'H'",
+            "M": "DEFAULT",
+        },
+        return_expectations={
+            "category": {"ratios": {"D": 0.1, "H": 0.1, "M": 0.8}}
+        },
+    ),
+
     #MACROLIDES EXPOSURE PLACEHOLDER -  - https://github.com/opensafely/hydroxychloroquine-research/issues/4
     macrolides=patients.with_these_medications(
         ace_med_codes,
