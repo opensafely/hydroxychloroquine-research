@@ -86,12 +86,12 @@ study = StudyDefinition(
 
     medicine_exposure=patients.categorised_as(
         {
-            "D": "dmards_primary_care = 'D'",
-            "H": "hydroxychloroquine = 'H'",
-            "M": "DEFAULT",
+            "0": "dmards_primary_care > 0", 
+            "1": "hydroxychloroquine > 0",
+            "2": "DEFAULT",
         },
         return_expectations={
-            "category": {"ratios": {"D": 0.1, "H": 0.1, "M": 0.8}}
+            "category": {"ratios": {"0": 0.1, "1": 0.1, "2": 0.8}}
         },
     ),
 
