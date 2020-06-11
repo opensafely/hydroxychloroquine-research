@@ -50,7 +50,15 @@ study = StudyDefinition(
         include_day=True,
         return_expectations={"date": {"earliest": "2020-03-01"}},
     ),
-    # PLACEHOLDER - SECONDARY OUTCOME:testing +ve for covid
+    # SECONDARY OUTCOME:testing +ve for covid
+        first_positive_test_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"date": {"earliest": "2020-03-01"}},
+    ),
 
     # MEDICATIONS EXPOSURES
 
