@@ -65,7 +65,7 @@ study = StudyDefinition(
     #HYDROXYCHLOROQUINE PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/1
     hydroxychloroquine=patients.with_these_medications(
         ace_med_codes,
-        between=["2017-02-28", "2020-02-29"],
+        between=["2019-11-01", "2020-02-29"],
         returning="number_of_episodes",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 2},
@@ -76,7 +76,7 @@ study = StudyDefinition(
     # DMARDS EXPOSURE (PRIMARY CARE) PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/2
     dmards_primary_care=patients.with_these_medications(
         ace_med_codes,
-        between=["2017-02-28", "2020-02-29"],
+        between=["2019-11-01", "2020-02-29"],
         returning="number_of_episodes",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 2},
@@ -98,7 +98,7 @@ study = StudyDefinition(
     #MACROLIDES EXPOSURE PLACEHOLDER -  - https://github.com/opensafely/hydroxychloroquine-research/issues/4
     macrolides=patients.with_these_medications(
         ace_med_codes,
-        between=["2017-02-28", "2020-02-29"],
+        between=["2019-11-01", "2020-02-29"],
         returning="number_of_episodes",
         return_expectations={
             "int": {"distribution": "normal", "mean": 2, "stddev": 2},
