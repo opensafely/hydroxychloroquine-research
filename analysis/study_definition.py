@@ -63,7 +63,7 @@ study = StudyDefinition(
     # MEDICATIONS EXPOSURES
 
     #HYDROXYCHLOROQUINE PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/1
-    hydroxychloroquine=patients.with_these_medications(
+    hydroxychloroquine_count=patients.with_these_medications(
         ace_med_codes,
         between=["2019-11-01", "2020-02-29"],
         returning="number_of_episodes",
@@ -73,8 +73,18 @@ study = StudyDefinition(
         },
     ),
 
+     hydroxychloroquine_exposure=patients.with_these_medications(
+        ace_med_codes,
+        between=["2019-11-01", "2020-02-29"], 
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-11-01", "latest": "2020-02-29"}
+        },
+    ),
+
     # DMARDS EXPOSURE (PRIMARY CARE) PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/2
-    dmards_primary_care=patients.with_these_medications(
+    dmards_primary_care_count=patients.with_these_medications(
         ace_med_codes,
         between=["2019-11-01", "2020-02-29"],
         returning="number_of_episodes",
@@ -84,10 +94,20 @@ study = StudyDefinition(
         },
     ),
 
+    dmards_primary_care_exposure=patients.with_these_medications(
+        ace_med_codes,
+        between=["2019-11-01", "2020-02-29"], 
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-11-01", "latest": "2020-02-29"}
+        },
+    ),
+
     medicine_exposure=patients.categorised_as(
         {
-            "0": "dmards_primary_care > 0", 
-            "1": "hydroxychloroquine > 0",
+            "0": "dmards_primary_care_count > 0", 
+            "1": "hydroxychloroquine_count > 0",
             "2": "DEFAULT",
         },
         return_expectations={
@@ -319,13 +339,23 @@ study = StudyDefinition(
     ),
 
     #oral pred / current medication tbc
-    oral_presnisolone=patients.with_these_medications(
+    oral_prednisolone_exposure=patients.with_these_medications(
         oral_pred_codes,
         between=["2019-11-01", "2020-02-29"],
         return_last_date_in_period=True,
         include_month=True,
         return_expectations={
             "date": {"earliest": "2019-11-01", "latest": "2020-02-29"},
+        },
+    ),
+
+    oral_prednisolone_count=patients.with_these_medications(
+        oral_pred_codes,
+        between=["2019-11-01", "2020-02-29"],
+        returning="number_of_episodes",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 2},
+            "incidence": 0.1,
         },
     ),
 
