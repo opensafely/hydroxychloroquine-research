@@ -7,7 +7,7 @@ from datalab_cohorts import (
 # OUTCOME CODELISTS
 covid_identification = codelist_from_csv(
     "codelists/opensafely-covid-identification.csv",
-    system="ICD-10",
+    system="icd10",
     column="icd10_code",
 )
 
