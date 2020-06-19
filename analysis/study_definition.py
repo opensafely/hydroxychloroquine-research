@@ -22,7 +22,7 @@ study = StudyDefinition(
             (age >=18 AND age <= 110) AND
             AND (sex = "M" OR sex = "F") AND
             imd > 0 AND
-            (rheumatoid or sle)
+            (rheumatoid OR sle)
             """,
             has_follow_up=patients.registered_with_one_practice_between(
             "2019-02-28", "2020-02-29"         
