@@ -2,15 +2,16 @@
       name:  <unnamed>
        log:  C:\GitHub\OpenSAFELY\hydroxychloroquine-research\analysis\log\00_cr_create_analysis_dataset.log
   log type:  text
- opened on:  17 Jun 2020, 23:54:41
+ opened on:  18 Jun 2020, 16:45:05
 
 . 
 . /* SET FU DATES===============================================================*/ 
 . * Censoring dates for each outcome (largely, last date outcome data available)
-. 
-. global cpnsdeathcensor          = "23/04/2020"
+.  
+. global testposcensor            = "23/04/2020" /*****************************************  figure out what this
+>  should be */
 
-. global onscoviddeathcensor      = "06/05/2020"
+. global onscoviddeathcensor      = "06/05/2020" /*this should be 7 days prior to the last recorded death*/
 
 . global indexdate                        = "01/03/2020"
 
@@ -202,64 +203,7 @@ variable temporary_immunodeficiency was str7 now str10
 . /* CREATE BINARY VARIABLES====================================================*/
 . *  Make indicator variables for all conditions where relevant 
 . 
-. foreach var of varlist   bmi_measured_date                                      ///
->                                                  cancer_date                                            ///
->                                                  chronic_cardiac_disease_date           ///
->                                                  chronic_liver_disease_date                     ///
-> //                                               creatinine_measured_date                       ///
-{ required
-r(100);
-
-end of do-file
-
-r(100);
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
-. foreach var of varlist   bmi_measured_date                                      ///
->                                                  cancer_date                                            ///
->                                                  chronic_cardiac_disease_date           ///
->                                                  chronic_liver_disease_date                     ///
->                                                  current_asthma_date                            ///     
->                                                  diabetes_date                                          ///
->                                                  hypertension_date                                      ///
->                                                  esrf_date                                                     
->  ///                                              
->                                                  flu_vaccine_clinical_date                      ///     
->                                                  flu_vaccine_med_date                           ///
->                                                  flu_vaccine_tpp_date                           ///
->                                                  oral_presnisolone_date                         ///            
->                           
->                                                  other_neuro_conditions_date            ///
->                                                  perm_immunodef_date                            ///
->                                                  pneumovax_clin_date                            ///
->                                                  pneumovax_med_date                                     ///
->                                                  pneumovax_tpp          _date                   ///
->                                                  resp_excl_asthma_date                          ///            
->                                   
->                                                  smoking_status_measured_date           ///
->                                                  temp_immunodef_date                     {
-  2.         
-.         /* date ranges are applied in python, so presence of date indicates presence of 
->           disease in the correct time frame */ 
-.         local newvar =  substr("`var'", 1, length("`var'") - 5)
-  3.         gen `newvar' = (`var'!=. )
-  4.         order `newvar', after(`var')
-  5.         
-. }
-variable _date not found
-r(111);
-
-end of do-file
-
-r(111);
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
-. foreach var of varlist   bmi_measured_date                                      ///
->                                                  cancer_date                                            ///
+. foreach var of varlist   cancer_date                                            ///
 >                                                  chronic_cardiac_disease_date           ///
 >                                                  chronic_liver_disease_date                     ///
 >                                                  current_asthma_date                            ///     
@@ -291,24 +235,12 @@ r(111);
 . }
 
 . 
-end of do-file
-
-. bro
-
-. tab  smoking_status
-
-smoking_sta |
-        tus |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          E |      1,032       10.32       10.32
-          M |      1,031       10.31       20.63
-          N |      1,958       19.58       40.21
-          S |      5,979       59.79      100.00
-------------+-----------------------------------
-      Total |     10,000      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. 
+. 
+. /* CREATE VARIABLES===========================================================*/
+. 
+. /* DEMOGRAPHICS */ 
+. 
 . * Sex
 . gen male = 1 if sex == "M"
 (50,730 missing values generated)
@@ -317,22 +249,7 @@ smoking_sta |
 (50,730 real changes made)
 
 . 
-end of do-file
-
-. tab male sex, m
-
-           |          sex
-      male |         F          M |     Total
------------+----------------------+----------
-         0 |    50,730          0 |    50,730 
-         1 |         0     49,270 |    49,270 
------------+----------------------+----------
-     Total |    50,730     49,270 |   100,000 
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
-. * Ethnicity 
+. * Ethnicity  
 . replace ethnicity = .u if ethnicity == .
 variable ethnicity not found
 r(111);
@@ -356,27 +273,6 @@ r(111);
 . drop stp_old
 
 . 
-end of do-file
-
-. tab stp
-
-        stp |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |     10,019       10.02       10.02
-          2 |      9,928        9.93       19.95
-          3 |     10,099       10.10       30.05
-          4 |     10,083       10.08       40.13
-          5 |      9,987        9.99       50.12
-          6 |      9,971        9.97       60.09
-          7 |     10,028       10.03       70.12
-          8 |     10,018       10.02       80.13
-          9 |      9,911        9.91       90.04
-         10 |      9,956        9.96      100.00
-------------+-----------------------------------
-      Total |    100,000      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
 . /*  IMD  */
 . * Group into 5 groups
 . rename imd imd_o
@@ -384,78 +280,29 @@ end of do-file
 . egen imd = cut(imd_o), group(5) icodes
 
 . 
-end of do-file
-
-. tab imd
-
-        imd |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      9,811        9.81        9.81
-          1 |     20,037       20.04       29.85
-          4 |     70,152       70.15      100.00
-------------+-----------------------------------
-      Total |    100,000      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
 . * add one to create groups 1 - 5 
 . replace imd = imd + 1
 (100,000 real changes made)
 
 . 
-end of do-file
-
-. tab imd
-
-        imd |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |      9,811        9.81        9.81
-          2 |     20,037       20.04       29.85
-          5 |     70,152       70.15      100.00
-------------+-----------------------------------
-      Total |    100,000      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. * - 1 is missing, should be excluded from population 
 . replace imd = .u if imd_o == -1
 (0 real changes made)
 
 . drop imd_o
 
 . 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
 . * Reverse the order (so high is more deprived)
 . recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 .u = .u
 (imd: 100000 changes made)
 
 . 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
 . label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Unknown"
 
 . label values imd imd 
 
 . 
-end of do-file
-
-. tab imd
-
-             imd |      Freq.     Percent        Cum.
------------------+-----------------------------------
-1 least deprived |     70,152       70.15       70.15
-               4 |     20,037       20.04       90.19
- 5 most deprived |      9,811        9.81      100.00
------------------+-----------------------------------
-           Total |    100,000      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. /*  Age variables  */ 
 . 
 . * Create categorised age
 . recode age 18/39.9999 = 1 /// 
@@ -478,11 +325,6 @@ end of do-file
 . label values agegroup agegroup
 
 . 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
 . * Create binary age
 . recode age min/69.999 = 0 ///
 >            70/max = 1, gen(age70)
@@ -497,17 +339,12 @@ end of do-file
 . assert age70 < .
 
 . 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. * Create restricted cubic splines for age
 . mkspline age = age, cubic nknots(4)
 
 . 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. /*  Body Mass Index  */
+. * NB: watch for missingness
 . 
 . * Recode strange values 
 . replace bmi = . if bmi == 0 
@@ -517,22 +354,12 @@ end of do-file
 (5,418 real changes made, 5,418 to missing)
 
 . 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
 . * Restrict to within 10 years of index and aged > 16 
 . gen bmi_time = (date("$indexdate", "DMY") - bmi_measured_date)/365.25
 (40,000 missing values generated)
 
 . gen bmi_age = age - bmi_time
 (40,000 missing values generated)
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
 
 . 
 . replace bmi = . if bmi_age < 16 
@@ -606,24 +433,7 @@ end of do-file
 . order obese4cat, after(bmicat)
 
 . 
-end of do-file
-
-. tab bmicat, m
-
-              bmicat |      Freq.     Percent        Cum.
----------------------+-----------------------------------
- Underweight (<18.5) |         86        0.09        0.09
-  Normal (18.5-24.9) |        422        0.42        0.51
-Overweight (25-29.9) |        603        0.60        1.11
-   Obese I (30-34.9) |        715        0.71        1.83
-  Obese II (35-39.9) |        777        0.78        2.60
-     Obese III (40+) |        924        0.92        3.53
-        Unknown (.u) |     96,473       96.47      100.00
----------------------+-----------------------------------
-               Total |    100,000      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. /*  Smoking  */
 . 
 . * Smoking 
 . label define smoke 1 "Never" 2 "Former" 3 "Current" .u "Unknown (.u)"
@@ -650,10 +460,8 @@ Overweight (25-29.9) |        603        0.60        1.11
 . drop smoking_status
 
 . 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. * Create non-missing 3-category variable for current smoking
+. * Assumes missing smoking is never smoking 
 . recode smoke .u = 1, gen(smoke_nomiss)
 (91031 differences between smoke and smoke_nomiss)
 
@@ -662,216 +470,29 @@ end of do-file
 . label values smoke_nomiss smoke
 
 . 
-end of do-file
-
-. tab smoke, m
-
-       smoke |      Freq.     Percent        Cum.
--------------+-----------------------------------
-       Never |      1,958        1.96        1.96
-      Former |      1,032        1.03        2.99
-     Current |      5,979        5.98        8.97
-Unknown (.u) |     91,031       91.03      100.00
--------------+-----------------------------------
-       Total |    100,000      100.00
-
-. tab age, m
-
-        age |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      1,144        1.14        1.14
-          1 |      1,106        1.11        2.25
-          2 |      1,089        1.09        3.34
-          3 |      1,168        1.17        4.51
-          4 |      1,160        1.16        5.67
-          5 |      1,331        1.33        7.00
-          6 |      1,203        1.20        8.20
-          7 |      1,244        1.24        9.44
-          8 |      1,272        1.27       10.72
-          9 |      1,237        1.24       11.95
-         10 |      1,171        1.17       13.12
-         11 |      1,075        1.07       14.20
-         12 |      1,130        1.13       15.33
-         13 |      1,194        1.19       16.52
-         14 |      1,181        1.18       17.70
-         15 |      1,112        1.11       18.82
-         16 |      1,041        1.04       19.86
-         17 |      1,065        1.06       20.92
-         18 |      1,100        1.10       22.02
-         19 |      1,113        1.11       23.14
-         20 |      1,303        1.30       24.44
-         21 |      1,226        1.23       25.67
-         22 |      1,218        1.22       26.88
-         23 |      1,319        1.32       28.20
-         24 |      1,237        1.24       29.44
-         25 |      1,357        1.36       30.80
-         26 |      1,393        1.39       32.19
-         27 |      1,411        1.41       33.60
-         28 |      1,296        1.30       34.90
-         29 |      1,335        1.33       36.23
-         30 |      1,377        1.38       37.61
-         31 |      1,335        1.33       38.94
-         32 |      1,395        1.40       40.34
-         33 |      1,306        1.31       41.64
-         34 |      1,414        1.41       43.06
-         35 |      1,283        1.28       44.34
-         36 |      1,338        1.34       45.68
-         37 |      1,419        1.42       47.10
-         38 |      1,355        1.35       48.45
-         39 |      1,298        1.30       49.75
-         40 |      1,177        1.18       50.93
-         41 |      1,184        1.18       52.11
-         42 |      1,211        1.21       53.32
-         43 |      1,255        1.25       54.58
-         44 |      1,191        1.19       55.77
-         45 |      1,368        1.37       57.14
-         46 |      1,380        1.38       58.52
-         47 |      1,365        1.36       59.88
-         48 |      1,375        1.38       61.26
-         49 |      1,419        1.42       62.68
-         50 |      1,389        1.39       64.07
-         51 |      1,363        1.36       65.43
-         52 |      1,366        1.37       66.79
-         53 |      1,394        1.39       68.19
-         54 |      1,348        1.35       69.54
-         55 |      1,261        1.26       70.80
-         56 |      1,266        1.27       72.06
-         57 |      1,341        1.34       73.40
-         58 |      1,302        1.30       74.71
-         59 |      1,281        1.28       75.99
-         60 |      1,167        1.17       77.15
-         61 |      1,082        1.08       78.24
-         62 |      1,150        1.15       79.39
-         63 |      1,123        1.12       80.51
-         64 |      1,118        1.12       81.63
-         65 |      1,063        1.06       82.69
-         66 |      1,044        1.04       83.73
-         67 |        978        0.98       84.71
-         68 |      1,000        1.00       85.71
-         69 |        999        1.00       86.71
-         70 |        979        0.98       87.69
-         71 |        962        0.96       88.65
-         72 |        992        0.99       89.64
-         73 |        968        0.97       90.61
-         74 |        989        0.99       91.60
-         75 |        643        0.64       92.24
-         76 |        666        0.67       92.91
-         77 |        712        0.71       93.62
-         78 |        639        0.64       94.26
-         79 |        678        0.68       94.94
-         80 |        534        0.53       95.47
-         81 |        500        0.50       95.97
-         82 |        536        0.54       96.51
-         83 |        486        0.49       97.00
-         84 |        534        0.53       97.53
-         85 |        328        0.33       97.86
-         86 |        296        0.30       98.15
-         87 |        298        0.30       98.45
-         88 |        298        0.30       98.75
-         89 |        339        0.34       99.09
-         90 |        120        0.12       99.21
-         91 |        129        0.13       99.34
-         92 |        166        0.17       99.50
-         93 |        142        0.14       99.65
-         94 |        135        0.14       99.78
-         95 |         36        0.04       99.82
-         96 |         35        0.04       99.85
-         97 |         25        0.03       99.88
-         98 |         39        0.04       99.92
-         99 |         39        0.04       99.95
-        100 |          4        0.00       99.96
-        101 |          3        0.00       99.96
-        102 |          5        0.01       99.97
-        103 |          3        0.00       99.97
-        104 |          4        0.00       99.97
-        105 |          8        0.01       99.98
-        106 |          7        0.01       99.99
-        107 |          1        0.00       99.99
-        108 |          6        0.01      100.00
-        109 |          5        0.01      100.00
-------------+-----------------------------------
-      Total |    100,000      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. /* CLINICAL COMORBIDITIES */ 
+. 
+. 
 . /* GP consultation rate */ 
 . replace gp_consult_count = 0 if gp_consult_count <1 
 (428 real changes made)
 
 . 
-end of do-file
-
-. tab gp_, m
-
-gp_consult_ |
-      count |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      4,730        4.73        4.73
-          1 |      6,498        6.50       11.23
-          2 |     10,295       10.29       21.52
-          3 |     13,305       13.30       34.83
-          4 |     13,388       13.39       48.22
-          5 |     10,593       10.59       58.81
-          6 |      6,490        6.49       65.30
-          7 |      3,068        3.07       68.37
-          8 |      1,206        1.21       69.57
-          9 |        342        0.34       69.91
-         10 |         70        0.07       69.98
-         11 |         13        0.01       70.00
-         12 |          2        0.00       70.00
-          . |     30,000       30.00      100.00
-------------+-----------------------------------
-      Total |    100,000      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. * those with no count assumed to have no visits 
 . replace gp_consult_count = 0 if gp_consult_count == . 
 (30,000 real changes made)
 
 . gen gp_consult = (gp_consult_count >=1)
 
 . 
-end of do-file
-
-. tab gp_consult, m
-
- gp_consult |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |     34,730       34.73       34.73
-          1 |     65,270       65.27      100.00
-------------+-----------------------------------
-      Total |    100,000      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. /*  Cancer  */
+. *rename to make new vars stick to old code
 . rename cancer_date cancer_ever_date
 
 . rename cancer cancer_ever
 
 . 
-end of do-file
-
-. codebook cancer_ever_dat
-
------------------------------------------------------------------------------------------------------------------
-cancer_ever_date                                                                                      (unlabeled)
------------------------------------------------------------------------------------------------------------------
-
-                  type:  numeric daily date (float)
-
-                 range:  [-21900,21960]               units:  1
-       or equivalently:  [15jan1900,15feb2020]        units:  days
-         unique values:  1,442                    missing .:  90,000/100,000
-
-                  mean:   28.5681 = 29jan1960 (+ 14 hours)
-              std. dev:   12560.5
-
-           percentiles:        10%       25%       50%       75%       90%
-                            -17336    -10884      59.5   10803.5     17485
-                         15jul1912 15mar1930 29feb1960 30jul1989 15nov2007
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. /* Vaccines */ 
 . replace pneumococcal_vaccine = 0 if pneumococcal_vaccine == . 
 (90,000 real changes made)
 
@@ -879,10 +500,11 @@ cancer_ever_date                                                                
 (90,000 real changes made)
 
 . 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. /*  Immunosuppression  */
+. 
+. * Immunosuppressed:
+. * HIV, permanent immunodeficiency ever, OR 
+. * temporary immunodeficiency or aplastic anaemia last year
 . gen temp1  = max(hiv, perm_immunodef)
 hiv not found
 r(111);
@@ -893,6 +515,10 @@ r(111);
 
 . do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
 
+. 
+. /* eGFR */
+. 
+. * Set implausible creatinine values to missing (Note: zero changed to missing)
 . replace creatinine = . if !inrange(creatinine, 20, 3000) 
 (367 real changes made, 367 to missing)
 
@@ -905,23 +531,12 @@ r(111);
 . replace creatinine_measured_date = . if creatinine == . 
 (367 real changes made, 367 to missing)
 
-. replace creatinine_measured = . if creatinine == . 
-(0 real changes made)
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
+. *replace creatinine_measured = . if creatinine == .   ***this is read as previous line since creatinine_measure
+> d does not exist..
 . 
 . * Divide by 88.4 (to convert umol/l to mg/dl)
 . gen SCr_adj = creatinine/88.4
 (5,367 missing values generated)
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
 
 . 
 . gen min = .
@@ -979,453 +594,19 @@ end of do-file
 (94633 differences between egfr_cat and ckd_egfr)
 
 . 
+. * 0 = "No CKD"  2 "stage 3a" 3 "stage 3b" 4 "stage 4" 5 "stage 5"
+. 
 end of do-file
 
-. tab egfr_cat
+. tab egfr_cat,m
 
    egfr_cat |      Freq.     Percent        Cum.
 ------------+-----------------------------------
          30 |         21        0.02        0.02
-         45 |        898        0.95        0.97
-         60 |     93,714       99.03      100.00
-------------+-----------------------------------
-      Total |     94,633      100.00
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. * Missing assumed to not have CKD 
-. gen ckd = 0
-
-. replace ckd = 1 if ckd_egfr != . & ckd_egfr >= 1
-(919 real changes made)
-
-. replace ckd = 1 if esrf == 1
-(9,907 real changes made)
-
-. 
-. label define ckd 0 "No CKD" 1 "CKD"
-
-. label values ckd ckd
-
-. label var ckd "CKD stage calc without eth"
-
-. 
-. * Create date (most recent measure prior to index)
-. gen temp1_ckd_date = creatinine_measured_date if ckd_egfr >=1
-(99,081 missing values generated)
-
-. gen temp2_ckd_date = esrf_date if esrf == 1
-(90,000 missing values generated)
-
-. gen ckd_date = max(temp1_ckd_date,temp2_ckd_date) 
-(89,174 missing values generated)
-
-. format ckd_date %td 
-
-. 
-end of do-file
-
-. tab ckd
-
-  CKD stage |
-       calc |
-without eth |      Freq.     Percent        Cum.
-------------+-----------------------------------
-     No CKD |     89,174       89.17       89.17
-        CKD |     10,826       10.83      100.00
+         45 |        898        0.90        0.92
+         60 |     93,714       93.71       94.63
+          . |      5,367        5.37      100.00
 ------------+-----------------------------------
       Total |    100,000      100.00
 
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
-. * Set zero or negative to missing
-. replace hba1c_percentage   = . if hba1c_percentage <= 0
-(626 real changes made, 626 to missing)
-
-. replace hba1c_mmol_per_mol = . if hba1c_mmol_per_mol <= 0
-(2,100 real changes made, 2,100 to missing)
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
-. * Express all values as perecentage 
-. noi summ hba1c_percentage hba1c_mmol_per_mol 
-
-    Variable |        Obs        Mean    Std. Dev.       Min        Max
--------------+---------------------------------------------------------
-hba1c_perc~e |     94,374    5.042101    1.962858   .0002071   13.25421
-hba1c_mmol~l |     92,900    41.00756    18.86693   .0046989    124.425
-
-. gen     hba1c_pct = hba1c_percentage 
-(5,626 missing values generated)
-
-. replace hba1c_pct = (hba1c_mmol_per_mol/10.929)+2.15 if hba1c_mmol_per_mol<. 
-(92,900 real changes made)
-
-. 
-. * Valid % range between 0-20  
-. replace hba1c_pct = . if !inrange(hba1c_pct, 0, 20) 
-(0 real changes made)
-
-. replace hba1c_pct = round(hba1c_pct, 0.1)
-(99,650 real changes made)
-
-. 
-. /* Categorise hba1c and diabetes  */
-. 
-. * Group hba1c
-. gen     hba1ccat = 0 if hba1c_pct <  6.5
-(36,282 missing values generated)
-
-. replace hba1ccat = 1 if hba1c_pct >= 6.5  & hba1c_pct < 7.5
-(17,709 real changes made)
-
-. replace hba1ccat = 2 if hba1c_pct >= 7.5  & hba1c_pct < 8
-(6,360 real changes made)
-
-. replace hba1ccat = 3 if hba1c_pct >= 8    & hba1c_pct < 9
-(7,546 real changes made)
-
-. replace hba1ccat = 4 if hba1c_pct >= 9    & hba1c_pct !=.
-(4,318 real changes made)
-
-. label define hba1ccat 0 "<6.5%" 1">=6.5-7.4" 2">=7.5-7.9" 3">=8-8.9" 4">=9"
-
-. label values hba1ccat hba1ccat
-
-. tab hba1ccat
-
-   hba1ccat |      Freq.     Percent        Cum.
-------------+-----------------------------------
-      <6.5% |     63,718       63.94       63.94
-  >=6.5-7.4 |     17,709       17.77       81.71
-  >=7.5-7.9 |      6,360        6.38       88.09
-    >=8-8.9 |      7,546        7.57       95.67
-        >=9 |      4,318        4.33      100.00
-------------+-----------------------------------
-      Total |     99,651      100.00
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
-. * Create diabetes, split by control/not
-. gen     diabcat = 1 if diabetes==0
-(10,000 missing values generated)
-
-. replace diabcat = 2 if diabetes==1 & inlist(hba1ccat, 0, 1)
-(8,225 real changes made)
-
-. replace diabcat = 3 if diabetes==1 & inlist(hba1ccat, 2, 3, 4)
-(1,745 real changes made)
-
-. replace diabcat = 4 if diabetes==1 & !inlist(hba1ccat, 0, 1, 2, 3, 4)
-(30 real changes made)
-
-. 
-. label define diabcat    1 "No diabetes"                         ///
->                                                 2 "Controlled diabetes"         ///
->                                                 3 "Uncontrolled diabetes"       ///
->                                                 4 "Diabetes, no hba1c measure"
-
-. label values diabcat diabcat
-
-. 
-. * Delete unneeded variables
-. drop hba1c_pct hba1c_percentage hba1c_mmol_per_mol
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. gen enter_date = date("$indexdate", "DMY")
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. gen cpnsdeathcensor_date                = date("$cpnsdeathcensor",              "DMY")
-
-. gen onscoviddeathcensor_date    = date("$onscoviddeathcensor",  "DMY")
-
-. 
-. * Format the dates
-. format  enter_date                                      ///
->                 cpnsdeathcensor_date            ///
->                 onscoviddeathcensor_date        %td
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. foreach var of varlist  died_date_ons           ///
->                                                 died_date_cpns          ///
->                                                 {
-  2.                                                 
-.         confirm string variable `var'
-  3.         rename `var' `var'_dstr
-  4.         gen `var' = date(`var'_dstr, "YMD")
-  5.         drop `var'_dstr
-  6.         format `var' %td 
-  7.         
-. }
-variable died_date_cpns not found
-r(111);
-
-end of do-file
-
-r(111);
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
-. * Dates of: First test positive date, ONS-covid death
-. * Recode to dates from the strings 
-. foreach var of varlist  died_date_ons           ///
->                                                 first_positive_test_date                ///
->                                                 {
-  2.                                                 
-.         confirm string variable `var'
-  3.         rename `var' `var'_dstr
-  4.         gen `var' = date(`var'_dstr, "YMD")
-  5.         drop `var'_dstr
-  6.         format `var' %td 
-  7.         
-. }
-(90,000 missing values generated)
-(90,000 missing values generated)
-
-. 
-end of do-file
-
-. codebook first_pos
-
------------------------------------------------------------------------------------------------------------------
-first_positive_test_date                                                                              (unlabeled)
------------------------------------------------------------------------------------------------------------------
-
-                  type:  numeric daily date (float)
-
-                 range:  [21976,22082]                units:  1
-       or equivalently:  [02mar2020,16jun2020]        units:  days
-         unique values:  107                      missing .:  90,000/100,000
-
-                  mean:   22028.9 = 23apr2020 (+ 23 hours)
-              std. dev:   30.8012
-
-           percentiles:        10%       25%       50%       75%       90%
-                             21986     22003     22029     22056     22072
-                         12mar2020 29mar2020 24apr2020 21may2020 06jun2020
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. gen died_date_onscovid = died_date_ons if died_ons_covid_flag_any == 1
-(98,946 missing values generated)
-
-. 
-. * Date of non-COVID death in ONS 
-. * If missing date of death resulting died_date will also be missing
-. gen died_date_onsnoncovid = died_date_ons if died_ons_covid_flag_any != 1 
-(91,054 missing values generated)
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. format died_date_ons %td
-
-. format died_date_onscovid %td 
-
-. format died_date_onsnoncovid %td
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. format first_positive_test_date %td
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. * Binary indicators for outcomes
-. gen onscoviddeath       = (died_date_onscovid   < .)
-
-. gen onsnoncoviddeath = (died_date_onsnoncovid < .)
-
-. gen firstpos            = (first_positive_test_date             < .)
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. codebook  died_date_ons  first_positive_test_date
-
------------------------------------------------------------------------------------------------------------------
-died_date_ons                                                                                         (unlabeled)
------------------------------------------------------------------------------------------------------------------
-
-                  type:  numeric daily date (float)
-
-                 range:  [21976,22082]                units:  1
-       or equivalently:  [02mar2020,16jun2020]        units:  days
-         unique values:  107                      missing .:  90,000/100,000
-
-                  mean:   22028.7 = 23apr2020 (+ 17 hours)
-              std. dev:   30.9396
-
-           percentiles:        10%       25%       50%       75%       90%
-                             21986     22002     22029     22055     22072
-                         12mar2020 28mar2020 24apr2020 20may2020 06jun2020
-
------------------------------------------------------------------------------------------------------------------
-first_positive_test_date                                                                              (unlabeled)
------------------------------------------------------------------------------------------------------------------
-
-                  type:  numeric daily date (float)
-
-                 range:  [21976,22082]                units:  1
-       or equivalently:  [02mar2020,16jun2020]        units:  days
-         unique values:  107                      missing .:  90,000/100,000
-
-                  mean:   22028.9 = 23apr2020 (+ 23 hours)
-              std. dev:   30.8012
-
-           percentiles:        10%       25%       50%       75%       90%
-                             21986     22003     22029     22056     22072
-                         12mar2020 29mar2020 24apr2020 21may2020 06jun2020
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. 
-. * Survival time = last followup date (first: end study, death, or that outcome)
-. gen stime_onscoviddeath = min(onscoviddeathcensor_date, died_date_ons)
-
-. gen stime_firstpos      = min(testposcensor_date,       died_date_ons)
-testposcensor_date not found
-r(111);
-
-end of do-file
-
-r(111);
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. global testposcensor            = "23/04/2020" /*****************************************  figure out what this
->  should be */
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. gen testposcensor_date                  = date("$testposcensor",                "DMY")
-
-. gen onscoviddeathcensor_date    = date("$onscoviddeathcensor",  "DMY")
-variable onscoviddeathcensor_date already defined
-r(110);
-
-end of do-file
-
-r(110);
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. format  enter_date                                      ///
->                 testposcensor_date                      ///
->                 onscoviddeathcensor_date        %td
-
-. 
-. /*   Outcomes   */
-. 
-. * Dates of: First test positive date, ONS-covid death
-. * Recode to dates from the strings 
-. foreach var of varlist  died_date_ons           ///
->                                                 first_positive_test_date                ///
->                                                 {
-  2.                                                 
-.         confirm string variable `var'
-  3.         rename `var' `var'_dstr
-  4.         gen `var' = date(`var'_dstr, "YMD")
-  5.         drop `var'_dstr
-  6.         format `var' %td 
-  7.         
-. }
-'died_date_ons' found where string variable expected
-r(7);
-
-end of do-file
-
-r(7);
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. gen died_date_onscovid = died_date_ons if died_ons_covid_flag_any == 1
-variable died_date_onscovid already defined
-r(110);
-
-end of do-file
-
-r(110);
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. gen stime_onscoviddeath = min(onscoviddeathcensor_date, died_date_ons)
-variable stime_onscoviddeath already defined
-r(110);
-
-end of do-file
-
-r(110);
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. gen stime_firstpos      = min(testposcensor_date,       died_date_ons)
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. gen stime_onsnoncoviddeath = min(onscoviddeathcensor_date, died_date_ons)
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. replace onscoviddeath   = 0 if (died_date_onscovid      > onscoviddeathcensor_date) 
-(384 real changes made)
-
-. replace onsnoncoviddeath = 0 if (died_date_onsnoncovid > onscoviddeathcensor_date)
-(3,378 real changes made)
-
-. replace firstpos                = 0 if (first_positive_test_date                > testposcensor_date) 
-(5,053 real changes made)
-
-. 
-end of do-file
-
-. do "C:\Users\LSH130~1\AppData\Local\Temp\STDc60_000000.tmp"
-
-. format  stime* %td 
-
-. 
-end of do-file
-
+. exit, clear
