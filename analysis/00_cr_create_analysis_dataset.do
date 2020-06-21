@@ -8,7 +8,7 @@ DESCRIPTION OF FILE:	program 00, data management for HCQ project
 						reformat variables 
 						categorise variables
 						label variables 
-DATASETS USED:			data in memory (from analysis/input_xxx.csv)
+DATASETS USED:			data in memory (from analysis/input.csv)
 
 DATASETS CREATED: 		none
 OTHER OUTPUT: 			logfiles, printed to folder analysis/$logdir
@@ -27,16 +27,22 @@ global testposcensor 		= "23/04/2020" /*****************************************
 global onscoviddeathcensor 	= "06/05/2020" /*this should be 7 days prior to the last recorded death*/
 global indexdate 			= "01/03/2020"
 
+
+
+/* DROP VARAIBLES===========================================================*/
+
+*flu_vaccine is combination of the three others
+drop flu_vaccine_tpp_table flu_vaccine_med flu_vaccine_clinical
+*pneumococcal_vaccine is combination of the three others
+drop pneumococcal_vaccine_tpp_table pneumococcal_vaccine_med pneumococcal_vaccine_clinical 
+
+
+
 /* RENAME VARAIBLES===========================================================*/
 
 rename bmi_date_measured  	    			bmi_date_measured
 rename chronic_respiratory_excl_asthma		resp_excl_asthma
-rename flu_vaccine_tpp_table				flu_vaccine_tpp_date
-rename pneumococcal_vaccine_tpp_table 		pneumovax_tpp_date
-rename pneumococcal_vaccine_med				pneumovax_med
-rename pneumococcal_vaccine_clinical		pneumovax_clin
-*rename bp_dias_date_measured	  			bp_dias_date ***************************************** ADD
-*rename bp_sys_date_measured		   			bp_sys_date  **************************************ADD
+
 
 /* CONVERT STRINGS TO DATE====================================================*/
 /* Comorb dates are given with month/year only, so adding day 15 to enable
@@ -53,13 +59,9 @@ foreach var of varlist 	 bmi_date_measured					///
 						 hba1c_percentage_date				///
 						 hypertension						///
 						 esrf 								///						 
-						 flu_vaccine_clinical				///	
-						 flu_vaccine_med					///
-						 oral_presnisolone					///					 
+						 oral_presnisolone					///	    ***********************NEED TO CORRECT NAMING IN STUDY DEF				 
 						 other_neuro_conditions				///
 						 permanent_immunodeficiency			///
-						 pneumovax_clin						///
-						 pneumovax_med						///
 						 resp_excl_asthma					///						 
 						 smoking_status_date				///
 						 temporary_immunodeficiency	 {
@@ -113,19 +115,12 @@ foreach var of varlist 	 cancer_date						///
 						 diabetes_date						///
 						 hypertension_date					///
 						 esrf_date 							///						 
-						 flu_vaccine_clinical_date			///	
-						 flu_vaccine_med_date				///
-						 flu_vaccine_tpp_date				///
 						 oral_presnisolone_date				///					 
 						 other_neuro_conditions_date		///
 						 perm_immunodef_date				///
-						 pneumovax_clin_date				///
-						 pneumovax_med_date					///
-						 pneumovax_tpp_date					///
 						 resp_excl_asthma_date				///						 
 						 smoking_status_measured_date		///
 						 temp_immunodef_date			 {
-	
 	/* date ranges are applied in python, so presence of date indicates presence of 
 	  disease in the correct time frame */ 
 	local newvar =  substr("`var'", 1, length("`var'") - 5)
@@ -144,17 +139,17 @@ foreach var of varlist 	 cancer_date						///
 gen male = 1 if sex == "M"
 replace male = 0 if sex == "F"
 
-* Ethnicity  
-replace ethnicity = .u if ethnicity == .
-
-label define ethnicity 	1 "White"  					///
-						2 "Mixed" 					///
-						3 "Asian or Asian British"	///
-						4 "Black"  					///
-						5 "Other"					///
-						.u "Unknown"
-
-label values ethnicity ethnicity
+* Ethnicity   ******************************************************************************** NEED TO ADD
+// replace ethnicity = .u if ethnicity == .
+//
+// label define ethnicity 	1 "White"  					///
+// 						2 "Mixed" 					///
+// 						3 "Asian or Asian British"	///
+// 						4 "Black"  					///
+// 						5 "Other"					///
+// 						.u "Unknown"
+//
+// label values ethnicity ethnicity
 
 * STP 
 rename stp stp_old
@@ -302,14 +297,13 @@ replace flu_vaccine = 0 if flu_vaccine == .
 /*  Immunosuppression  */
 
 * Immunosuppressed:
-* HIV, permanent immunodeficiency ever, OR 
-* temporary immunodeficiency or aplastic anaemia last year
-gen temp1  = max(hiv, perm_immunodef)
+* permanent immunodeficiency ever (HIV, aplastic anaemia , etc) OR 
+* temporary immunodeficiency in last year
+gen temp1  = perm_immunodef
 gen temp2  = inrange(temp_immunodef_date, (date("$indexdate", "DMY") - 365), date("$indexdate", "DMY"))
-gen temp3  = inrange(aplastic_anaemia_date, (date("$indexdate", "DMY") - 365), date("$indexdate", "DMY"))
 
-egen immunodef_any = rowmax(temp1 temp2 temp3)
-drop temp1 temp2 temp3
+egen immunodef_any = rowmax(temp1 temp2)
+drop temp1 temp2
 order immunodef_any, after(temp_immunodef_date)
 
 /* eGFR */
@@ -427,20 +421,20 @@ format 	enter_date					///
 		testposcensor_date	 		///
 		onscoviddeathcensor_date 	%td
 
-/*   Outcomes   */
+/*   Outcomes/censoring   */
 
-* Dates of: First test positive date, ONS-covid death
+* Outcomes: First test positive date, ONS-covid death
+* Censoring: First HCQ after baseline
 * Recode to dates from the strings 
 foreach var of varlist 	died_date_ons 		///
 						first_positive_test_date		///
-						{
-						
+						/* ************************************************************* FIRST HCQ AFTER BL DATE */ ///
+						{			
 	confirm string variable `var'
 	rename `var' `var'_dstr
 	gen `var' = date(`var'_dstr, "YMD")
 	drop `var'_dstr
 	format `var' %td 
-	
 }
 
 * Date of Covid death in ONS
@@ -454,6 +448,11 @@ format died_date_ons %td
 format died_date_onscovid %td 
 format died_date_onsnoncovid %td
 format first_positive_test_date %td
+/* format   ******************************************************************************** FIRST HCQ  DATE AFTER BL*/
+
+* Only censor at first HCQ on or after baseline if in unexposed group. Do not censor among exposed group 
+*replace FIRST HCQ AFTER BL=. if hydroxychloroquine == 1
+
 
 * Binary indicators for outcomes
 gen onscoviddeath 	= (died_date_onscovid 	< .)
@@ -464,12 +463,12 @@ gen firstpos 		= (first_positive_test_date		< .)
 
 * For looping later, name must be stime_binary_outcome_name
 
-* Survival time = last followup date (first: end study, death, or that outcome)
-gen stime_onscoviddeath = min(onscoviddeathcensor_date, died_date_ons)
-gen stime_firstpos  	= min(testposcensor_date, 	died_date_ons)
+* Survival time = last followup date (first: end study, first HCQ after baseline among unexposed, death, or that outcome)
+gen stime_onscoviddeath = min(onscoviddeathcensor_date, /*FIRST HCQ AFTER BL*/ died_date_ons)
+gen stime_firstpos  	= min(testposcensor_date, /*FIRST HCQ AFTER BL*/ died_date_ons , first_positive_test_date)  
 
 * Equivalent to onscoviddeath, but creating a separate variable for clarity 
-gen stime_onsnoncoviddeath = min(onscoviddeathcensor_date, died_date_ons)
+gen stime_onsnoncoviddeath = min(onscoviddeathcensor_date,/*FIRST HCQ AFTER BL*/ died_date_ons)
 
 * If outcome was after censoring occurred, set to zero
 replace onscoviddeath 	= 0 if (died_date_onscovid	> onscoviddeathcensor_date) 
