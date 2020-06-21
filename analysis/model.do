@@ -37,3 +37,22 @@ global ymax 0.005
 /*  Pre-analysis data manipulation  */
 
 *do "00_cr_create_analysis_dataset.do"
+
+* Data manipulation   
+*do "01_cr_create_population.do"
+*do "02_cr_create_exposure.do"
+
+/*  Checks  */
+
+*do "03_an_checks.do"
+
+/* Run analysis */ 
+
+* Analyses 
+*do "04_an_descriptive_table.do"
+*do "05_an_descriptive_plots.do"
+*do "06_an_models.do"
+*do "07_an_models_interact.do"
+*do "08_an_model_checks.do"
+*do "09_an_model_explore.do"
+*do "10_an_models_ethnicity.do"
