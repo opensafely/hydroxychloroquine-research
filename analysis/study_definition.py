@@ -20,7 +20,7 @@ study = StudyDefinition(
             """
             has_follow_up AND
             (age >=18 AND age <= 110) AND
-            AND (sex = "M" OR sex = "F") AND
+            (sex = "M" OR sex = "F") AND
             imd > 0 AND
             (rheumatoid OR sle)
             """,
