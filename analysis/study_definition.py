@@ -1,5 +1,5 @@
   
-from datalab_cohorts import (StudyDefinition, patients, filter_codes_by_category, combine_codelists)
+from cohortextractor import (StudyDefinition, patients, filter_codes_by_category, combine_codelists)
 
 from codelists import *
 
@@ -333,9 +333,9 @@ study = StudyDefinition(
         return_expectations={"date": {"latest": "2020-02-29"}},
     ),
 
-    #NEUROLOGICAL DISEASE PLACEHOLDER
-    other_neuro_conditions=patients.with_these_clinical_events(
-        other_neuro_codes,
+    #NEUROLOGICAL DISEASE 
+        neurological_disease=patients.with_these_clinical_events(
+        combine_codelists(other_neuro_codes, stroke_codes, dementia_codes),
         on_or_before="2020-02-29",
         return_first_date_in_period=True,
         include_month=True,
