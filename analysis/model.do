@@ -1,4 +1,4 @@
-cd  `c(pwd)'/analysis
+cd  `c(pwd)'/output
 import delimited input.csv, clear
 set more off 
 
