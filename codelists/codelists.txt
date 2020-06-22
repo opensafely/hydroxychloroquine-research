@@ -10,11 +10,13 @@ opensafely/chronic-respiratory-disease/2020-04-10
 opensafely/covid-identification/2020-06-03
 opensafely/current-asthma/2020-05-06
 opensafely/current-copd/2020-05-06
+opensafely/dementia/2020-04-22
 opensafely/diabetes/2020-04-15
 opensafely/ethnicity/2020-04-27
 opensafely/haematological-cancer/2020-04-15
 opensafely/hiv/2020-04-24
 opensafely/hypertension/2020-04-28
+opensafely/hydroxychloroquine/2020-06-15
 opensafely/influenza-vaccination/2020-05-12
 opensafely/influenza-vaccination-clinical-codes-given/2020-05-21
 opensafely/influenza-vaccination-clinical-codes-not-given/2020-05-19
@@ -30,5 +32,6 @@ opensafely/smoking-clear/2020-04-29
 opensafely/smoking-unclear/2020-04-29
 opensafely/sickle-cell-disease/2020-04-14
 opensafely/solid-organ-transplantation/2020-04-10
+opensafely/stroke-updated/2020-06-02
 opensafely/systemic-lupus-erythematosus-sle/2020-05-12
 opensafely/temporary-immunosuppresion/2020-04-24

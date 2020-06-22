@@ -62,9 +62,9 @@ study = StudyDefinition(
 
     # MEDICATIONS EXPOSURES
 
-    #HYDROXYCHLOROQUINE PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/1
+    #HYDROXYCHLOROQUINE 
     hydroxychloroquine_count=patients.with_these_medications(
-        ace_med_codes, #placeholder
+        hcq_med_code, 
         between=["2019-11-01", "2020-02-29"],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -74,7 +74,7 @@ study = StudyDefinition(
     ),
 
      hydroxychloroquine_exposure=patients.with_these_medications(
-        ace_med_codes, # placeholder
+        hcq_med_code, 
         between=["2019-11-01", "2020-02-29"], 
         return_last_date_in_period=True,
         include_month=True,
@@ -84,7 +84,7 @@ study = StudyDefinition(
     ),
 
     hydroxychloroquine_after_march=patients.with_these_medications(
-        ace_med_codes, #placeholder
+        hcq_med_code, 
         on_or_after="2020-03-01",
         return_first_date_in_period=True,
         include_month=True,

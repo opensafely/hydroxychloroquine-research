@@ -34,6 +34,12 @@ ace_med_codes = codelist_from_csv(
     column="id",
 )
 
+hcq_med_codes = codelist_from_csv(
+    "codelists/opensafely-hydroxychloroquine.csv",
+    system="snomed",
+    column="snomed_id",
+)
+
 
 
 # DEMOGRAPHIC CODELIST
