@@ -50,22 +50,85 @@ study = StudyDefinition(
         include_day=True,
         return_expectations={"date": {"earliest": "2020-03-01"}},
     ),
-    # PLACEHOLDER - SECONDARY OUTCOME:testing +ve for covid
+    # SECONDARY OUTCOME:testing +ve for covid
+        first_positive_test_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"date": {"earliest": "2020-03-01"}},
+    ),
 
-    # MEDICATIONS exposures
+    # MEDICATIONS EXPOSURES
+
     #HYDROXYCHLOROQUINE PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/1
-    #hydroxychloroquine_etc=patients.with_these_medications(
-    #    hydroxychlorquine_codes,
-    #    between=["2017-02-28", "2020-02-29"],
-    #    returning="number_of_episodes",
-    #    return_expectations={
-    #        "int": {"distribution": "normal", "mean": 3, "stddev": 2},
-    #        "incidence": 0.30,
-    #    },
-    #),
+    hydroxychloroquine_count=patients.with_these_medications(
+        ace_med_codes, #placeholder
+        between=["2019-11-01", "2020-02-29"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 2},
+            "incidence": 0.30,
+        },
+    ),
 
-    # DMARDS EXPOSURE (PRIMARY CARE)
-    # DMARDS EXPOSURE (SECONDARYCARE)
+     hydroxychloroquine_exposure=patients.with_these_medications(
+        ace_med_codes, # placeholder
+        between=["2019-11-01", "2020-02-29"], 
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-11-01", "latest": "2020-02-29"}
+        },
+    ),
+
+    hydroxychloroquine_after_march=patients.with_these_medications(
+        ace_med_codes, #placeholder
+        on_or_after="2020-03-01",
+        return_first_date_in_period=True,
+        include_month=True,
+        include_day=True,
+        return_expectations={
+            "date": {"earliest": "2020-03-01", "latest": "2020-05-29"}
+        },
+    ),
+
+    # DMARDS EXPOSURE (PRIMARY CARE) PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/2
+    dmards_primary_care_count=patients.with_these_medications(
+        ace_med_codes,
+        between=["2019-11-01", "2020-02-29"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 2},
+            "incidence": 0.1,
+        },
+    ),
+
+    dmards_primary_care_exposure=patients.with_these_medications(
+        ace_med_codes,
+        between=["2019-11-01", "2020-02-29"], 
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-11-01", "latest": "2020-02-29"}
+        },
+    ),
+
+    
+    #MACROLIDES EXPOSURE PLACEHOLDER -  - https://github.com/opensafely/hydroxychloroquine-research/issues/4
+    macrolides=patients.with_these_medications(
+        ace_med_codes,
+        between=["2020-01-31", "2020-02-29"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 2, "stddev": 2},
+            "incidence": 0.25,
+        },
+    ),
+
+
+    # DMARDS EXPOSURE (SECONDARYCARE) - THIS IS A PLACEHOLDR FOR EXPECTED DATA - IT WILL BE QUEIRED IN DIFFERENT WAY (PROBABLY) TO OTHER MEDS
 
 
 
@@ -109,6 +172,17 @@ study = StudyDefinition(
             },
     ),
 
+        ethnicity=patients.with_these_clinical_events(
+        ethnicity_codes,
+        returning="category",
+        find_last_match_in_period=True,
+        include_date_of_match=True,
+        return_expectations={
+            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
+            "incidence": 0.75,
+        },
+    ),
+
     imd=patients.address_as_of(
         "2020-02-29",
         returning="index_of_multiple_deprivation",
@@ -149,6 +223,7 @@ study = StudyDefinition(
         include_measurement_date=True,
         include_month=True,
         return_expectations={
+            "date": {},
             "incidence": 0.6,
             "float": {"distribution": "normal", "mean": 35, "stddev": 10},
         },
@@ -213,7 +288,7 @@ study = StudyDefinition(
         return_expectations={"date": {"latest": "2020-02-29"}},
     ),
 
-    diabetes=patients.with_these_clinical_events( #check my understanding I think we need this to detect unmeasured HbA1C
+    diabetes=patients.with_these_clinical_events( 
         diabetes_codes,
         on_or_before="2020-02-29",
         return_first_date_in_period=True,
@@ -259,6 +334,13 @@ study = StudyDefinition(
     ),
 
     #NEUROLOGICAL DISEASE PLACEHOLDER
+    other_neuro_conditions=patients.with_these_clinical_events(
+        other_neuro_codes,
+        on_or_before="2020-02-29",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={"date": {"latest": "2020-02-29"}},
+    ),
 
     #CURRENT ASTHMA - confirm if this or ever asthma
     current_asthma=patients.with_these_clinical_events(
@@ -270,7 +352,7 @@ study = StudyDefinition(
     ),
 
     #oral pred / current medication tbc
-    oral_presnisolone=patients.with_these_medications(
+    oral_prednisolone_exposure=patients.with_these_medications(
         oral_pred_codes,
         between=["2019-11-01", "2020-02-29"],
         return_last_date_in_period=True,
@@ -280,10 +362,38 @@ study = StudyDefinition(
         },
     ),
 
+    oral_prednisolone_count=patients.with_these_medications(
+        oral_pred_codes,
+        between=["2019-11-01", "2020-02-29"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 2},
+            "incidence": 0.1,
+        },
+    ),
+
 
     #CANCER - 3 TYPES
     cancer=patients.with_these_clinical_events(
         combine_codelists(lung_cancer_codes, haem_cancer_codes, other_cancer_codes),
+        on_or_before="2020-02-29",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={"date": {"latest": "2020-02-29"}},
+    ),
+
+    #Rheumatoid Arthritis 
+    rheumatoid=patients.with_these_clinical_events(
+        rheumatoid_codes,
+        on_or_before="2020-02-29",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={"date": {"latest": "2020-02-29"}},
+    ),
+
+    #SLE
+    sle=patients.with_these_clinical_events(
+        sle_codes,
         on_or_before="2020-02-29",
         return_first_date_in_period=True,
         include_month=True,
@@ -299,7 +409,7 @@ study = StudyDefinition(
         include_date_of_match=True,
         include_month=True,
         return_expectations={
-            "float": {"distribution": "normal", "mean": 60.0, "stddev": 15},
+            "float": {"distribution": "normal", "mean": 150.0, "stddev": 20},
             "date": {"earliest": "2019-02-28", "latest": "2020-02-29"},
             "incidence": 0.95,
         },
@@ -414,6 +524,7 @@ study = StudyDefinition(
         pneumococcal_vaccine_clinical
         """,
     ),
+
 
     ### GP CONSULTATION RATE
     gp_consult_count=patients.with_gp_consultations(

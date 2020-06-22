@@ -27,6 +27,14 @@ sle_codes = codelist_from_csv(
 # chloroquine
 # dmards
 
+#MEDICINE PLACEHOLDER - this is imported to act as a placeholder
+ace_med_codes = codelist_from_csv(
+    "codelists/opensafely-ace-inhibitor-medications.csv",
+    system="snomed",
+    column="id",
+)
+
+
 
 # DEMOGRAPHIC CODELIST
 ethnicity_codes = codelist_from_csv(
@@ -85,6 +93,10 @@ oral_pred_codes = codelist_from_csv(
     "codelists/opensafely-asthma-oral-prednisolone-medication.csv",
     system="snomed",
     column="snomed_id",
+)
+
+other_neuro_codes = codelist_from_csv(
+    "codelists/opensafely-other-neurological-conditions.csv", system="ctv3", column="CTV3ID",
 )
 
 lung_cancer_codes = codelist_from_csv(
