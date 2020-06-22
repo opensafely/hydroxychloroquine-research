@@ -49,7 +49,7 @@ Your model **must** start by importing the dataset, which will be called
 For portability, the recommended way of starting your model is:
 
 ```stata
-import delimited `c(pwd)'/analysis/input.csv
+import delimited `c(pwd)'/output/input.csv
 ```
 
 ## Defining covariates
@@ -77,11 +77,11 @@ password.  When running outside the secure environment, obtain a URL
 that gives you access to the publicly-available dummy dataset.
 
 Now double-click `run.exe`, and it will use your covariate definitions
-in `analysis/study_definition.py` to generate a data file at `analysis/input.csv`.
+in `analysis/study_definition.py` to generate a data file at `output/input.csv`.
 
 If you have multiple study definitions named like
 `analysis/study_definition_<name>.py` then the corresponding output
-files will be named `analysis/input_<name>.csv`.
+files will be named `output/input_<name>.csv`.
 
 You can now use Stata as you usually would, with your code entrypoint
 in `analysis/model.do`.

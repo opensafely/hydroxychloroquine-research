@@ -1,3 +1,4 @@
+opensafely/ace-inhibitor-medications/2020-05-19
 opensafely/aplastic-anaemia/2020-04-24
 opensafely/asplenia/2020-06-02
 opensafely/asthma-oral-prednisolone-medication/2020-04-27
@@ -18,6 +19,7 @@ opensafely/influenza-vaccination/2020-05-12
 opensafely/influenza-vaccination-clinical-codes-given/2020-05-21
 opensafely/influenza-vaccination-clinical-codes-not-given/2020-05-19
 opensafely/lung-cancer/2020-04-15
+opensafely/other-neurological-conditions/2020-06-02
 opensafely/other-respiratory-conditions/2020-05-14
 opensafely/permanent-immunosuppresion/2020-06-02
 opensafely/pneumococcal-vaccination/2020-05-11
