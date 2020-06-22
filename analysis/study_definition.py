@@ -1,5 +1,5 @@
   
-from datalab_cohorts import (StudyDefinition, patients, filter_codes_by_category, combine_codelists)
+from cohortextractor import (StudyDefinition, patients, filter_codes_by_category, combine_codelists)
 
 from codelists import *
 
