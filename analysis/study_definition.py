@@ -66,7 +66,7 @@ study = StudyDefinition(
     hydroxychloroquine_count=patients.with_these_medications(
         ace_med_codes, #placeholder
         between=["2019-11-01", "2020-02-29"],
-        returning="number_of_episodes",
+        returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 2},
             "incidence": 0.30,
@@ -98,7 +98,7 @@ study = StudyDefinition(
     dmards_primary_care_count=patients.with_these_medications(
         ace_med_codes,
         between=["2019-11-01", "2020-02-29"],
-        returning="number_of_episodes",
+        returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 2},
             "incidence": 0.1,
@@ -120,7 +120,7 @@ study = StudyDefinition(
     macrolides=patients.with_these_medications(
         ace_med_codes,
         between=["2020-01-31", "2020-02-29"],
-        returning="number_of_episodes",
+        returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 2, "stddev": 2},
             "incidence": 0.25,
@@ -365,7 +365,7 @@ study = StudyDefinition(
     oral_prednisolone_count=patients.with_these_medications(
         oral_pred_codes,
         between=["2019-11-01", "2020-02-29"],
-        returning="number_of_episodes",
+        returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 2},
             "incidence": 0.1,
