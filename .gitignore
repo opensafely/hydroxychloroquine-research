@@ -3,3 +3,9 @@ model.log
 */input.csv
 __pycache__
 .python-version
+analysis/*
+!*.do
+!*.ado
+!*.hlp
+!*.py
+!*.sthlp
