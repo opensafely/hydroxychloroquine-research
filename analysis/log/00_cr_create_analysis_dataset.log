@@ -820,3 +820,4 @@ r(100);
 . 
 end of do-file
 
+. exit, clear
