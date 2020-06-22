@@ -34,7 +34,7 @@ ace_med_codes = codelist_from_csv(
     column="id",
 )
 
-hcq_med_codes = codelist_from_csv(
+hcq_med_code = codelist_from_csv(
     "codelists/opensafely-hydroxychloroquine.csv",
     system="snomed",
     column="snomed_id",
@@ -103,6 +103,14 @@ oral_pred_codes = codelist_from_csv(
 
 other_neuro_codes = codelist_from_csv(
     "codelists/opensafely-other-neurological-conditions.csv", system="ctv3", column="CTV3ID",
+)
+
+dementia_codes = codelist_from_csv(
+    "codelists/opensafely-dementia.csv", system="ctv3", column="CTV3ID",
+)
+
+stroke_codes = codelist_from_csv(
+    "codelists/opensafely-stroke-updated.csv", system="ctv3", column="CTV3ID",
 )
 
 lung_cancer_codes = codelist_from_csv(
