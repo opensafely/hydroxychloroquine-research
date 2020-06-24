@@ -42,6 +42,10 @@ drop pneumococcal_vaccine_tpp_table pneumococcal_vaccine_med pneumococcal_vaccin
 
 rename bmi_date_measured  	    			bmi_date_measured
 rename chronic_respiratory_excl_asthma		resp_excl_asthma
+rename oral_prednisolone_exposure			oral_prednisolone
+rename hydroxychloroquine_after_march		hcq_after
+rename hydroxychloroquine_exposure			hcq
+rename hydroxychloroquine_count				hcq_count
 
 
 /* CONVERT STRINGS TO DATE====================================================*/
@@ -57,9 +61,11 @@ foreach var of varlist 	 bmi_date_measured					///
 						 diabetes							///
 						 hba1c_mmol_per_mol_date			///
 						 hba1c_percentage_date				///
+						 hcq_after							///
+						 hcq								///
 						 hypertension						///
 						 esrf 								///						 
-						 oral_presnisolone					///	    ***********************NEED TO CORRECT NAMING IN STUDY DEF				 
+						 oral_prednisolone					///	   			 
 						 other_neuro_conditions				///
 						 permanent_immunodeficiency			///
 						 resp_excl_asthma					///						 
