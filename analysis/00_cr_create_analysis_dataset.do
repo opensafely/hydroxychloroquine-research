@@ -18,7 +18,7 @@ OTHER OUTPUT: 			logfiles, printed to folder analysis/$logdir
 * Open a log file
 
 cap log close
-log using $logdir\00_cr_create_analysis_dataset, replace t
+log using $Logdir\00_cr_create_analysis_dataset, replace t
 
 /* SET FU DATES===============================================================*/ 
 * Censoring dates for each outcome (largely, last date outcome data available)
@@ -43,8 +43,8 @@ drop pneumococcal_vaccine_tpp_table pneumococcal_vaccine_med pneumococcal_vaccin
 rename bmi_date_measured  	    			bmi_date_measured
 rename chronic_respiratory_excl_asthma		resp_excl_asthma
 rename oral_prednisolone_exposure			oral_prednisolone
-rename hydroxychloroquine_after_march		hcq_after
-rename hydroxychloroquine_exposure			hcq
+/**************************************** THE NEXT TWO HAVE BEEN RENAMED IN STUDY DEF SO DONT NEED TO RENAME HERE IN STATA AFTER NEXT RUN */
+rename hydroxychloroquine_exposure			hcq_last_date
 rename hydroxychloroquine_count				hcq_count
 
 
@@ -61,8 +61,7 @@ foreach var of varlist 	 bmi_date_measured					///
 						 diabetes							///
 						 hba1c_mmol_per_mol_date			///
 						 hba1c_percentage_date				///
-						 hcq_after							///
-						 hcq								///
+						 hcq_last_date						///
 						 hypertension						///
 						 esrf 								///						 
 						 oral_prednisolone					///	   			 
@@ -93,6 +92,10 @@ foreach var of varlist 	 bmi_date_measured					///
 * Note - outcome dates are handled separtely below 
 
 
+*HCQ after baseline is in YMD format
+gen hcq_first_after_date = date(hydroxychloroquine_after_march, "YMD")
+format hcq_first_after_date %td
+
 
 /* RENAME VARAIBLES===========================================================*/
 *  An extra 'date' added to the end of some variable names, remove 
@@ -121,7 +124,7 @@ foreach var of varlist 	 cancer_date						///
 						 diabetes_date						///
 						 hypertension_date					///
 						 esrf_date 							///						 
-						 oral_presnisolone_date				///					 
+						 oral_prednisolone_date				///					 
 						 other_neuro_conditions_date		///
 						 perm_immunodef_date				///
 						 resp_excl_asthma_date				///						 
@@ -145,17 +148,16 @@ foreach var of varlist 	 cancer_date						///
 gen male = 1 if sex == "M"
 replace male = 0 if sex == "F"
 
-* Ethnicity   ******************************************************************************** NEED TO ADD
-// replace ethnicity = .u if ethnicity == .
-//
-// label define ethnicity 	1 "White"  					///
-// 						2 "Mixed" 					///
-// 						3 "Asian or Asian British"	///
-// 						4 "Black"  					///
-// 						5 "Other"					///
-// 						.u "Unknown"
-//
-// label values ethnicity ethnicity
+* Ethnicity
+replace ethnicity = .u if ethnicity == .
+
+label define ethnicity 	1 "White"  					///
+						2 "Mixed" 					///
+						3 "Asian or Asian British"	///
+						4 "Black"  					///
+						5 "Other"					///
+						.u "Unknown"
+label values ethnicity ethnicity
 
 * STP 
 rename stp stp_old
@@ -432,9 +434,8 @@ format 	enter_date					///
 * Outcomes: First test positive date, ONS-covid death
 * Censoring: First HCQ after baseline
 * Recode to dates from the strings 
-foreach var of varlist 	died_date_ons 		///
-						first_positive_test_date		///
-						/* ************************************************************* FIRST HCQ AFTER BL DATE */ ///
+foreach var of varlist 	died_date_ons 				///
+						first_positive_test_date	///
 						{			
 	confirm string variable `var'
 	rename `var' `var'_dstr
@@ -454,7 +455,6 @@ format died_date_ons %td
 format died_date_onscovid %td 
 format died_date_onsnoncovid %td
 format first_positive_test_date %td
-/* format   ******************************************************************************** FIRST HCQ  DATE AFTER BL*/
 
 * Only censor at first HCQ on or after baseline if in unexposed group. Do not censor among exposed group 
 *replace FIRST HCQ AFTER BL=. if hydroxychloroquine == 1
@@ -470,11 +470,11 @@ gen firstpos 		= (first_positive_test_date		< .)
 * For looping later, name must be stime_binary_outcome_name
 
 * Survival time = last followup date (first: end study, first HCQ after baseline among unexposed, death, or that outcome)
-gen stime_onscoviddeath = min(onscoviddeathcensor_date, /*FIRST HCQ AFTER BL*/ died_date_ons)
-gen stime_firstpos  	= min(testposcensor_date, /*FIRST HCQ AFTER BL*/ died_date_ons , first_positive_test_date)  
+gen stime_onscoviddeath = min(onscoviddeathcensor_date, hcq_first_after_date, died_date_ons)
+gen stime_firstpos  	= min(testposcensor_date, hcq_first_after_date, died_date_ons , first_positive_test_date)  
 
 * Equivalent to onscoviddeath, but creating a separate variable for clarity 
-gen stime_onsnoncoviddeath = min(onscoviddeathcensor_date,/*FIRST HCQ AFTER BL*/ died_date_ons)
+gen stime_onsnoncoviddeath = min(onscoviddeathcensor_date, hcq_first_after_date, died_date_ons)
 
 * If outcome was after censoring occurred, set to zero
 replace onscoviddeath 	= 0 if (died_date_onscovid	> onscoviddeathcensor_date) 
