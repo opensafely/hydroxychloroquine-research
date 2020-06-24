@@ -1,13 +1,13 @@
-cd  `c(pwd)'/output
-import delimited input.csv, clear
+cd  `c(pwd)'
+import delimited "$Outdir/input.csv", clear
 set more off 
 
 
-* Create directories required 
+* Create directories required  --- ANY OUTPUT STATA MAKES SHOULD BE PUT INTO OUTPUT FOLDER FROM ROOT DIRECTORY
 
-capture mkdir output
-capture mkdir log
-capture mkdir tempdata
+*capture mkdir output /*ALREADY EXISTS WITH INPUT.CSV*/
+capture mkdir "$Outdir/log"
+capture mkdir "$Outdir/tempdata"
 
 * Set globals that will print in programs and direct output
 
