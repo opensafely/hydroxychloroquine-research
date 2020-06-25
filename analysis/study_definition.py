@@ -94,7 +94,7 @@ study = StudyDefinition(
         },
     ),
 
-    # DMARDS EXPOSURE (PRIMARY CARE) PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/2
+    # DMARDS EXPOSURE (PRIMARY CARE) 
     dmards_primary_care_count=patients.with_these_medications(
         dmards_med_code,
         between=["2019-11-01", "2020-02-29"],
@@ -385,7 +385,7 @@ study = StudyDefinition(
     #Rheumatoid Arthritis 
     rheumatoid=patients.with_these_clinical_events(
         rheumatoid_codes,
-        on_or_before="2020-02-29",
+        on_or_before="2019-09-01",
         return_first_date_in_period=True,
         include_month=True,
         return_expectations={"date": {"latest": "2020-02-29"}},
@@ -394,7 +394,7 @@ study = StudyDefinition(
     #SLE
     sle=patients.with_these_clinical_events(
         sle_codes,
-        on_or_before="2020-02-29",
+        on_or_before="2019-09-01",
         return_first_date_in_period=True,
         include_month=True,
         return_expectations={"date": {"latest": "2020-02-29"}},
