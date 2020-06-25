@@ -149,7 +149,7 @@ study = StudyDefinition(
     ),
 
     steroid_primary_care_exposure=patients.with_these_medications(
-        prednisolone_med_code,
+        prednisolone_med_codes,
         between=["2019-11-01", "2020-02-29"], 
         return_last_date_in_period=True,
         include_month=True,
