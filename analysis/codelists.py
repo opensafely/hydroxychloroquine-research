@@ -52,7 +52,7 @@ prednisolone_med_codes = codelist_from_csv(
     column="snomed_id",
 )
 
-nsaids_med_code = codelist_from_csv(
+nsaids_med_codes = codelist_from_csv(
     "codelists/opensafely-nsaids-oral.csv",
     system="snomed",
     column="snomed_id",

@@ -170,7 +170,7 @@ study = StudyDefinition(
     ),
 
     nsaids_primary_care_exposure=patients.with_these_medications(
-        nsaids_med_code,
+        nsaids_med_codes,
         between=["2019-11-01", "2020-02-29"], 
         return_last_date_in_period=True,
         include_month=True,
