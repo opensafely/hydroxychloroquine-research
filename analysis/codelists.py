@@ -46,6 +46,18 @@ dmards_med_code = codelist_from_csv(
     column="snomed_id",
 )
 
+prednisolone_med_code = codelist_from_csv(
+    "codelists/opensafely-asthma-oral-prednisolone-medication.csv",
+    system="snomed",
+    column="snomed_id",
+)
+
+nsaids_med_code = codelist_from_csv(
+    "codelists/opensafely-nsaids-oral.csv",
+    system="snomed",
+    column="snomed_id",
+)
+
 
 
 
