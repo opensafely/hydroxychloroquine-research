@@ -1,6 +1,6 @@
-# Do patients taking Hydroxychlorquine for prevention of RA or lupus have 
+# Is hydroxychloroquine protective against the risk of COVID-19 infection and severe outcomes? 
 
-## This is a wor in progress
+## This is a work in progress
 
 * The paper is [here]()
 * Raw model outputs, including charts, crosstabs, etc, are in `released_analysis_results/`
