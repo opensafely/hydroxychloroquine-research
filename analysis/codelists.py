@@ -40,6 +40,14 @@ hcq_med_code = codelist_from_csv(
     column="snomed_id",
 )
 
+dmards_med_code = codelist_from_csv(
+    "codelists/opensafely-dmards.csv",
+    system="snomed",
+    column="snomed_id",
+)
+
+
+
 
 
 # DEMOGRAPHIC CODELIST
