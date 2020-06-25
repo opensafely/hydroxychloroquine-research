@@ -128,7 +128,7 @@ study = StudyDefinition(
     ),
 
     macrolides_primary_care_exposure=patients.with_these_medications(
-        ace_med_code,
+        ace_med_codes,
         between=["2019-11-01", "2020-02-29"], 
         return_last_date_in_period=True,
         include_month=True,
