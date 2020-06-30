@@ -8,11 +8,11 @@ DESCRIPTION OF FILE:	program 01, HCQ project
 						check inclusion/exclusion citeria
 						drop patients if not relevant 
 DEPENDENCIES: 
-DATASETS USED:			data in memory (from analysis/input.csv)
+DATASETS USED:			data in memory (from output/input.csv)
 
 DATASETS CREATED: 		analysis_dataset.dta
-						lives in folder analysis/$tempdir 
-OTHER OUTPUT: 			logfiles, printed to folder analysis/$logdir
+						lives in folder output/$tempdir 
+OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
 							
 ==============================================================================*/
 

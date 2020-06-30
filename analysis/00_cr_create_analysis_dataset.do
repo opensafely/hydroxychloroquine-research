@@ -8,10 +8,10 @@ DESCRIPTION OF FILE:	program 00, data management for HCQ project
 						reformat variables 
 						categorise variables
 						label variables 
-DATASETS USED:			data in memory (from analysis/input.csv)
+DATASETS USED:			data in memory (from output/input.csv)
 
 DATASETS CREATED: 		none
-OTHER OUTPUT: 			logfiles, printed to folder analysis/$logdir
+OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
 							
 ==============================================================================*/
 
