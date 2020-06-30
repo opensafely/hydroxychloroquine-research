@@ -42,7 +42,7 @@ do "00_cr_create_analysis_dataset.do"
 
 * Data manipulation   
 do "01_cr_create_population.do"
-*do "02_cr_create_exposure.do"
+do "02_cr_create_exposure.do"
 
 /*  Checks  */
 
