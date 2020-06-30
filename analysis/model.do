@@ -5,13 +5,13 @@ set more off
 *set filepaths
 global Projectdir `c(pwd)'
 di "$Projectdir"
-global Dodir "$Projectdir\analysis" 
+global Dodir "$Projectdir/analysis" 
 di "$Dodir"
-global Outdir "$Projectdir\output" 
+global Outdir "$Projectdir/output" 
 di "$Outdir"
-global Logdir "$Projectdir\output\log"
+global Logdir "$Projectdir/output/log"
 di "$Logdir"
-global Tempdir "$Projectdir\output\tempdata" 
+global Tempdir "$Projectdir/output/tempdata" 
 di "$Tempdir"
 
 
@@ -59,6 +59,7 @@ global varlist 		i.agegroup					///
 global tableoutcome "COVID-19 Death in ONS"
 global ymax 0.005
 
+pwd
 cd  "$Dodir"
 
 /*  Pre-analysis data manipulation  */
