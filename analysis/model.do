@@ -12,25 +12,38 @@ capture mkdir "$Outdir/tempdata"
 * Set globals that will print in programs and direct output
 
 global outcome 	  "onscoviddeath"
-global outdir  	  "output" 
-global logdir     "log"
-global tempdir    "tempdata"
-/*global varlist 		i.obese4cat					///
+// global outdir  	  "output" 
+// global logdir     "log"
+// global tempdir    "tempdata"
+global varlist 		i.agegroup					///
+					i.male						///
+					i.ethnicity					///
+					i.imd						///
+					i.urban						///
+					i.obese4cat					///
+					i.smoke						///
 					i.smoke_nomiss				///
-					i.imd 						///
-					i.ckd	 					///
+					i.dmard_pc					///
+					i.azith						///
+					i.oral_prednisolone			///
+					i.chronic_cardiac_disease	///
+					i.chronic_liver_disease		///
+					i.ckd 						///
+					i.egfr_cat	 				///
 					i.hypertension			 	///
-					i.heart_failure				///
-					i.other_heart_disease		///
+					i.diabetes					///
 					i.diabcat 					///
-					i.cancer_ever 				///
-					i.statin 					///
+					i.cancer_ever				///
+					i.immunodef_any 			///
+					i.resp_excl_asthma 			///
+					i.current_asthma 			///
+					i.other_neuro_conditions	///
 					i.flu_vaccine 				///
 					i.pneumococcal_vaccine		///
-					i.exacerbations 			///
-					i.asthma_ever				///
-					i.immunodef_any
-*/					
+					i.gp_consult
+
+				 
+
 global tableoutcome "COVID-19 Death in ONS"
 global ymax 0.005
 
@@ -46,7 +59,7 @@ do "02_cr_create_exposure.do"
 
 /*  Checks  */
 
-*do "03_an_checks.do"
+do "03_an_checks.do"
 
 /* Run analysis */ 
 

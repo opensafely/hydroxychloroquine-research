@@ -432,10 +432,11 @@ drop rural_urban
 
 
 /* EXPOSURE INFORMATION ====================================================*/
+rename hcq_last_date hcq_date
 gen hcq = 1 if hcq_count != . & hcq_count >= 2
 recode hcq .=0
 
-gen hcq_sa = 1 if hcq_count != . & hcq_count >= 1 & hcq_last_date != . & hcq_last_date >= mdy(12,1,2019)
+gen hcq_sa = 1 if hcq_count != . & hcq_count >= 1 & hcq_date != . & hcq_date >= mdy(12,1,2019)
 recode hcq_sa .=0
 
 tab1 hcq hcq_sa, m
@@ -453,10 +454,12 @@ tab hcq hcq_sa, m
 /* OTHER DRUGS =============================================================*/
 
 *DMARDS
+rename dmards_primary_care_date dmard_pc_date
+
 gen dmard_pc = 1 if dmards_primary_care_count != . & dmards_primary_care_count >= 2
 recode dmard_pc .=0
 
-gen dmard_pc_sa = 1 if dmards_primary_care_count != . & dmards_primary_care_count >= 1 & dmards_primary_care_date != . & dmards_primary_care_date >= mdy(12,1,2019)
+gen dmard_pc_sa = 1 if dmards_primary_care_count != . & dmards_primary_care_count >= 1 & dmard_pc_date != . & dmard_pc_date >= mdy(12,1,2019)
 recode dmard_pc_sa .=0
 
 tab1 dmard_pc dmard_pc_sa, m
@@ -571,7 +574,6 @@ format  stime* %td
 
 
 
-
  
 
 
@@ -624,6 +626,11 @@ label var dmard_pc_sa				"DMARD (PC) for sensivity analysis"
 label var azith						"Azithromycin"
 label var oral_prednisolone			"OCS"
 
+label var hcq_date					"Last HCQ Rx"
+label var dmard_pc_date			"Last Other DMARD Rx"
+*label var azith_date				"Last azithromycin Rx"   ************************************************* NEED TO GET
+label var oral_prednisolone_date	"Last OCS Rx"
+ 
 
 
 * Comorbidities of interest 
@@ -639,6 +646,20 @@ label var diabcat						"Diabetes Severity"
 label var resp_excl_asthma				"Respiratory disease (excl asthma)"
 label var current_asthma				"Current asthma"
 label var other_neuro_conditions		"Other neurological conditions"
+
+label var chronic_cardiac_disease_date	"Date of chronic cardiac disease"
+label var chronic_liver_disease_date	"Date of chronic liver disease"
+label var ckd_date     				 	"Date of chronic kidney disease" 
+label var hypertension_date			    "Date of diagnosed hypertension"
+label var diabetes_date					"Date of diabetes"
+label var cancer_ever_date 				"Date of cancer"
+label var perm_immunodef_date			"Date of permanent immunosuppression"
+label var temp_immunodef_date			"Date of temporary immunosuppression"
+label var hba1c_mmol_per_mol_date		"Date of HbA1c mmol/mol"
+label var hba1c_percentage_date			"Date of HbA1c %"
+label var resp_excl_asthma_date			"Date of respiratory disease (excl asthma)"
+label var current_asthma_date			"Date of current asthma"
+label var other_neuro_conditions_date	"Date of other neurological conditions"
 
 label var flu_vaccine					"Flu vaccine"
 label var pneumococcal_vaccine			"Pneumococcal Vaccine"
