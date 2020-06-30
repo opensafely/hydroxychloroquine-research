@@ -46,9 +46,6 @@ drop if stime_$outcome  <= date("$indexdate", "DMY")
 
 
 
-
-
-
 /* CHECK INCLUSION AND EXCLUSION CRITERIA=====================================*/ 
 
 * DATA STRUCTURE: Confirm one row per patient 
@@ -57,38 +54,39 @@ assert dup_check == 0
 drop dup_check
 
 * INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 2019  **********************  CHECK AGAIN AFTER UPDATING STUDYDEF
-datacheck rheumatoid_date != . & rheumatoid_date <= mdy(10,31,2019), nol
-datacheck sle_date != . & sle_date <= mdy(10,31,2019), nol
+gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(11,1,2019)
+recode excl_ra .=0
+gen excl_sle = 1 if sle_date != . & sle_date >= mdy(11,1,2019)
+recode excl_sle .=0
+
+datacheck excl_ra==0, nol
+datacheck excl_sle==0, nol
+
 
 * INCLUSION 2: >=18 and <=110 at 1 March 2020 
 assert age < .
 assert age >= 18 
 assert age <= 110
  
-* INCLUSION 3: M or F gender at 1 March 2020 
+ 
+* EXCLUSION 1: No chloroquine phosphate/sulfate exposure window
+*gen chlor_check = 1 if (lama_single == 1 | laba_lama ==1)  *********************************************     NEED TO GET
+*datacheck chlor_check >=., nol
+*drop chlor_check
+
+
+* EXCLUSION 2: 12 months or baseline time 
+* [CANNOT BE QUANTIFIED AS VARIABLE NOT EXPORTED] **************************************************************  CAN IT BE?
+
+
+* EXCLUSION 3a: M or F gender at 1 March 2020 
 assert inlist(sex, "M", "F")
 
-* EXCLUSION 1: 12 months or baseline time 
-* [CANNOT BE QUANTIFIED AS VARIABLE NOT EXPORTED]
-
-* EXCLUSION 2: No diagnosis of conflicting respiratory conditions 
-datacheck other_respiratory == 0, nol
-datacheck copd == 0, nol
-
-* EXCLUSION 4: Nebulising treament 
-* [NEBULES CANNOT BE QUANTIFIED AS VARIABLE NOT EXPORTED] 
-
-* EXCLUDE 5:  MISSING IMD
+* EXCLUSION 3b:  MISSING IMD
 assert inlist(imd, 1, 2, 3, 4, 5)
 
-* EXCLUDE 6: NO LAMA (COPD treatment), unless LAMA and ICS 
-gen lama_check = 1 if (lama_single == 1 | laba_lama ==1) & ///
-                       ics_single != 1 & ///
-					   laba_ics != 1 & ///
-					   laba_lama_ics != 1 
-					   
-datacheck lama_check >=., nol
-drop lama_check
+
+
 
 * Close log file 
 log close					   
