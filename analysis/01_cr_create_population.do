@@ -19,7 +19,7 @@ OTHER OUTPUT: 			logfiles, printed to folder analysis/$logdir
 * Open a log file
 
 cap log close
-log using $logdir\01_cr_create_population, replace t
+log using $Logdir\01_cr_create_population, replace t
 
 /* APPLY INCLUSION/EXCLUIONS==================================================*/ 
 
@@ -49,26 +49,6 @@ drop if stime_$outcome  <= date("$indexdate", "DMY")
 
 
 
-*************** START HERE ********************
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* CHECK INCLUSION AND EXCLUSION CRITERIA=====================================*/ 
 
 * DATA STRUCTURE: Confirm one row per patient 
@@ -76,14 +56,9 @@ duplicates tag patient_id, generate(dup_check)
 assert dup_check == 0 
 drop dup_check
 
-* INCLUSION 1: Asthma in 3 years before 1 March 2020 
-datacheck asthma_ever == 1, nol
-
-* Check time from index to asthma, if asthma 
-* + 15 because dates are imputed for covariates 
-gen asthma_time = ((enter_date - asthma_ever_date) + 15)/365.25
-datacheck asthma_time > 3, nol
-drop asthma_time
+* INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 2019  **********************  CHECK AGAIN AFTER UPDATING STUDYDEF
+datacheck rheumatoid_date != . & rheumatoid_date <= mdy(10,31,2019), nol
+datacheck sle_date != . & sle_date <= mdy(10,31,2019), nol
 
 * INCLUSION 2: >=18 and <=110 at 1 March 2020 
 assert age < .

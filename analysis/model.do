@@ -34,9 +34,11 @@ global tempdir    "tempdata"
 global tableoutcome "COVID-19 Death in ONS"
 global ymax 0.005
 
+cd $Dodir
+
 /*  Pre-analysis data manipulation  */
 
-*do "00_cr_create_analysis_dataset.do"
+do "00_cr_create_analysis_dataset.do"
 
 * Data manipulation   
 *do "01_cr_create_population.do"
