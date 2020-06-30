@@ -44,9 +44,6 @@ rename bmi_date_measured  	    			bmi_date_measured
 rename chronic_respiratory_excl_asthma		resp_excl_asthma
 rename oral_prednisolone_exposure			oral_prednisolone
 rename dmards_primary_care_exposure			dmards_primary_care
-/**************************************** THE NEXT TWO HAVE BEEN RENAMED IN STUDY DEF SO DONT NEED TO RENAME HERE IN STATA AFTER NEXT RUN */
-rename hydroxychloroquine_exposure			hcq_last_date
-rename hydroxychloroquine_count				hcq_count
 
 
 /* CONVERT STRINGS TO DATE====================================================*/
@@ -97,9 +94,9 @@ foreach var of varlist 	 bmi_date_measured					///
 
 
 *HCQ after baseline is in YMD format
-gen hcq_first_after_date = date(hydroxychloroquine_after_march, "YMD")
+gen hcq_first_after_date = date(hcq_first_after, "YMD")
 format hcq_first_after_date %td
-drop hydroxychloroquine_after_march
+drop hcq_first_after
 
 
 /* RENAME VARAIBLES===========================================================*/
