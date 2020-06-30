@@ -1,5 +1,4 @@
-cd  `c(pwd)'
-import delimited "$Outdir/input.csv", clear
+import delimited `c(pwd)'/output/input.csv, clear
 set more off 
 
 
