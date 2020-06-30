@@ -2,6 +2,19 @@ import delimited `c(pwd)'/output/input.csv, clear
 set more off 
 
 
+*set filepaths
+global Projectdir `c(pwd)'
+di "$Projectdir"
+global Dodir "$Projectdir\analysis" 
+di "$Dodir"
+global Outdir "$Projectdir\output" 
+di "$Outdir"
+global Logdir "$Projectdir\output\log"
+di "$Logdir"
+global Tempdir "$Projectdir\output\tempdata" 
+di "$Tempdir"
+
+
 * Create directories required  --- ANY OUTPUT STATA MAKES SHOULD BE PUT INTO OUTPUT FOLDER FROM ROOT DIRECTORY
 
 *capture mkdir output /*ALREADY EXISTS WITH INPUT.CSV*/
@@ -46,7 +59,7 @@ global varlist 		i.agegroup					///
 global tableoutcome "COVID-19 Death in ONS"
 global ymax 0.005
 
-cd $Dodir
+cd  "$Dodir"
 
 /*  Pre-analysis data manipulation  */
 
