@@ -21,6 +21,9 @@ OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
 cap log close
 log using $Logdir\01_cr_create_population, replace t
 
+*run ssc install if not already installed on your computer
+ssc install datacheck 
+
 /* APPLY INCLUSION/EXCLUIONS==================================================*/ 
 
 noi di "DROP MISSING GENDER:"
