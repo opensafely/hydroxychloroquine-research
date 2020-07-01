@@ -8,17 +8,17 @@ DESCRIPTION OF FILE:	program 00, data management for HCQ project
 						reformat variables 
 						categorise variables
 						label variables 
-DATASETS USED:			data in memory (from analysis/input.csv)
+DATASETS USED:			data in memory (from output/input.csv)
 
 DATASETS CREATED: 		none
-OTHER OUTPUT: 			logfiles, printed to folder analysis/$logdir
+OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
 							
 ==============================================================================*/
 
 * Open a log file
 
 cap log close
-log using $logdir\00_cr_create_analysis_dataset, replace t
+log using $Logdir\00_cr_create_analysis_dataset, replace t
 
 /* SET FU DATES===============================================================*/ 
 * Censoring dates for each outcome (largely, last date outcome data available)
@@ -42,6 +42,8 @@ drop pneumococcal_vaccine_tpp_table pneumococcal_vaccine_med pneumococcal_vaccin
 
 rename bmi_date_measured  	    			bmi_date_measured
 rename chronic_respiratory_excl_asthma		resp_excl_asthma
+rename oral_prednisolone_exposure			oral_prednisolone
+rename dmards_primary_care_exposure			dmards_primary_care
 
 
 /* CONVERT STRINGS TO DATE====================================================*/
@@ -55,14 +57,18 @@ foreach var of varlist 	 bmi_date_measured					///
 						 creatinine_date					///
 						 current_asthma						///	
 						 diabetes							///
+						 dmards_primary_care				///
 						 hba1c_mmol_per_mol_date			///
 						 hba1c_percentage_date				///
+						 hcq_last_date						///
 						 hypertension						///
 						 esrf 								///						 
-						 oral_presnisolone					///	    ***********************NEED TO CORRECT NAMING IN STUDY DEF				 
+						 oral_prednisolone					///	   			 
 						 other_neuro_conditions				///
 						 permanent_immunodeficiency			///
-						 resp_excl_asthma					///						 
+						 resp_excl_asthma					///		
+						 rheumatoid							///
+						 sle								///
 						 smoking_status_date				///
 						 temporary_immunodeficiency	 {
 						 	
@@ -87,14 +93,20 @@ foreach var of varlist 	 bmi_date_measured					///
 * Note - outcome dates are handled separtely below 
 
 
+*HCQ after baseline is in YMD format
+gen hcq_first_after_date = date(hcq_first_after, "YMD")
+format hcq_first_after_date %td
+drop hcq_first_after
+
 
 /* RENAME VARAIBLES===========================================================*/
 *  An extra 'date' added to the end of some variable names, remove 
 
+rename hcq_last_date_date				hcq_last_date
 rename creatinine_date_date 			creatinine_measured_date
 rename smoking_status_date_date 		smoking_status_measured_date
 rename bmi_date_measured_date  			bmi_measured_date
-rename hba1c_percentage_date_date		hb1ac_percentage_date 
+rename hba1c_percentage_date_date		hba1c_percentage_date 
 rename hba1c_mmol_per_mol_date_date		hba1c_mmol_per_mol_date
 
 
@@ -115,7 +127,7 @@ foreach var of varlist 	 cancer_date						///
 						 diabetes_date						///
 						 hypertension_date					///
 						 esrf_date 							///						 
-						 oral_presnisolone_date				///					 
+						 oral_prednisolone_date				///					 
 						 other_neuro_conditions_date		///
 						 perm_immunodef_date				///
 						 resp_excl_asthma_date				///						 
@@ -139,17 +151,16 @@ foreach var of varlist 	 cancer_date						///
 gen male = 1 if sex == "M"
 replace male = 0 if sex == "F"
 
-* Ethnicity   ******************************************************************************** NEED TO ADD
-// replace ethnicity = .u if ethnicity == .
-//
-// label define ethnicity 	1 "White"  					///
-// 						2 "Mixed" 					///
-// 						3 "Asian or Asian British"	///
-// 						4 "Black"  					///
-// 						5 "Other"					///
-// 						.u "Unknown"
-//
-// label values ethnicity ethnicity
+* Ethnicity
+replace ethnicity = .u if ethnicity == .
+
+label define ethnicity 	1 "White"  					///
+						2 "Mixed" 					///
+						3 "Asian or Asian British"	///
+						4 "Black"  					///
+						5 "Other"					///
+						.u "Unknown"
+label values ethnicity ethnicity
 
 * STP 
 rename stp stp_old
@@ -360,7 +371,7 @@ gen temp2_ckd_date = esrf_date if esrf == 1
 gen ckd_date = max(temp1_ckd_date,temp2_ckd_date) 
 format ckd_date %td 
 
-/* Hb1AC */
+/* HbA1c */
 
 /*  Diabetes severity  */
 
@@ -405,6 +416,71 @@ label values diabcat diabcat
 * Delete unneeded variables
 drop hba1c_pct hba1c_percentage hba1c_mmol_per_mol
 
+
+* urban vs rural flag
+gen urban = 1 if rural_urban == "urban"
+replace urban = 0 if rural_urban == "rural"
+drop rural_urban
+
+
+
+
+
+
+
+/* EXPOSURE INFORMATION ====================================================*/
+rename hcq_last_date hcq_date
+gen hcq = 1 if hcq_count != . & hcq_count >= 2
+recode hcq .=0
+
+gen hcq_sa = 1 if hcq_count != . & hcq_count >= 1 & hcq_date != . & hcq_date >= mdy(12,1,2019)
+recode hcq_sa .=0
+
+tab1 hcq hcq_sa, m
+tab hcq hcq_sa, m
+
+
+
+
+
+
+
+
+
+
+/* OTHER DRUGS =============================================================*/
+
+*DMARDS
+rename dmards_primary_care_date dmard_pc_date
+
+gen dmard_pc = 1 if dmards_primary_care_count != . & dmards_primary_care_count >= 2
+recode dmard_pc .=0
+
+gen dmard_pc_sa = 1 if dmards_primary_care_count != . & dmards_primary_care_count >= 1 & dmard_pc_date != . & dmard_pc_date >= mdy(12,1,2019)
+recode dmard_pc_sa .=0
+
+tab1 dmard_pc dmard_pc_sa, m
+tab dmard_pc dmard_pc_sa, m
+
+
+*Macrolides (i.e., azithromycin)
+rename macrolides azith_count
+gen azith = 1 if azith_count != . & azith_count >= 1
+recode azith .=0
+
+*Steroids (dealt with at the top of the do file -- only needed one Rx in time window)
+*vars oral_prednisolone_count oral_prednisolone_date are available
+*final var to use is oral_prednisolone 
+
+
+
+
+*****************************************************************************************************************************add NSAIDS
+
+
+
+
+
 /* OUTCOME AND SURVIVAL TIME==================================================*/
 
 /*  Cohort entry and censor dates  */
@@ -426,9 +502,8 @@ format 	enter_date					///
 * Outcomes: First test positive date, ONS-covid death
 * Censoring: First HCQ after baseline
 * Recode to dates from the strings 
-foreach var of varlist 	died_date_ons 		///
-						first_positive_test_date		///
-						/* ************************************************************* FIRST HCQ AFTER BL DATE */ ///
+foreach var of varlist 	died_date_ons 				///
+						first_positive_test_date	///
 						{			
 	confirm string variable `var'
 	rename `var' `var'_dstr
@@ -448,10 +523,9 @@ format died_date_ons %td
 format died_date_onscovid %td 
 format died_date_onsnoncovid %td
 format first_positive_test_date %td
-/* format   ******************************************************************************** FIRST HCQ  DATE AFTER BL*/
 
 * Only censor at first HCQ on or after baseline if in unexposed group. Do not censor among exposed group 
-*replace FIRST HCQ AFTER BL=. if hydroxychloroquine == 1
+replace hcq_first_after_date = . if hcq == 1 | hcq_sa == 1
 
 
 * Binary indicators for outcomes
@@ -464,11 +538,11 @@ gen firstpos 		= (first_positive_test_date		< .)
 * For looping later, name must be stime_binary_outcome_name
 
 * Survival time = last followup date (first: end study, first HCQ after baseline among unexposed, death, or that outcome)
-gen stime_onscoviddeath = min(onscoviddeathcensor_date, /*FIRST HCQ AFTER BL*/ died_date_ons)
-gen stime_firstpos  	= min(testposcensor_date, /*FIRST HCQ AFTER BL*/ died_date_ons , first_positive_test_date)  
+gen stime_onscoviddeath = min(onscoviddeathcensor_date, hcq_first_after_date, died_date_ons)
+gen stime_firstpos  	= min(testposcensor_date, hcq_first_after_date, died_date_ons , first_positive_test_date)  
 
 * Equivalent to onscoviddeath, but creating a separate variable for clarity 
-gen stime_onsnoncoviddeath = min(onscoviddeathcensor_date,/*FIRST HCQ AFTER BL*/ died_date_ons)
+gen stime_onsnoncoviddeath = min(onscoviddeathcensor_date, hcq_first_after_date, died_date_ons)
 
 * If outcome was after censoring occurred, set to zero
 replace onscoviddeath 	= 0 if (died_date_onscovid	> onscoviddeathcensor_date) 
@@ -494,15 +568,10 @@ format  stime* %td
 
 
 
-*********************** HAVENT UPDATED BELOW ***********************
 
 
 
-
-
-
-
-
+ 
 
 
 
@@ -517,6 +586,11 @@ format  stime* %td
 
 /* LABEL VARIABLES============================================================*/
 *  Label variables you are intending to keep, drop the rest 
+
+* Population
+label var rheumatoid_date			"Date of RA"
+label var sle						"Date of SLE"
+
 
 * Demographics
 label var patient_id				"Patient ID"
@@ -534,6 +608,7 @@ label var smoke_nomiss	 			"Smoking status (missing set to non)"
 label var imd 						"Index of Multiple Deprivation (IMD)"
 label var ethnicity					"Ethnicity"
 label var stp 						"Sustainability and Transformation Partnership"
+label var urban						"Urban residence"
 
 label var age1 						"Age spline 1"
 label var age2 						"Age spline 2"
@@ -541,87 +616,72 @@ label var age3 						"Age spline 3"
 
 * Treatment variables 
 
-label var high_dose_ics				"High Dose ICS"
-label var low_med_dose_ics 			"Low/Medium Dose ICS"
-label var ics_single        		"Single ICS"
-label var saba_single 				"Single SABA"
-label var sama_single 	    		"Single SAMA"
-label var laba_single 				"Single LABA"
-label var lama_single 				"Single LAMA"
-label var laba_ics 					"LABA ICS"		
-label var laba_lama 				"LABA LAMA"
-label var laba_lama_ics 			"LABA LAMA ICS"
-label var ltra_single				"Single LTRA"
+label var hcq						"HCQ"
+label var hcq_sa					"HCQ for sensitivity analysis"
+label var dmard_pc					"DMARD (PC)"
+label var dmard_pc_sa				"DMARD (PC) for sensivity analysis"
+label var azith						"Azithromycin"
+label var oral_prednisolone			"OCS"
 
-label var oral_steroids 			"Oral Steroids"
+label var hcq_date					"Last HCQ Rx"
+label var dmard_pc_date			"Last Other DMARD Rx"
+*label var azith_date				"Last azithromycin Rx"   ************************************************* NEED TO GET
+label var oral_prednisolone_date	"Last OCS Rx"
+ 
 
-label var high_dose_ics_date		"High Dose ICS Date"
-label var low_med_dose_ics_date 	"Low/Medium Dose ICS Date"
-label var ics_single_date        	"Single ICS Date"
-label var saba_single_date 			"Single SABA Date"
-label var sama_single_date 	    	"Single SAMA Date"
-label var laba_single_date 			"Single LABA Date"
-label var lama_single_date 			"Single LAMA Date"
-label var laba_ics_date 			"LABA ICS Date"		
-label var laba_lama_date 			"LABA LAMA Date"
-label var laba_lama_ics_date		"LABA LAMA ICS Date"
-label var ltra_single_date			"Single LTRA Date"
-
-label var oral_steroids_date 			"Oral Steroids Date"
 
 * Comorbidities of interest 
-label var asthma_ever					"Asthma ever"
+label var chronic_cardiac_disease 		"Chronic cardiac disease"
+label var chronic_liver_disease			"Chronic liver disease"
 label var ckd     					 	"Chronic kidney disease" 
 label var egfr_cat						"Calculated eGFR"
 label var hypertension				    "Diagnosed hypertension"
-label var heart_failure				    "Heart Failure"
-label var ili 							"Infleunza Like Illness"
-label var other_respiratory 			"Other Respiratory Diseases"
-label var other_heart_disease 			"Other Heart Diseases"
-label var copd 							"COPD"
 label var diabetes						"Diabetes"
 label var cancer_ever 					"Cancer"
 label var immunodef_any					"Immunosuppressed (combination algorithm)"
 label var diabcat						"Diabetes Severity"
+label var resp_excl_asthma				"Respiratory disease (excl asthma)"
+label var current_asthma				"Current asthma"
+label var other_neuro_conditions		"Other neurological conditions"
 
-label var statin 						"Recent Statin"
-label var insulin						"Recent Insulin"
+label var chronic_cardiac_disease_date	"Date of chronic cardiac disease"
+label var chronic_liver_disease_date	"Date of chronic liver disease"
+label var ckd_date     				 	"Date of chronic kidney disease" 
+label var hypertension_date			    "Date of diagnosed hypertension"
+label var diabetes_date					"Date of diabetes"
+label var cancer_ever_date 				"Date of cancer"
+label var perm_immunodef_date			"Date of permanent immunosuppression"
+label var temp_immunodef_date			"Date of temporary immunosuppression"
+label var hba1c_mmol_per_mol_date		"Date of HbA1c mmol/mol"
+label var hba1c_percentage_date			"Date of HbA1c %"
+label var resp_excl_asthma_date			"Date of respiratory disease (excl asthma)"
+label var current_asthma_date			"Date of current asthma"
+label var other_neuro_conditions_date	"Date of other neurological conditions"
+
 label var flu_vaccine					"Flu vaccine"
 label var pneumococcal_vaccine			"Pneumococcal Vaccine"
 label var gp_consult					"GP consultation in last year"
 label var gp_consult_count				"GP consultation count"
-label var exacerbations					"Exacerbation in last year"
-label var exacerbation_count			"Exacerbation Count"
 
-label var asthma_ever_date				"Asthma date"
-label var ckd_date     					"Chronic kidney disease Date" 
-label var hypertension_date			    "Diagnosed hypertension Date"
-label var heart_failure_date			"Heart Failure Date"
-label var ili_date 						"Infleunza Like Illness Date"
-label var other_respiratory_date 		"Other Respiratory Diseases Date"
-label var other_heart_disease_date		"Other Heart Diseases Date"
-label var copd_date 					"COPD Date"
-label var diabetes_date					"Diabetes Date"
-label var cancer_ever_date 				"Cancer Date"
 
-label var statin_date 					"Recent Statin Date"
-label var insulin_date					"Recent Insulin Date"
 
 * Outcomes and follow-up
 label var enter_date					"Date of study entry"
-label var cpnsdeathcensor_date 			"Date of admin censoring for cpns deaths"
+label var testposcensor_date 			"Date of admin censoring for positive test"
 label var onscoviddeathcensor_date 		"Date of admin censoring for ONS deaths"
+label var hcq_first_after_date			"Date of censoring for initiating HCQ after baseline"
 
-label var cpnsdeath						"Failure/censoring indicator for outcome: CPNS covid death"
+label var firstpos						"Failure/censoring indicator for outcome: SGSS positive test"
 label var onscoviddeath					"Failure/censoring indicator for outcome: ONS covid death"
 label var onsnoncoviddeath				"Failure/censoring indicator for outcome: ONS non-covid death"
 
-label var died_date_cpns				"Date of CPNS Death"
+label var first_positive_test_date		"Date of first SGSS positive test"
+label var died_date_ons					"Date of ONS Death"
 label var died_date_onscovid 			"Date of ONS COVID Death"
 label var died_date_onsnoncovid			"Date of ONS non-COVID death"
 
 * Survival times
-label var  stime_cpnsdeath 				"Survival time (date); outcome CPNS covid death"
+label var  stime_firstpos 				"Survival time (date); outcome SGSS positive test"
 label var  stime_onscoviddeath 			"Survival time (date); outcome ONS covid death"
 label var  stime_onsnoncoviddeath		"Survival tme (date); outcome ONS non covid death"
 

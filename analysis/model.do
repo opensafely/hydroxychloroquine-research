@@ -1,50 +1,78 @@
-cd  `c(pwd)'/output
-import delimited input.csv, clear
+import delimited `c(pwd)'/output/input.csv, clear
 set more off 
 
 
-* Create directories required 
+*set filepaths
+global Projectdir `c(pwd)'
+di "$Projectdir"
+global Dodir "$Projectdir/analysis" 
+di "$Dodir"
+global Outdir "$Projectdir/output" 
+di "$Outdir"
+global Logdir "$Projectdir/output/log"
+di "$Logdir"
+global Tempdir "$Projectdir/output/tempdata" 
+di "$Tempdir"
 
-capture mkdir output
-capture mkdir log
-capture mkdir tempdata
+
+* Create directories required  --- ANY OUTPUT STATA MAKES SHOULD BE PUT INTO OUTPUT FOLDER FROM ROOT DIRECTORY
+
+*capture mkdir output /*ALREADY EXISTS WITH INPUT.CSV*/
+capture mkdir "$Outdir/log"
+capture mkdir "$Outdir/tempdata"
 
 * Set globals that will print in programs and direct output
 
 global outcome 	  "onscoviddeath"
-global outdir  	  "output" 
-global logdir     "log"
-global tempdir    "tempdata"
-/*global varlist 		i.obese4cat					///
+// global outdir  	  "output" 
+// global logdir     "log"
+// global tempdir    "tempdata"
+global varlist 		i.agegroup					///
+					i.male						///
+					i.ethnicity					///
+					i.imd						///
+					i.urban						///
+					i.obese4cat					///
+					i.smoke						///
 					i.smoke_nomiss				///
-					i.imd 						///
-					i.ckd	 					///
+					i.dmard_pc					///
+					i.azith						///
+					i.oral_prednisolone			///
+					i.chronic_cardiac_disease	///
+					i.chronic_liver_disease		///
+					i.ckd 						///
+					i.egfr_cat	 				///
 					i.hypertension			 	///
-					i.heart_failure				///
-					i.other_heart_disease		///
+					i.diabetes					///
 					i.diabcat 					///
-					i.cancer_ever 				///
-					i.statin 					///
+					i.cancer_ever				///
+					i.immunodef_any 			///
+					i.resp_excl_asthma 			///
+					i.current_asthma 			///
+					i.other_neuro_conditions	///
 					i.flu_vaccine 				///
 					i.pneumococcal_vaccine		///
-					i.exacerbations 			///
-					i.asthma_ever				///
-					i.immunodef_any
-*/					
+					i.gp_consult
+
+				 
+
 global tableoutcome "COVID-19 Death in ONS"
 global ymax 0.005
 
+pwd
+cd  "$Dodir"
+
 /*  Pre-analysis data manipulation  */
 
-*do "00_cr_create_analysis_dataset.do"
+do "00_cr_create_analysis_dataset.do"
 
 * Data manipulation   
-*do "01_cr_create_population.do"
-*do "02_cr_create_exposure.do"
+do "01_cr_create_population.do"
+do "02_cr_create_exposure.do"
 
 /*  Checks  */
 
-*do "03_an_checks.do"
+do "03_an_checks.do"
 
 /* Run analysis */ 
 

@@ -63,9 +63,9 @@ study = StudyDefinition(
     # MEDICATIONS EXPOSURES
 
     #HYDROXYCHLOROQUINE PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/1
-    hydroxychloroquine_count=patients.with_these_medications(
+    hcq_count=patients.with_these_medications(
         ace_med_codes, #placeholder
-        between=["2019-11-01", "2020-02-29"],
+        between=["2019-09-01", "2020-02-29"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 2},
@@ -73,31 +73,31 @@ study = StudyDefinition(
         },
     ),
 
-     hydroxychloroquine_exposure=patients.with_these_medications(
+     hcq_last_date=patients.with_these_medications(
         ace_med_codes, # placeholder
-        between=["2019-11-01", "2020-02-29"], 
+        between=["2019-09-01", "2020-02-29"], 
         return_last_date_in_period=True,
         include_month=True,
         return_expectations={
-            "date": {"earliest": "2019-11-01", "latest": "2020-02-29"}
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
         },
     ),
 
-    hydroxychloroquine_after_march=patients.with_these_medications(
+    hcq_first_after=patients.with_these_medications(
         ace_med_codes, #placeholder
         on_or_after="2020-03-01",
         return_first_date_in_period=True,
         include_month=True,
         include_day=True,
         return_expectations={
-            "date": {"earliest": "2020-03-01", "latest": "2020-05-29"}
+            "date": {"earliest": "2020-03-01", "latest": "today"}
         },
     ),
 
     # DMARDS EXPOSURE (PRIMARY CARE) PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/2
     dmards_primary_care_count=patients.with_these_medications(
         ace_med_codes,
-        between=["2019-11-01", "2020-02-29"],
+        between=["2019-09-01", "2020-02-29"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 2},
@@ -107,11 +107,11 @@ study = StudyDefinition(
 
     dmards_primary_care_exposure=patients.with_these_medications(
         ace_med_codes,
-        between=["2019-11-01", "2020-02-29"], 
+        between=["2019-09-01", "2020-02-29"], 
         return_last_date_in_period=True,
         include_month=True,
         return_expectations={
-            "date": {"earliest": "2019-11-01", "latest": "2020-02-29"}
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
         },
     ),
 
@@ -354,17 +354,17 @@ study = StudyDefinition(
     #oral pred / current medication tbc
     oral_prednisolone_exposure=patients.with_these_medications(
         oral_pred_codes,
-        between=["2019-11-01", "2020-02-29"],
+        between=["2019-09-01", "2020-02-29"],
         return_last_date_in_period=True,
         include_month=True,
         return_expectations={
-            "date": {"earliest": "2019-11-01", "latest": "2020-02-29"},
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"},
         },
     ),
 
     oral_prednisolone_count=patients.with_these_medications(
         oral_pred_codes,
-        between=["2019-11-01", "2020-02-29"],
+        between=["2019-09-01", "2020-02-29"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 2},
@@ -409,7 +409,7 @@ study = StudyDefinition(
         include_date_of_match=True,
         include_month=True,
         return_expectations={
-            "float": {"distribution": "normal", "mean": 150.0, "stddev": 20},
+            "float": {"distribution": "normal", "mean": 150.0, "stddev": 200.0},
             "date": {"earliest": "2019-02-28", "latest": "2020-02-29"},
             "incidence": 0.95,
         },
