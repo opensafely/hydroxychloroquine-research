@@ -13,13 +13,15 @@ global Logdir "$Projectdir/output/log"
 di "$Logdir"
 global Tempdir "$Projectdir/output/tempdata" 
 di "$Tempdir"
-
+global Tabfigdir "$Projectdir/output/tabfig" 
+di "$Tabfigdir"
 
 * Create directories required  --- ANY OUTPUT STATA MAKES SHOULD BE PUT INTO OUTPUT FOLDER FROM ROOT DIRECTORY
 
 *capture mkdir output /*ALREADY EXISTS WITH INPUT.CSV*/
 capture mkdir "$Outdir/log"
 capture mkdir "$Outdir/tempdata"
+capture mkdir "$Outdir/tabfig"
 
 * Set globals that will print in programs and direct output
 
@@ -66,7 +68,7 @@ do "03_an_checks.do"
 /* Run analysis */ 
 
 * Analyses 
-*do "04_an_descriptive_table.do"
+do "04_an_descriptive_table.do"
 *do "05_an_descriptive_plots.do"
 *do "06_an_models.do"
 *do "07_an_models_interact.do"

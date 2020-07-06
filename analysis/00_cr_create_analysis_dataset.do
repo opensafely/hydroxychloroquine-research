@@ -471,6 +471,7 @@ tab dmard_pc dmard_pc_sa, m
 
 *Macrolides (i.e., azithromycin)
 *rename macrolides azith_count
+rename azith_last_date azith_date
 gen azith = 1 if azith_count != . & azith_count >= 1
 recode azith .=0
 
