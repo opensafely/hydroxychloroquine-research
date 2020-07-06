@@ -24,6 +24,11 @@ sle_codes = codelist_from_csv(
 
 # MEDICATIONS - EXPOSURES
 # hydroxychloroquine
+hcq_med_codes = codelist_from_csv(
+    "codelists/opensafely-hydroxychloroquine.csv",
+    system="snomed",
+    column="snomed_id",
+)
 # chloroquine
 # dmards
 
