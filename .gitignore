@@ -10,3 +10,4 @@ analysis/*
 !*.py
 !*.sthlp
 output/*
+.idea/

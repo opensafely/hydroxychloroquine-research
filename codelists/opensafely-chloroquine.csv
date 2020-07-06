@@ -1,0 +1,18 @@
+type,id,bnf_code,nm
+amp,3728211000001108,0504010F0AAABAB,Chloroquine phosphate 250mg tablets (Alliance Healthcare (Distribution) Ltd)
+amp,3727711000001102,0504010F0BBABAB,Avloclor 250mg tablets (Alliance Pharmaceuticals Ltd)
+amp,4555611000001104,0504010F0BCAAAA,Malarivon 80mg/5ml syrup (Wallace Manufacturing Chemists Ltd)
+amp,4869911000001103,0504010G0AAAAAA,Chloroquine sulfate 200mg/5ml solution for injection ampoules (Alliance Healthcare (Distribution) Ltd)
+amp,5858911000001108,0504010G0AAAAAA,Chloroquine sulfate 200mg/5ml solution for injection ampoules (A A H Pharmaceuticals Ltd)
+amp,8824411000001104,0504010G0AAAAAA,Chloroquine sulfate 200mg/5ml solution for injection ampoules (Sanofi)
+amp,32708211000001106,0504010G0AAAFAF,Chloroquine sulfate 68mg/5ml oral solution (Special Order)
+amp,3736311000001101,0504010G0BBAAAC,Nivaquine 200mg tablets (Sanofi)
+amp,3827511000001109,0504010G0BBABAF,Nivaquine 68mg/5ml syrup (Sanofi)
+amp,4385111000001102,0504010G0BBACAA,Nivaquine 200mg/5ml solution for injection ampoules (Aventis Pharma)
+amp,3933911000001100,0504010Z0BBAAAA,Paludrine/Avloclor tablets anti-malarial travel pack (Alliance Pharmaceuticals Ltd)
+vmp,36137211000001107,0504010F0AAAAAA,Chloroquine phosphate 80mg/5ml oral solution
+vmp,324896003,0504010F0AAABAB,Chloroquine phosphate 250mg tablets
+vmp,4389011000001101,0504010G0AAAAAA,Chloroquine sulfate 200mg/5ml solution for injection ampoules
+vmp,353857000,0504010G0AAACAC,Chloroquine sulfate 200mg tablets
+vmp,36137511000001105,0504010G0AAAFAF,Chloroquine sulfate 68mg/5ml oral solution
+vmp,35369811000001100,0504010Z0AAAAAA,Chloroquine phosphate 250mg tablets and Proguanil 100mg tablets

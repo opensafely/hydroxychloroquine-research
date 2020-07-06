@@ -22,7 +22,8 @@ study = StudyDefinition(
             (age >=18 AND age <= 110) AND
             (sex = "M" OR sex = "F") AND
             imd > 0 AND
-            (rheumatoid OR sle)
+            (rheumatoid OR sle) AND NOT
+            chloroquine_not_hcq
             """,
             has_follow_up=patients.registered_with_one_practice_between(
             "2019-02-28", "2020-02-29"         
@@ -62,9 +63,9 @@ study = StudyDefinition(
 
     # MEDICATIONS EXPOSURES
 
-    #HYDROXYCHLOROQUINE PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/1
+    #HYDROXYCHLOROQUINE 
     hcq_count=patients.with_these_medications(
-        ace_med_codes, #placeholder
+        hcq_med_codes, 
         between=["2019-09-01", "2020-02-29"],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -74,7 +75,7 @@ study = StudyDefinition(
     ),
 
      hcq_last_date=patients.with_these_medications(
-        ace_med_codes, # placeholder
+        hcq_med_codes, 
         between=["2019-09-01", "2020-02-29"], 
         return_last_date_in_period=True,
         include_month=True,
@@ -84,7 +85,7 @@ study = StudyDefinition(
     ),
 
     hcq_first_after=patients.with_these_medications(
-        ace_med_codes, #placeholder
+        hcq_med_codes, 
         on_or_after="2020-03-01",
         return_first_date_in_period=True,
         include_month=True,
@@ -94,9 +95,9 @@ study = StudyDefinition(
         },
     ),
 
-    # DMARDS EXPOSURE (PRIMARY CARE) PLACEHOLDER - https://github.com/opensafely/hydroxychloroquine-research/issues/2
+    # DMARDS EXPOSURE (PRIMARY CARE) 
     dmards_primary_care_count=patients.with_these_medications(
-        ace_med_codes,
+        dmards_med_codes,
         between=["2019-09-01", "2020-02-29"],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -106,7 +107,7 @@ study = StudyDefinition(
     ),
 
     dmards_primary_care_exposure=patients.with_these_medications(
-        ace_med_codes,
+        dmards_med_codes,
         between=["2019-09-01", "2020-02-29"], 
         return_last_date_in_period=True,
         include_month=True,
@@ -117,8 +118,8 @@ study = StudyDefinition(
 
     
     #MACROLIDES EXPOSURE PLACEHOLDER -  - https://github.com/opensafely/hydroxychloroquine-research/issues/4
-    macrolides=patients.with_these_medications(
-        ace_med_codes,
+    azith_count=patients.with_these_medications(
+        azithromycin_med_codes,
         between=["2020-01-31", "2020-02-29"],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -127,6 +128,26 @@ study = StudyDefinition(
         },
     ),
 
+    azith_last_date=patients.with_these_medications(
+        azithromycin_med_codes, 
+        between=["2020-01-31", "2020-02-29"], 
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2020-01-31", "latest": "2020-02-29"}
+        },
+    ),
+
+    #CHLORUQUINE THAT ISN'T HCQ
+    chloroquine_not_hcq=patients.with_these_medications(
+        chloroquine_med_codes,
+        between=["2019-09-01", "2020-02-29"],
+        return_last_date_in_period=True,
+        include_month=True,
+            return_expectations={
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
+        },
+    ),
 
     # DMARDS EXPOSURE (SECONDARYCARE) - THIS IS A PLACEHOLDR FOR EXPECTED DATA - IT WILL BE QUEIRED IN DIFFERENT WAY (PROBABLY) TO OTHER MEDS
 
@@ -385,7 +406,7 @@ study = StudyDefinition(
     #Rheumatoid Arthritis 
     rheumatoid=patients.with_these_clinical_events(
         rheumatoid_codes,
-        on_or_before="2020-02-29",
+        on_or_before="2019-08-31",
         return_first_date_in_period=True,
         include_month=True,
         return_expectations={"date": {"latest": "2020-02-29"}},
@@ -394,7 +415,7 @@ study = StudyDefinition(
     #SLE
     sle=patients.with_these_clinical_events(
         sle_codes,
-        on_or_before="2020-02-29",
+        on_or_before="2019-08-31",
         return_first_date_in_period=True,
         include_month=True,
         return_expectations={"date": {"latest": "2020-02-29"}},

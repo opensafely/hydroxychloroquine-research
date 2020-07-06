@@ -24,8 +24,30 @@ sle_codes = codelist_from_csv(
 
 # MEDICATIONS - EXPOSURES
 # hydroxychloroquine
+hcq_med_codes = codelist_from_csv(
+    "codelists/opensafely-hydroxychloroquine.csv",
+    system="snomed",
+    column="snomed_id",
+)
 # chloroquine
-# dmards
+chloroquine_med_codes = codelist_from_csv(
+    "codelists/opensafely-chloroquine.csv",
+    system="snomed",
+    column="id",
+)
+# DMARDs
+dmards_med_codes = codelist_from_csv(
+    "codelists/opensafely-dmards.csv",
+    system="snomed",
+    column="snomed_id",
+)
+
+#AZITHROMYCIN
+azithromycin_med_codes = codelist_from_csv(
+    "codelists/opensafely-azithromycin-medication.csv",
+    system="snomed",
+    column="id",
+)
 
 #MEDICINE PLACEHOLDER - this is imported to act as a placeholder
 ace_med_codes = codelist_from_csv(

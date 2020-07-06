@@ -2,7 +2,9 @@ opensafely/ace-inhibitor-medications/2020-05-19
 opensafely/aplastic-anaemia/2020-04-24
 opensafely/asplenia/2020-06-02
 opensafely/asthma-oral-prednisolone-medication/2020-04-27
+opensafely/azithromycin-medication/2020-07-06
 opensafely/cancer-excluding-lung-and-haematological/2020-04-15
+opensafely/chloroquine/2020-07-06
 opensafely/chronic-cardiac-disease/2020-04-08
 opensafely/chronic-kidney-disease/2020-04-14
 opensafely/chronic-liver-disease/2020-06-02
@@ -11,9 +13,11 @@ opensafely/covid-identification/2020-06-03
 opensafely/current-asthma/2020-05-06
 opensafely/current-copd/2020-05-06
 opensafely/diabetes/2020-04-15
+opensafely/dmards/2020-06-23
 opensafely/ethnicity/2020-04-27
 opensafely/haematological-cancer/2020-04-15
 opensafely/hiv/2020-04-24
+opensafely/hydroxychloroquine/2020-06-15
 opensafely/hypertension/2020-04-28
 opensafely/influenza-vaccination/2020-05-12
 opensafely/influenza-vaccination-clinical-codes-given/2020-05-21
