@@ -27,6 +27,7 @@ global outcome 	  "onscoviddeath"
 // global outdir  	  "output" 
 // global logdir     "log"
 // global tempdir    "tempdata"
+/* Binary variable list */
 global varlist 		i.chronic_cardiac_disease	///
 					i.chronic_liver_disease		///
 					i.resp_excl_asthma 			///
@@ -34,10 +35,8 @@ global varlist 		i.chronic_cardiac_disease	///
 					i.oral_prednisolone			///
 					i.other_neuro_conditions	///
 					i.ckd 						///
-					i.egfr_cat	 				///
 					i.hypertension			 	///
 					i.diabetes					///
-					i.diabcat 					///
 					i.cancer_ever				///
 					i.immunodef_any 			///
 					i.flu_vaccine 				///
