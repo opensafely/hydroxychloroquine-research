@@ -117,13 +117,23 @@ study = StudyDefinition(
 
     
     #MACROLIDES EXPOSURE PLACEHOLDER -  - https://github.com/opensafely/hydroxychloroquine-research/issues/4
-    macrolides=patients.with_these_medications(
+    azith_count=patients.with_these_medications(
         ace_med_codes,
         between=["2020-01-31", "2020-02-29"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 2, "stddev": 2},
             "incidence": 0.25,
+        },
+    ),
+
+    azith_last_date=patients.with_these_medications(
+        ace_med_codes, 
+        between=["2020-01-31", "2020-02-29"], 
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2020-01-31", "latest": "2020-02-29"}
         },
     ),
 
