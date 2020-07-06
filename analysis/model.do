@@ -70,8 +70,8 @@ do "03_an_checks.do"
 
 * Analyses 
 do "04_an_descriptive_table.do"
-*do "05_an_descriptive_plots.do"
-*do "06_an_models.do"
+do "05_an_descriptive_plots.do"
+do "06_an_models.do"
 *do "07_an_models_interact.do"
 *do "08_an_model_checks.do"
 *do "09_an_model_explore.do"
