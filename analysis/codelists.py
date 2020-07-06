@@ -27,6 +27,13 @@ sle_codes = codelist_from_csv(
 # chloroquine
 # dmards
 
+#AZITHROMYCIN
+azithromycin_med_codes = codelist_from_csv(
+    "codelists/opensafely-azithromycin-medication.csv",
+    system="snomed",
+    column="id",
+)
+
 #MEDICINE PLACEHOLDER - this is imported to act as a placeholder
 ace_med_codes = codelist_from_csv(
     "codelists/opensafely-ace-inhibitor-medications.csv",
