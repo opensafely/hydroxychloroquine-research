@@ -29,6 +29,7 @@ global outcome 	  "onscoviddeath"
 // global outdir  	  "output" 
 // global logdir     "log"
 // global tempdir    "tempdata"
+
 /* Binary variable list */
 global varlist 		i.chronic_cardiac_disease	///
 					i.chronic_liver_disease		///

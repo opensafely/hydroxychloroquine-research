@@ -18,7 +18,7 @@ OTHER OUTPUT: 			Results in txt: $Tabfigdir\table1.txt
 
 * Open a log file
 capture log close
-log using $Logdir\04_an_descriptive_table_, replace t
+log using $Logdir\04_an_descriptive_table, replace t
 
 * Open Stata dataset
 use $Tempdir\analysis_dataset, clear
