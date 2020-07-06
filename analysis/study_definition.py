@@ -149,7 +149,6 @@ study = StudyDefinition(
         },
     ),
 
-
     # DMARDS EXPOSURE (SECONDARYCARE) - THIS IS A PLACEHOLDR FOR EXPECTED DATA - IT WILL BE QUEIRED IN DIFFERENT WAY (PROBABLY) TO OTHER MEDS
 
 
@@ -407,7 +406,7 @@ study = StudyDefinition(
     #Rheumatoid Arthritis 
     rheumatoid=patients.with_these_clinical_events(
         rheumatoid_codes,
-        on_or_before="2020-02-29",
+        on_or_before="2019-08-31",
         return_first_date_in_period=True,
         include_month=True,
         return_expectations={"date": {"latest": "2020-02-29"}},
@@ -416,7 +415,7 @@ study = StudyDefinition(
     #SLE
     sle=patients.with_these_clinical_events(
         sle_codes,
-        on_or_before="2020-02-29",
+        on_or_before="2019-08-31",
         return_first_date_in_period=True,
         include_month=True,
         return_expectations={"date": {"latest": "2020-02-29"}},
