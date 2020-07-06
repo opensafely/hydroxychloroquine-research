@@ -30,8 +30,13 @@ hcq_med_codes = codelist_from_csv(
     column="snomed_id",
 )
 # chloroquine
+chloroquine_med_codes = codelist_from_csv(
+    "codelists/opensafely-chloroquine.csv",
+    system="snomed",
+    column="id",
+)
 # DMARDs
-dmard_med_codes = codelist_from_csv(
+dmards_med_codes = codelist_from_csv(
     "codelists/opensafely-dmards.csv",
     system="snomed",
     column="snomed_id",

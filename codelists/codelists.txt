@@ -4,6 +4,7 @@ opensafely/asplenia/2020-06-02
 opensafely/asthma-oral-prednisolone-medication/2020-04-27
 opensafely/azithromycin-medication/2020-07-06
 opensafely/cancer-excluding-lung-and-haematological/2020-04-15
+opensafely/chloroquine/2020-06-06
 opensafely/chronic-cardiac-disease/2020-04-08
 opensafely/chronic-kidney-disease/2020-04-14
 opensafely/chronic-liver-disease/2020-06-02

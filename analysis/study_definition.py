@@ -22,7 +22,8 @@ study = StudyDefinition(
             (age >=18 AND age <= 110) AND
             (sex = "M" OR sex = "F") AND
             imd > 0 AND
-            (rheumatoid OR sle)
+            (rheumatoid OR sle) AND NOT
+            chloroquine_not_hcq
             """,
             has_follow_up=patients.registered_with_one_practice_between(
             "2019-02-28", "2020-02-29"         
@@ -134,6 +135,17 @@ study = StudyDefinition(
         include_month=True,
         return_expectations={
             "date": {"earliest": "2020-01-31", "latest": "2020-02-29"}
+        },
+    ),
+
+    #CHLORUQUINE THAT ISN'T HCQ
+    chloroquine_not_hcq=patients.with_these_medications(
+        chloroquine_med_codes,
+        between=["2019=09-01", "2020-02-29"],
+        return_last_date_in_period=True,
+        include_month=True,
+            return_expectations={
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
         },
     ),
 
