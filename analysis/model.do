@@ -27,19 +27,12 @@ global outcome 	  "onscoviddeath"
 // global outdir  	  "output" 
 // global logdir     "log"
 // global tempdir    "tempdata"
-global varlist 		i.agegroup					///
-					i.male						///
-					i.ethnicity					///
-					i.imd						///
-					i.urban						///
-					i.obese4cat					///
-					i.smoke						///
-					i.smoke_nomiss				///
-					i.dmard_pc					///
-					i.azith						///
-					i.oral_prednisolone			///
-					i.chronic_cardiac_disease	///
+global varlist 		i.chronic_cardiac_disease	///
 					i.chronic_liver_disease		///
+					i.resp_excl_asthma 			///
+					i.current_asthma 			///
+					i.oral_prednisolone			///
+					i.other_neuro_conditions	///
 					i.ckd 						///
 					i.egfr_cat	 				///
 					i.hypertension			 	///
@@ -47,9 +40,6 @@ global varlist 		i.agegroup					///
 					i.diabcat 					///
 					i.cancer_ever				///
 					i.immunodef_any 			///
-					i.resp_excl_asthma 			///
-					i.current_asthma 			///
-					i.other_neuro_conditions	///
 					i.flu_vaccine 				///
 					i.pneumococcal_vaccine		///
 					i.gp_consult

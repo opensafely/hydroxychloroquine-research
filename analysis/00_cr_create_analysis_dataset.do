@@ -353,7 +353,13 @@ label var egfr "egfr calculated using CKD-EPI formula with no eth"
 egen egfr_cat = cut(egfr), at(0, 15, 30, 45, 60, 5000)
 recode egfr_cat 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
 
-* 0 = "No CKD" 	2 "stage 3a" 3 "stage 3b" 4 "stage 4" 5 "stage 5"
+/* 
+0 "No CKD, eGFR>60" 	
+2 "stage 3a, eGFR 45-59" 
+3 "stage 3b, eGFR 30-44" 
+4 "stage 4, eGFR 15-29" 
+5 "stage 5, eGFR <15"
+*/
 
 * Add in end stage renal failure and create a single CKD variable 
 * Missing assumed to not have CKD 
@@ -464,7 +470,7 @@ tab dmard_pc dmard_pc_sa, m
 
 
 *Macrolides (i.e., azithromycin)
-rename macrolides azith_count
+*rename macrolides azith_count
 gen azith = 1 if azith_count != . & azith_count >= 1
 recode azith .=0
 
