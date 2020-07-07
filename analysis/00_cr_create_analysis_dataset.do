@@ -50,6 +50,7 @@ rename dmards_primary_care_exposure			dmards_primary_care
 
 foreach var of varlist 	 bmi_date_measured					///
 						 cancer								///
+						 chloroquine_not_hcq				///
 						 chronic_cardiac_disease			///
 						 chronic_liver_disease				///
 						 creatinine_date					///
@@ -119,6 +120,7 @@ rename temporary_immunodeficiency_date temp_immunodef_date
 *  Make indicator variables for all conditions where relevant 
 
 foreach var of varlist 	 cancer_date						///
+						 chloroquine_not_hcq_date			///
 						 chronic_cardiac_disease_date		///
 						 chronic_liver_disease_date			///
 						 current_asthma_date				///	
@@ -632,12 +634,13 @@ label var dmard_pc					"DMARD (PC)"
 label var dmard_pc_sa				"DMARD (PC) for sensivity analysis"
 label var azith						"Azithromycin"
 label var oral_prednisolone			"OCS"
+label var chloroquine_not_hcq		"Chloroquine phosphate/sulfate"
 
 label var hcq_date					"Last HCQ Rx"
-label var dmard_pc_date			"Last Other DMARD Rx"
-*label var azith_date				"Last azithromycin Rx"   ************************************************* NEED TO GET
+label var dmard_pc_date				"Last Other DMARD Rx"
+label var azith_date				"Last azithromycin Rx"   
 label var oral_prednisolone_date	"Last OCS Rx"
- 
+label var chloroquine_not_hcq_date	"Last chloroquine phosphate/sulfate Rx"
 
 
 * Comorbidities of interest 

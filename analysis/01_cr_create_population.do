@@ -44,7 +44,8 @@ drop if imd == .u
 noi di "DROP IF DEAD BEFORE INDEX"
 drop if stime_$outcome  <= date("$indexdate", "DMY")
 
-
+noi di "DROP EXPOSURE TO CHLOROQUINE"
+drop if chloroquine_not_hcq == 1 
 
 
 
@@ -73,13 +74,13 @@ assert age <= 110
  
  
 * EXCLUSION 1: No chloroquine phosphate/sulfate exposure window
-*gen chlor_check = 1 if (lama_single == 1 | laba_lama ==1)  *********************************************     NEED TO GET
-*datacheck chlor_check >=., nol
-*drop chlor_check
+gen chlor_check = 1 if chloroquine_not_hcq == 1 
+datacheck chlor_check >=., nol
+drop chlor_check
 
 
 * EXCLUSION 2: 12 months or baseline time 
-* [CANNOT BE QUANTIFIED AS VARIABLE NOT EXPORTED] **************************************************************  CAN IT BE?
+* [CANNOT BE QUANTIFIED AS VARIABLE NOT EXPORTED] 
 
 
 * EXCLUSION 3a: M or F gender at 1 March 2020 
