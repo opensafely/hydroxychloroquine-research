@@ -20,12 +20,10 @@ OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
 cap log close
 log using $Logdir\00_cr_create_analysis_dataset, replace t
 
-/* SET FU DATES===============================================================*/ 
-* Censoring dates for each outcome (largely, last date outcome data available)
- 
-global testposcensor 		= "23/04/2020" /*****************************************  figure out what this should be */
-global onscoviddeathcensor 	= "06/05/2020" /*this should be 7 days prior to the last recorded death*/
+
+/* SET Index date ===========================================================*/
 global indexdate 			= "01/03/2020"
+
 
 
 
@@ -52,6 +50,7 @@ rename dmards_primary_care_exposure			dmards_primary_care
 
 foreach var of varlist 	 bmi_date_measured					///
 						 cancer								///
+						 chloroquine_not_hcq				///
 						 chronic_cardiac_disease			///
 						 chronic_liver_disease				///
 						 creatinine_date					///
@@ -121,6 +120,7 @@ rename temporary_immunodeficiency_date temp_immunodef_date
 *  Make indicator variables for all conditions where relevant 
 
 foreach var of varlist 	 cancer_date						///
+						 chloroquine_not_hcq_date			///
 						 chronic_cardiac_disease_date		///
 						 chronic_liver_disease_date			///
 						 current_asthma_date				///	
@@ -490,21 +490,15 @@ recode azith .=0
 
 /* OUTCOME AND SURVIVAL TIME==================================================*/
 
+
 /*  Cohort entry and censor dates  */
 
 * Date of cohort entry, 1 Mar 2020
 gen enter_date = date("$indexdate", "DMY")
+format enter_date %td
 
-* Date of study end (typically: last date of outcome data available)
-gen testposcensor_date			= date("$testposcensor", 		"DMY")
-gen onscoviddeathcensor_date 	= date("$onscoviddeathcensor", 	"DMY")
 
-* Format the dates
-format 	enter_date					///
-		testposcensor_date	 		///
-		onscoviddeathcensor_date 	%td
-
-/*   Outcomes/censoring   */
+/*   Outcomes   */
 
 * Outcomes: First test positive date, ONS-covid death
 * Censoring: First HCQ after baseline
@@ -530,6 +524,17 @@ format died_date_ons %td
 format died_date_onscovid %td 
 format died_date_onsnoncovid %td
 format first_positive_test_date %td
+
+/* CENSORING */
+/* SET FU DATES===============================================================*/ 
+* Censoring dates for each outcome (largely, last date outcome data available, minus a lag window)
+summ died_date_ons, format
+gen onscoviddeathcensor_date = r(max)-7
+
+summ first_positive_test_date, format
+gen testposcensor_date = r(max)
+
+format testposcensor_date onscoviddeathcensor_date	%td
 
 * Only censor at first HCQ on or after baseline if in unexposed group. Do not censor among exposed group 
 replace hcq_first_after_date = . if hcq == 1 | hcq_sa == 1
@@ -629,12 +634,13 @@ label var dmard_pc					"DMARD (PC)"
 label var dmard_pc_sa				"DMARD (PC) for sensivity analysis"
 label var azith						"Azithromycin"
 label var oral_prednisolone			"OCS"
+label var chloroquine_not_hcq		"Chloroquine phosphate/sulfate"
 
 label var hcq_date					"Last HCQ Rx"
-label var dmard_pc_date			"Last Other DMARD Rx"
-*label var azith_date				"Last azithromycin Rx"   ************************************************* NEED TO GET
+label var dmard_pc_date				"Last Other DMARD Rx"
+label var azith_date				"Last azithromycin Rx"   
 label var oral_prednisolone_date	"Last OCS Rx"
- 
+label var chloroquine_not_hcq_date	"Last chloroquine phosphate/sulfate Rx"
 
 
 * Comorbidities of interest 

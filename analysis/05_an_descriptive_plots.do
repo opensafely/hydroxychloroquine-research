@@ -34,9 +34,9 @@ sts graph, by(exposure) failure 							    			///
 		   title("Time to $tableoutcome", justification(left) size(medsmall) )  	   ///
 		   xtitle("Days since 1 Mar 2020", size(small))						///
 		   yscale(range(0, $ymax)) 											///
-		   ylabel(0 ($ymax) 0.01, angle(0) format(%4.3f) labsize(small))	///
+		   ylabel(0 ($ymax) 0.02, angle(0) format(%4.3f) labsize(small))	///
 		   xscale(range(30, 84)) 											///
-		   xlabel(0 (20) 100, labsize(small))				   				///				
+		   xlabel(0 (20) 160, labsize(small))				   				///				
 		   legend(size(vsmall) label (1 "No HCQ") label (2 "HCQ") region(lwidth(none)) position(12))	///
 		   graphregion(fcolor(white)) ///	
 		   risktable(,size(vsmall) order (1 "No HCQ" 2 "HCQ") title(,size(vsmall))) ///
