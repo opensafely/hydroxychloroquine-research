@@ -20,12 +20,10 @@ OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
 cap log close
 log using $Logdir\00_cr_create_analysis_dataset, replace t
 
-/* SET FU DATES===============================================================*/ 
-* Censoring dates for each outcome (largely, last date outcome data available)
- 
-global testposcensor 		= "23/04/2020" /*****************************************  figure out what this should be */
-global onscoviddeathcensor 	= "06/05/2020" /*this should be 7 days prior to the last recorded death*/
+
+/* SET Index date ===========================================================*/
 global indexdate 			= "01/03/2020"
+
 
 
 
@@ -490,21 +488,15 @@ recode azith .=0
 
 /* OUTCOME AND SURVIVAL TIME==================================================*/
 
+
 /*  Cohort entry and censor dates  */
 
 * Date of cohort entry, 1 Mar 2020
 gen enter_date = date("$indexdate", "DMY")
+format enter_date %td
 
-* Date of study end (typically: last date of outcome data available)
-gen testposcensor_date			= date("$testposcensor", 		"DMY")
-gen onscoviddeathcensor_date 	= date("$onscoviddeathcensor", 	"DMY")
 
-* Format the dates
-format 	enter_date					///
-		testposcensor_date	 		///
-		onscoviddeathcensor_date 	%td
-
-/*   Outcomes/censoring   */
+/*   Outcomes   */
 
 * Outcomes: First test positive date, ONS-covid death
 * Censoring: First HCQ after baseline
@@ -530,6 +522,17 @@ format died_date_ons %td
 format died_date_onscovid %td 
 format died_date_onsnoncovid %td
 format first_positive_test_date %td
+
+/* CENSORING */
+/* SET FU DATES===============================================================*/ 
+* Censoring dates for each outcome (largely, last date outcome data available, minus a lag window)
+summ died_date_ons, format
+gen onscoviddeathcensor_date = r(max)-7
+
+summ first_positive_test_date, format
+gen testposcensor_date = r(max)
+
+format testposcensor_date onscoviddeathcensor_date	%td
 
 * Only censor at first HCQ on or after baseline if in unexposed group. Do not censor among exposed group 
 replace hcq_first_after_date = . if hcq == 1 | hcq_sa == 1
