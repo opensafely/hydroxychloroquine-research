@@ -12,7 +12,8 @@ DATASETS USED:			data in memory (from output/input.csv)
 
 DATASETS CREATED: 		none
 OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
-							
+USER-INSTALLED ADO: 	 
+  (place .ado file(s) in analysis folder)						
 ==============================================================================*/
 
 * Open a log file

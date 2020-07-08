@@ -16,7 +16,8 @@ DATASETS USED:			data in memory ($Tempdir/analysis_dataset_STSET_$outcome)
 DATASETS CREATED: 		none
 OTHER OUTPUT: 			logfiles, printed to folder $Logdir
 						table2, printed to $Tabfigdir
-							
+USER-INSTALLED ADO: 	 
+  (place .ado file(s) in analysis folder)								
 ==============================================================================*/
 
 

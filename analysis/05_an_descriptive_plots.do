@@ -11,7 +11,8 @@ DATASETS USED:			$Tempdir\analysis_dataset_STSET_$outcome.dta
 DATASETS CREATED: 		None
 OTHER OUTPUT: 			Results in svg: $Tabfigdir\kmplot1
 						Log file: $Logdir\05_an_descriptive_plots
-						
+USER-INSTALLED ADO: 	 
+  (place .ado file(s) in analysis folder)							
 ==============================================================================*/
 
 
