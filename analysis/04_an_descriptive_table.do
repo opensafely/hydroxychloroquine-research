@@ -11,7 +11,8 @@ DATASETS USED:			$Tempdir\analysis_dataset.dta
 DATASETS CREATED: 		None
 OTHER OUTPUT: 			Results in txt: $Tabfigdir\table1.txt 
 						Log file: $Logdir\04_an_descriptive_table
-							
+USER-INSTALLED ADO: 	 
+  (place .ado file(s) in analysis folder)								
 ==============================================================================*/
 
 

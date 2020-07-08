@@ -13,7 +13,9 @@ DATASETS USED:			data in memory (from output/input.csv)
 DATASETS CREATED: 		analysis_dataset.dta
 						lives in folder output/$tempdir 
 OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
-							
+
+USER-INSTALLED ADO: 	datacheck 
+  (place .ado file(s) in analysis folder)							
 ==============================================================================*/
 
 * Open a log file
@@ -21,8 +23,6 @@ OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
 cap log close
 log using $Logdir\01_cr_create_population, replace t
 
-*run ssc install if not already installed on your computer
-ssc install datacheck 
 
 /* APPLY INCLUSION/EXCLUIONS==================================================*/ 
 

@@ -11,7 +11,9 @@ DATASETS CREATED: 		analysis_dataset.dta
 						analysis_dataset_STSET_cpnsdeath.dta 
 						both live in folder output/$tempdir
 OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
-							
+USER-INSTALLED ADO: 	 
+  (place .ado file(s) in analysis folder)	
+  
 ==============================================================================*/
 
 

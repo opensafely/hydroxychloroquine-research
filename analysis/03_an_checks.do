@@ -12,7 +12,8 @@ DESCRIPTION OF FILE:	Run sanity checks on all variables
 DATASETS USED:			$Tempdir\analysis_dataset.dta
 DATASETS CREATED: 		None
 OTHER OUTPUT: 			Log file: $Logdir\03_an_checks
-							
+USER-INSTALLED ADO: 	datacheck 
+  (place .ado file(s) in analysis folder)								
 ==============================================================================*/
 
 
@@ -24,8 +25,6 @@ log using $Logdir\03_an_checks, replace t
 * Open Stata dataset
 use $Tempdir\analysis_dataset, clear
 
-*run ssc install if not already installed on your computer
-*ssc install datacheck 
 
 *Duplicate patient check
 datacheck _n==1, by(patient_id) nol
