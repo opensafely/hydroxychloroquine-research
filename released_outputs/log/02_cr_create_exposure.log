@@ -1,0 +1,68 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\02_cr_create_exposure.log
+  log type:  text
+ opened on:   8 Jul 2020, 11:34:46
+
+. 
+. /* TREATMENT EXPOSURE=========================================================*/        
+. 
+. /* SABA ONLY */ 
+. 
+. * At least one prescription of SABA single 
+. gen exposure=hcq  
+
+. 
+.                                                 
+. label define exposure 0 "No HCQ" 1 "HCQ"
+
+. label values exposure exposure 
+
+. 
+. label var exposure "HCQ Exposure"
+
+. 
+. /* SAVE DATA==================================================================*/        
+. 
+. sort patient_id
+
+. save $Tempdir\analysis_dataset, replace
+(note: file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset.dta not found)
+file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset.dta saved
+
+. 
+. * Save a version set on outcome
+. stset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) origin(enter_date)        
+
+                id:  patient_id
+     failure event:  onscoviddeath != 0 & onscoviddeath < .
+obs. time interval:  (stime_onscoviddeath[_n-1], stime_onscoviddeath]
+ enter on or after:  time enter_date
+ exit on or before:  failure
+    t for analysis:  (time-origin)
+            origin:  time enter_date
+
+------------------------------------------------------------------------------
+    194,220  total observations
+          0  exclusions
+------------------------------------------------------------------------------
+    194,220  observations remaining, representing
+    194,220  subjects
+        527  failures in single-failure-per-subject data
+   20289531  total analysis time at risk and under observation
+                                                at risk from t =         0
+                                     earliest observed entry t =         0
+                                          last observed exit t =       106
+
+. save $Tempdir\analysis_dataset_STSET_$outcome, replace
+(note: file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset_STSET_onscoviddeath.dta not found)
+file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset_STSET_onscoviddeath.dta saved
+
+. 
+. * Close log file 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\02_cr_create_exposure.log
+  log type:  text
+ closed on:   8 Jul 2020, 11:34:49
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

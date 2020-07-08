@@ -1,0 +1,77 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descriptive_plots.log
+  log type:  text
+ opened on:   8 Jul 2020, 11:34:58
+
+. 
+. * Open Stata dataset
+. use $Tempdir\analysis_dataset_STSET_$outcome, clear
+
+. 
+. /* Sense check outcomes=======================================================*/ 
+. tab exposure $outcome
+
+           |   Failure/censoring
+           |     indicator for
+           |  outcome: ONS covid
+       HCQ |         death
+  Exposure |         0          1 |     Total
+-----------+----------------------+----------
+    No HCQ |   163,259        461 |   163,720 
+       HCQ |    30,434         66 |    30,500 
+-----------+----------------------+----------
+     Total |   193,693        527 |   194,220 
+
+. 
+. /* Generate KM PLOT===========================================================*/ 
+. 
+. count if exposure != .u
+  194,220
+
+. noi display "RUNNING THE KM PLOT FOR `r(N)' PEOPLE WITH NON-MISSING EXPOSURE"
+RUNNING THE KM PLOT FOR 194220 PEOPLE WITH NON-MISSING EXPOSURE
+
+. 
+. sts graph, by(exposure) failure                                                                                 ///     
+>                    title("Time to $tableoutcome", justification(left) size(medsmall) )             ///
+>                    xtitle("Days since 1 Mar 2020", size(small))                                         ///
+>                    yscale(range(0, $ymax))                                                                                      ///
+>                    ylabel(0 ($ymax) 0.02, angle(0) format(%4.3f) labsize(small))        ///
+>                    xscale(range(30, 84))                                                                                        ///
+>                    xlabel(0 (20) 160, labsize(small))                                                           ///                             
+>                    legend(size(vsmall) label (1 "No HCQ") label (2 "HCQ") region(lwidth(none)) position(12))    ///
+>                    graphregion(fcolor(white)) ///       
+>                    risktable(,size(vsmall) order (1 "No HCQ" 2 "HCQ") title(,size(vsmall))) ///
+>                    saving(kmplot1, replace)
+
+         failure _d:  onscoviddeath
+   analysis time _t:  (stime_onscoviddeath-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+(note: file kmplot1.gph not found)
+(file kmplot1.gph saved)
+(file kmplot1.gph saved)
+
+. 
+. graph export "$Tabfigdir/kmplot1.svg", as(svg) replace
+(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/kmplot1.svg not found)
+(file E:\analyses\hydroxychloroquine-research/output/tabfig/kmplot1.svg written in SVG format)
+
+. 
+. * Close window 
+. graph close
+
+. 
+. * Delete unneeded graphs
+. erase kmplot1.gph
+
+. 
+. * Close log file 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descriptive_plots.log
+  log type:  text
+ closed on:   8 Jul 2020, 11:35:09
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
