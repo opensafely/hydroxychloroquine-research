@@ -1,0 +1,382 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\06_an_models.log
+  log type:  text
+ opened on:   8 Jul 2020, 11:35:09
+
+. 
+. * Open Stata dataset
+. use $Tempdir\analysis_dataset_STSET_$outcome, clear
+
+. 
+. /* Sense check outcomes=======================================================*/ 
+. 
+. tab exposure $outcome, missing row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+           |   Failure/censoring
+           |     indicator for
+           |  outcome: ONS covid
+       HCQ |         death
+  Exposure |         0          1 |     Total
+-----------+----------------------+----------
+    No HCQ |   163,259        461 |   163,720 
+           |     99.72       0.28 |    100.00 
+-----------+----------------------+----------
+       HCQ |    30,434         66 |    30,500 
+           |     99.78       0.22 |    100.00 
+-----------+----------------------+----------
+     Total |   193,693        527 |   194,220 
+           |     99.73       0.27 |    100.00 
+
+. 
+. /* Main Model=================================================================*/
+. 
+. /* Univariable model */ 
+. 
+. stcox i.exposure 
+
+         failure _d:  onscoviddeath
+   analysis time _t:  (stime_onscoviddeath-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+
+Iteration 0:   log likelihood = -6409.0865
+Iteration 1:   log likelihood =  -6406.741
+Iteration 2:   log likelihood = -6406.7224
+Iteration 3:   log likelihood = -6406.7224
+Refining estimates:
+Iteration 0:   log likelihood = -6406.7224
+
+Cox regression -- Breslow method for ties
+
+No. of subjects =      194,220                  Number of obs    =     194,220
+No. of failures =          527
+Time at risk    =     20289531
+                                                LR chi2(1)       =        4.73
+Log likelihood  =   -6406.7224                  Prob > chi2      =      0.0297
+
+------------------------------------------------------------------------------
+          _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |    .758431   .0998158    -2.10   0.036      .585991    .9816151
+------------------------------------------------------------------------------
+
+. estimates save $Tempdir/univar, replace 
+(note: file E:\analyses\hydroxychloroquine-research/output/tempdata/univar.ster not found)
+file E:\analyses\hydroxychloroquine-research/output/tempdata/univar.ster saved
+
+. 
+. /* Multivariable models */ 
+. 
+. * Age and Sex 
+. * Age fit as spline 
+. 
+. stcox i.exposure i.male age1 age2 age3 
+
+         failure _d:  onscoviddeath
+   analysis time _t:  (stime_onscoviddeath-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+
+Iteration 0:   log likelihood = -6409.0865
+Iteration 1:   log likelihood =  -6130.708
+Iteration 2:   log likelihood = -6068.1646
+Iteration 3:   log likelihood = -6062.0877
+Iteration 4:   log likelihood =   -6061.29
+Iteration 5:   log likelihood = -6061.2317
+Iteration 6:   log likelihood = -6061.2312
+Iteration 7:   log likelihood = -6061.2312
+Refining estimates:
+Iteration 0:   log likelihood = -6061.2312
+
+Cox regression -- Breslow method for ties
+
+No. of subjects =      194,220                  Number of obs    =     194,220
+No. of failures =          527
+Time at risk    =     20289531
+                                                LR chi2(5)       =      695.71
+Log likelihood  =   -6061.2312                  Prob > chi2      =      0.0000
+
+------------------------------------------------------------------------------
+          _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |   1.057824   .1402303     0.42   0.672     .8157817     1.37168
+      1.male |    1.43322   .1294082     3.99   0.000      1.20076    1.710682
+        age1 |   1.056498   .0403429     1.44   0.150     .9803135    1.138602
+        age2 |   1.083397   .0596764     1.45   0.146     .9725256    1.206908
+        age3 |   .7130487   .1486871    -1.62   0.105     .4738315    1.073036
+------------------------------------------------------------------------------
+
+. estimates save $Tempdir/multivar1, replace 
+(note: file E:\analyses\hydroxychloroquine-research/output/tempdata/multivar1.ster not found)
+file E:\analyses\hydroxychloroquine-research/output/tempdata/multivar1.ster saved
+
+. 
+. * DAG adjusted (age, sex, geographic region, other immunosuppressives (will include biologics when we have them))  
+.         *Note: ethnicity missing for ~20-25%. will model ethnicity in several ways in separate do file
+. 
+. stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(stp)                              
+
+         failure _d:  onscoviddeath
+   analysis time _t:  (stime_onscoviddeath-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+
+Iteration 0:   log likelihood = -4723.9584
+Iteration 1:   log likelihood = -4666.9002
+Iteration 2:   log likelihood = -4339.9466
+Iteration 3:   log likelihood = -4322.5961
+Iteration 4:   log likelihood = -4321.9316
+Iteration 5:   log likelihood = -4321.9279
+Iteration 6:   log likelihood = -4321.9279
+Refining estimates:
+Iteration 0:   log likelihood = -4321.9279
+
+Stratified Cox regr. -- Breslow method for ties
+
+No. of subjects =      194,220                  Number of obs    =     194,220
+No. of failures =          527
+Time at risk    =     20289531
+                                                LR chi2(7)       =      804.06
+Log likelihood  =   -4321.9279                  Prob > chi2      =      0.0000
+
+-------------------------------------------------------------------------------------
+                 _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+           exposure |
+               HCQ  |   .9908241   .1323588    -0.07   0.945     .7625866    1.287372
+             1.male |   1.443675   .1305255     4.06   0.000     1.209235    1.723567
+               age1 |   1.061329   .0410036     1.54   0.123     .9839311    1.144816
+               age2 |   1.068756   .0594245     1.20   0.232     .9584084    1.191809
+               age3 |   .7589344    .159647    -1.31   0.190     .5025141    1.146199
+         1.dmard_pc |   .9531779   .0882345    -0.52   0.604     .7950223    1.142796
+1.oral_prednisolone |   2.512968   .2260308    10.24   0.000     2.106809    2.997429
+-------------------------------------------------------------------------------------
+                                                             Stratified by stp
+
+.                                                                                 
+. estimates save $Tempdir/multivar2, replace 
+(note: file E:\analyses\hydroxychloroquine-research/output/tempdata/multivar2.ster not found)
+file E:\analyses\hydroxychloroquine-research/output/tempdata/multivar2.ster saved
+
+. 
+. * DAG+ other adjustments (heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease)
+. 
+. stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.chronic_cardiac_disease i.resp_excl_asthma i.current_asthma i.ckd ///
+> i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.other_neuro_conditions, strata(stp)                          
+
+         failure _d:  onscoviddeath
+   analysis time _t:  (stime_onscoviddeath-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+
+Iteration 0:   log likelihood = -4723.9584
+Iteration 1:   log likelihood = -4627.7162
+Iteration 2:   log likelihood = -4310.1446
+Iteration 3:   log likelihood = -4288.2412
+Iteration 4:   log likelihood = -4287.4045
+Iteration 5:   log likelihood =    -4287.4
+Iteration 6:   log likelihood =    -4287.4
+Refining estimates:
+Iteration 0:   log likelihood =    -4287.4
+
+Stratified Cox regr. -- Breslow method for ties
+
+No. of subjects =      194,220                  Number of obs    =     194,220
+No. of failures =          527
+Time at risk    =     20289531
+                                                LR chi2(18)      =      873.12
+Log likelihood  =      -4287.4                  Prob > chi2      =      0.0000
+
+-------------------------------------------------------------------------------------------
+                       _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+--------------------------+----------------------------------------------------------------
+                 exposure |
+                     HCQ  |   .9787875   .1308287    -0.16   0.873     .7532053    1.271931
+                   1.male |   1.329138   .1225043     3.09   0.002     1.109472    1.592296
+                     age1 |   1.060064   .0414792     1.49   0.136     .9818058    1.144561
+                     age2 |   1.049966   .0590624     0.87   0.386     .9403594    1.172349
+                     age3 |   .8290295   .1762236    -0.88   0.378     .5465544    1.257496
+               1.dmard_pc |   1.002879   .0931479     0.03   0.975      .835966    1.203119
+      1.oral_prednisolone |   2.214586   .2077205     8.48   0.000     1.842693    2.661536
+1.chronic_cardiac_disease |   1.535626   .1441844     4.57   0.000     1.277508    1.845896
+       1.resp_excl_asthma |   1.438377   .1471388     3.55   0.000     1.177061    1.757706
+         1.current_asthma |   .9827151   .1071649    -0.16   0.873     .7936047    1.216889
+                          |
+                      ckd |
+                     CKD  |   1.275206   .1248977     2.48   0.013     1.052473    1.545075
+  1.chronic_liver_disease |   1.330837   .4261668     0.89   0.372     .7104758    2.492876
+                          |
+                obese4cat |
+       Obese I (30-34.9)  |   1.126835   .1326781     1.01   0.311     .8946151    1.419332
+      Obese II (35-39.9)  |   1.341516   .2329651     1.69   0.091     .9545041    1.885445
+         Obese III (40+)  |   1.581799   .3999689     1.81   0.070     .9636491    2.596471
+                          |
+           1.hypertension |   1.053317   .1033589     0.53   0.597     .8690268    1.276689
+            1.cancer_ever |   1.262797   .1384616     2.13   0.033     1.018597    1.565544
+ 1.other_neuro_conditions |   1.960641   .4377702     3.02   0.003     1.265735    3.037062
+-------------------------------------------------------------------------------------------
+                                                             Stratified by stp
+
+.                                                                                 
+. estimates save $Tempdir/multivar3, replace 
+(note: file E:\analyses\hydroxychloroquine-research/output/tempdata/multivar3.ster not found)
+file E:\analyses\hydroxychloroquine-research/output/tempdata/multivar3.ster saved
+
+. 
+. 
+. 
+. 
+. /* Print table================================================================*/ 
+. *  Print the results for the main model 
+. 
+. cap file close tablecontent
+
+. file open tablecontent using $Tabfigdir/table2.txt, write text replace
+(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/table2.txt not found)
+
+. 
+. * Column headings 
+. file write tablecontent ("Table 2: Association between current HCQ use and $tableoutcome") _n
+
+. file write tablecontent _tab ("N") _tab ("Univariable") _tab _tab ("Age/Sex Adjusted") _tab _tab ///
+>                                                 ("DAG Adjusted") _tab _tab ("DAG+ Adjusted") _tab _tab  _n
+
+. file write tablecontent _tab _tab ("HR") _tab ("95% CI") _tab ("HR") _tab ///
+>                                                 ("95% CI") _tab ("HR") _tab ("95% CI") _tab ("HR") _tab ("95% CI") _n
+
+. file write tablecontent ("Main Analysis") _n                                    
+
+. 
+. * Row headings 
+. local lab0: label exposure 0
+
+. local lab1: label exposure 1
+
+.  
+. /* Counts */
+.  
+. * First row, exposure = 0 (reference)
+. 
+.         cou if exposure == 0 
+  163,720
+
+.         local rowdenom = r(N)
+
+.         cou if exposure == 0 & $outcome == 1
+  461
+
+.         local pct = 100*(r(N)/`rowdenom') 
+
+.         
+.         file write tablecontent ("`lab0'") _tab
+
+.         file write tablecontent (r(N)) (" (") %3.1f (`pct') (")") _tab
+
+.         file write tablecontent ("1.00 (ref)") _tab _tab ("1.00 (ref)") _tab _tab ("1.00 (ref)")  _tab _tab ("1.00 (ref)") _n
+
+.         
+. * Second row, exposure = 1 (comparator)
+. 
+. file write tablecontent ("`lab1'") _tab  
+
+. 
+.         cou if exposure == 1 
+  30,500
+
+.         local rowdenom = r(N)
+
+.         cou if exposure == 1 & $outcome == 1
+  66
+
+.         local pct = 100*(r(N)/`rowdenom') 
+
+.         file write tablecontent (r(N)) (" (") %3.1f (`pct') (")") _tab
+
+. 
+. /* Main Model */ 
+. estimates use $Tempdir/univar 
+
+. lincom 1.exposure, eform
+
+ ( 1)  1.exposure = 0
+
+------------------------------------------------------------------------------
+          _t |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |    .758431   .0998158    -2.10   0.036      .585991    .9816151
+------------------------------------------------------------------------------
+
+. file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab 
+
+. 
+. estimates use $Tempdir/multivar1 
+
+. lincom 1.exposure, eform
+
+ ( 1)  1.exposure = 0
+
+------------------------------------------------------------------------------
+          _t |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |   1.057824   .1402303     0.42   0.672     .8157817     1.37168
+------------------------------------------------------------------------------
+
+. file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab 
+
+. 
+. estimates use $Tempdir/multivar2 
+
+. lincom 1.exposure, eform
+
+ ( 1)  1.exposure = 0
+
+------------------------------------------------------------------------------
+          _t |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |   .9908241   .1323588    -0.07   0.945     .7625866    1.287372
+------------------------------------------------------------------------------
+
+. file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab 
+
+. 
+. estimates use $Tempdir/multivar3 
+
+. lincom 1.exposure, eform
+
+ ( 1)  1.exposure = 0
+
+------------------------------------------------------------------------------
+          _t |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |   .9787875   .1308287    -0.16   0.873     .7532053    1.271931
+------------------------------------------------------------------------------
+
+. file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _n 
+
+. 
+. file write tablecontent _n
+
+. file close tablecontent
+
+. 
+. * Close log file 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\06_an_models.log
+  log type:  text
+ closed on:   8 Jul 2020, 11:35:34
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
