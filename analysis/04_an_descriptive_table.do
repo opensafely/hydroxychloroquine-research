@@ -208,8 +208,8 @@ file write tablecontent _n
 tabulatevariable, variable(imd) min(1) max(5) missing
 file write tablecontent _n 
 
-tabulatevariable, variable(urban) min(0) max(1) missing
-file write tablecontent _n 
+// tabulatevariable, variable(urban) min(0) max(1) missing
+// file write tablecontent _n 
 
 tabulatevariable, variable(bmicat) min(1) max(6) missing
 file write tablecontent _n 
