@@ -37,7 +37,6 @@ global varlist 		i.chronic_cardiac_disease	///
 					i.current_asthma 			///
 					i.oral_prednisolone			///
 					i.other_neuro_conditions	///
-					i.ckd 						///
 					i.hypertension			 	///
 					i.diabetes					///
 					i.cancer_ever				///

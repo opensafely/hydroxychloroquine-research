@@ -227,7 +227,11 @@ file write tablecontent _n
 tabulatevariable, variable(diabcat) min(1) max(4) missing
 file write tablecontent _n 
 
+tabulatevariable, variable(egfr_cat) min(1) max(3) missing 
+file write tablecontent _n 
 
+tabulatevariable, variable(egfr_cat_nomiss) min(1) max(3) missing 
+file write tablecontent _n 
 
 file write tablecontent _n _n
 

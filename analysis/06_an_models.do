@@ -57,8 +57,7 @@ estimates save $Tempdir/multivar2, replace
 
 * DAG+ other adjustments (heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease)
 
-stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.chronic_cardiac_disease i.resp_excl_asthma i.current_asthma i.ckd ///
-i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.other_neuro_conditions, strata(stp)				
+stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.chronic_cardiac_disease i.resp_excl_asthma i.current_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.other_neuro_conditions, strata(stp)				
 										
 estimates save $Tempdir/multivar3, replace 
 

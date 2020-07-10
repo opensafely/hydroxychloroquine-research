@@ -386,11 +386,8 @@ label define egfr_cat_nomiss 	1 ">=60/missing" 	///
 								3 "<30"	
 label values egfr_cat_nomiss egfr_cat_nomiss
 
-/*
-0-29
-30-59
-60+ or missing**/ 
-
+gen egfr_date = creatinine_measured_date
+format egfr_date %td
 
 * Add in end stage renal failure and create a single CKD variable 
 * Missing assumed to not have CKD 
@@ -692,6 +689,7 @@ label var other_neuro_conditions		"Other neurological conditions"
 label var chronic_cardiac_disease_date	"Date of chronic cardiac disease"
 label var chronic_liver_disease_date	"Date of chronic liver disease"
 label var ckd_date     				 	"Date of chronic kidney disease" 
+label var egfr_date						"Date of eGFR (creatinine)"
 label var hypertension_date			    "Date of diagnosed hypertension"
 label var diabetes_date					"Date of diabetes"
 label var cancer_ever_date 				"Date of cancer"

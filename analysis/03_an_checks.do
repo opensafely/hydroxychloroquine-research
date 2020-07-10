@@ -70,7 +70,7 @@ foreach var of varlist 	hcq					///
 * Check date ranges for all comorbidities 
 foreach var of varlist  chronic_cardiac_disease_date	///
 						chronic_liver_disease_date		///
-						ckd_date     					///
+						egfr_date     					///
 						hypertension_date				///
 						diabetes_date					///
 						cancer_ever_date 				///
@@ -118,8 +118,8 @@ tab smoke smoke_nomiss, m
 * Diabetes
 tab diabcat diabetes, m
 
-* CKD
-tab ckd egfr_cat, m
+* eGFR
+tab egfr_cat_nomiss egfr_cat, m
 
 /* Treatment variables */ 
 
