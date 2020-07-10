@@ -352,16 +352,45 @@ replace egfr=egfr*1.018 if male==0
 label var egfr "egfr calculated using CKD-EPI formula with no eth"
 
 * Categorise into ckd stages
-egen egfr_cat = cut(egfr), at(0, 15, 30, 45, 60, 5000)
-recode egfr_cat 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
+egen egfr_cat_all = cut(egfr), at(0, 15, 30, 45, 60, 5000)
+recode egfr_cat_all 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
 
 /* 
-0 "No CKD, eGFR>60" 	
+0 "No CKD, eGFR>60" 	or missing -- have been shown reasonable in CPRD
 2 "stage 3a, eGFR 45-59" 
 3 "stage 3b, eGFR 30-44" 
 4 "stage 4, eGFR 15-29" 
 5 "stage 5, eGFR <15"
 */
+
+gen egfr_cat = .
+recode egfr_cat . = 3 if egfr < 30
+recode egfr_cat . = 2 if egfr < 60
+recode egfr_cat . = 1 if egfr < .
+replace egfr_cat = .u if egfr >= .
+
+label define egfr_cat 	1 ">=60" 		///
+						2 "30-59"		///
+						3 "<30"			///
+						.u "Unknown (.u)"
+					
+label values egfr_cat egfr_cat
+
+*if missing eGFR, assume normal
+
+gen egfr_cat_nomiss = egfr_cat
+replace egfr_cat_nomiss = 1 if egfr_cat == .u
+
+label define egfr_cat_nomiss 	1 ">=60/missing" 	///
+								2 "30-59"			///
+								3 "<30"	
+label values egfr_cat_nomiss egfr_cat_nomiss
+
+/*
+0-29
+30-59
+60+ or missing**/ 
+
 
 * Add in end stage renal failure and create a single CKD variable 
 * Missing assumed to not have CKD 
@@ -650,6 +679,7 @@ label var chronic_cardiac_disease 		"Chronic cardiac disease"
 label var chronic_liver_disease			"Chronic liver disease"
 label var ckd     					 	"Chronic kidney disease" 
 label var egfr_cat						"Calculated eGFR"
+label var egfr_cat_nomiss				"Calculated eGFR (missing set to norm)"
 label var hypertension				    "Diagnosed hypertension"
 label var diabetes						"Diabetes"
 label var cancer_ever 					"Cancer"
