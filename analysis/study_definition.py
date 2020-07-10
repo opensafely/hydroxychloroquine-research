@@ -149,6 +149,16 @@ study = StudyDefinition(
         },
     ),
 
+    #NSAIDs
+	nsaids=patients.with_these_medications(
+        nsaid_codes,
+        between=["2019-09-01", "2020-02-29"],
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
+        },
+    ),
     # DMARDS EXPOSURE (SECONDARYCARE) - THIS IS A PLACEHOLDR FOR EXPECTED DATA - IT WILL BE QUEIRED IN DIFFERENT WAY (PROBABLY) TO OTHER MEDS
 
 

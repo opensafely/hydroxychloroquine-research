@@ -23,6 +23,7 @@ opensafely/influenza-vaccination/2020-05-12
 opensafely/influenza-vaccination-clinical-codes-given/2020-05-21
 opensafely/influenza-vaccination-clinical-codes-not-given/2020-05-19
 opensafely/lung-cancer/2020-04-15
+opensafely/nsaids-oral/2020-06-09
 opensafely/other-neurological-conditions/2020-06-02
 opensafely/other-respiratory-conditions/2020-05-14
 opensafely/permanent-immunosuppresion/2020-06-02

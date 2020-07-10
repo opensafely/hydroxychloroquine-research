@@ -49,13 +49,12 @@ azithromycin_med_codes = codelist_from_csv(
     column="id",
 )
 
-#MEDICINE PLACEHOLDER - this is imported to act as a placeholder
-ace_med_codes = codelist_from_csv(
-    "codelists/opensafely-ace-inhibitor-medications.csv",
+#NSAIDs
+nsaid_codes = codelist_from_csv(
+    "codelists/opensafely-nsaids-oral.csv",
     system="snomed",
-    column="id",
-)
-
+    column="snomed_id",
+    )
 
 
 # DEMOGRAPHIC CODELIST
