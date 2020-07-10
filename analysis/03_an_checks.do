@@ -55,10 +55,11 @@ datacheck inlist(smoke_nomiss, 1, 2, 3), nol
 
 
 
-* Check date ranges for all treatment variables   ***************************************** NEED TO ADD AZITH DATE
+* Check date ranges for all treatment variables   
 foreach var of varlist 	hcq					///
 						dmard_pc        	///
 						oral_prednisolone 	///
+						azith				///
 	 {
 						
 	tab `var', missing					

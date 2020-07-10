@@ -49,7 +49,8 @@ rename dmards_primary_care_exposure			dmards_primary_care
 /* Comorb dates are given with month/year only, so adding day 15 to enable
    them to be processed as dates 											  */
 
-foreach var of varlist 	 bmi_date_measured					///
+foreach var of varlist 	 azith_last_date					///
+						bmi_date_measured					///
 						 cancer								///
 						 chloroquine_not_hcq				///
 						 chronic_cardiac_disease			///
@@ -101,7 +102,7 @@ drop hcq_first_after
 
 /* RENAME VARAIBLES===========================================================*/
 *  An extra 'date' added to the end of some variable names, remove 
-
+rename azith_last_date_date				azith_last_date
 rename hcq_last_date_date				hcq_last_date
 rename creatinine_date_date 			creatinine_measured_date
 rename smoking_status_date_date 		smoking_status_measured_date
@@ -327,7 +328,7 @@ replace creatinine = . if !inrange(creatinine, 20, 3000)
 
 replace creatinine = . if creatinine_measured_date == . 
 replace creatinine_measured_date = . if creatinine == . 
-*replace creatinine_measured = . if creatinine == .   ***this is read as previous line since creatinine_measured does not exist..
+
 
 * Divide by 88.4 (to convert umol/l to mg/dl)
 gen SCr_adj = creatinine/88.4
@@ -483,7 +484,7 @@ recode azith .=0
 
 
 
-*****************************************************************************************************************************add NSAIDS
+*****************************************************************************************************************************TO DO: add NSAIDS
 
 
 
@@ -528,7 +529,7 @@ format first_positive_test_date %td
 
 /* CENSORING */
 /* SET FU DATES===============================================================*/ 
-* Censoring dates for each outcome (largely, last date outcome data available, minus a lag window)
+* Censoring dates for each outcome (largely, last date outcome data available, minus a lag window) ********* TO DO: graph outcomes to find lag
 summ died_date_ons, format
 gen onscoviddeathcensor_date = r(max)-7
 
