@@ -26,27 +26,6 @@ capture mkdir "$Outdir/tabfig"
 * Set globals that will print in programs and direct output
 
 global outcome 	  "onscoviddeath"
-// global outdir  	  "output" 
-// global logdir     "log"
-// global tempdir    "tempdata"
-
-/* Binary variable list */
-global varlist 		i.chronic_cardiac_disease	///
-					i.chronic_liver_disease		///
-					i.resp_excl_asthma 			///
-					i.current_asthma 			///
-					i.oral_prednisolone			///
-					i.other_neuro_conditions	///
-					i.hypertension			 	///
-					i.diabetes					///
-					i.cancer_ever				///
-					i.immunodef_any 			///
-					i.flu_vaccine 				///
-					i.pneumococcal_vaccine		///
-					i.gp_consult
-
-				 
-
 global tableoutcome "COVID-19 Death in ONS"
 global ymax 0.005
 

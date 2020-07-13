@@ -238,7 +238,7 @@ study = StudyDefinition(
         returning="rural_urban_classification",
         return_expectations={
             "rate": "universal",
-            "category": {"ratios": {"rural": 0.1, "urban": 0.9}},
+            "category": {"ratios": {"1": 0.25, "2": 0.25, "7": 0.25, "8": 0.25}},
         },
     ),
 

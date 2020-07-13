@@ -684,7 +684,7 @@ label var immunodef_any					"Immunosuppressed (combination algorithm)"
 label var diabcat						"Diabetes Severity"
 label var resp_excl_asthma				"Respiratory disease (excl asthma)"
 label var current_asthma				"Current asthma"
-label var other_neuro_conditions		"Other neurological conditions"
+label var other_neuro_conditions		"Neurological conditions (stroke+dementia)"
 
 label var chronic_cardiac_disease_date	"Date of chronic cardiac disease"
 label var chronic_liver_disease_date	"Date of chronic liver disease"
