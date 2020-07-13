@@ -468,8 +468,8 @@ label values residence_type residence_type
 
 * urban vs rural flag
 gen urban = .
-replace urban = 1 if residence_type inrange(residence_type, 1, 4)
-replace urban = 0 if residence_type inrange(residence_type, 5, 8)
+replace urban = 1 if inrange(residence_type, 1, 4)
+replace urban = 0 if inrange(residence_type, 5, 8)
 
 
 
