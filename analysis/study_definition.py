@@ -51,14 +51,25 @@ study = StudyDefinition(
         include_day=True,
         return_expectations={"date": {"earliest": "2020-03-01"}},
     ),
-    # SECONDARY OUTCOME:testing +ve for covid
-        first_positive_test_date=patients.with_test_result_in_sgss(
+    # SECONDARY OUTCOMES: testing positive (SGSS or primary care)
+    first_pos_test_sgss=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "2020-03-01"}},
+        return_expectations={"date": {"earliest": "2020-01-01"}},
+    ),
+
+    first_pos_test_primcare=patients.with_these_clinical_events(
+        covid_pos_primary_care,
+        on_or_before="today",
+        return_first_date_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2020-01-01", "latest": "today"}
+        },
     ),
 
     # MEDICATIONS EXPOSURES

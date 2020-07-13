@@ -544,7 +544,8 @@ format enter_date %td
 * Censoring: First HCQ after baseline
 * Recode to dates from the strings 
 foreach var of varlist 	died_date_ons 				///
-						first_positive_test_date	///
+						first_pos_test_sgss			///
+						first_pos_test_primcare		///
 						{			
 	confirm string variable `var'
 	rename `var' `var'_dstr
@@ -560,10 +561,7 @@ gen died_date_onscovid = died_date_ons if died_ons_covid_flag_any == 1
 * If missing date of death resulting died_date will also be missing
 gen died_date_onsnoncovid = died_date_ons if died_ons_covid_flag_any != 1 
 
-format died_date_ons %td
-format died_date_onscovid %td 
-format died_date_onsnoncovid %td
-format first_positive_test_date %td
+format died_date_ons died_date_onscovid died_date_onsnoncovid first_pos_test_sgss first_pos_test_primcare %td
 
 /* CENSORING */
 /* SET FU DATES===============================================================*/ 
@@ -577,14 +575,22 @@ summ died_date_ons, format
 gen onscoviddeathcensor_date = r(max)-7
 
 *SGSS test positive
-histogram first_positive_test_date, discrete width(1) frequency ytitle(Number of SGSS positives tests) xtitle(Date) scheme(meta) saving(out_sgsspos_freq, replace)
+histogram first_pos_test_sgss, discrete width(1) frequency ytitle(Number of SGSS positives tests) xtitle(Date) scheme(meta) saving(out_sgsspos_freq, replace)
 graph export "$Tabfigdir/out_sgsspos_freq.svg", as(svg) replace
 graph close
 erase out_sgsspos_freq.gph
-summ first_positive_test_date, format
-gen testposcensor_date = r(max)
+summ first_pos_test_sgss, format
+gen testposcensor_date_sgss = r(max)
 
-format testposcensor_date onscoviddeathcensor_date	%td
+*Primary care test positive
+histogram first_pos_test_primcare, discrete width(1) frequency ytitle(Number of primary care positives tests) xtitle(Date) scheme(meta) saving(out_primcarepos_freq, replace)
+graph export "$Tabfigdir/out_primcarepos_freq.svg", as(svg) replace
+graph close
+erase out_primcarepos_freq.gph
+summ first_pos_test_primcare, format
+gen testposcensor_date_primcare = r(max)
+
+format testposcensor_date_sgss testposcensor_date_primcare onscoviddeathcensor_date	%td
 
 * Only censor at first HCQ on or after baseline if in unexposed group. Do not censor among exposed group 
 replace hcq_first_after_date = . if hcq == 1 | hcq_sa == 1
@@ -593,7 +599,8 @@ replace hcq_first_after_date = . if hcq == 1 | hcq_sa == 1
 * Binary indicators for outcomes
 gen onscoviddeath 	= (died_date_onscovid 	< .)
 gen onsnoncoviddeath = (died_date_onsnoncovid < .)
-gen firstpos 		= (first_positive_test_date		< .)
+gen firstpos_sgss	= (first_pos_test_sgss		< .)
+gen firstpos_primcare	= (first_pos_test_primcare		< .)
 
 /*  Create survival times  */
 
@@ -601,7 +608,8 @@ gen firstpos 		= (first_positive_test_date		< .)
 
 * Survival time = last followup date (first: end study, first HCQ after baseline among unexposed, death, or that outcome)
 gen stime_onscoviddeath = min(onscoviddeathcensor_date, hcq_first_after_date, died_date_ons)
-gen stime_firstpos  	= min(testposcensor_date, hcq_first_after_date, died_date_ons , first_positive_test_date)  
+gen stime_firstpos_sgss  	= min(testposcensor_date_sgss, hcq_first_after_date, died_date_ons , first_pos_test_sgss)  
+gen stime_firstpos_primcare  	= min(testposcensor_date_primcare, hcq_first_after_date, died_date_ons , first_pos_test_primcare)
 
 * Equivalent to onscoviddeath, but creating a separate variable for clarity 
 gen stime_onsnoncoviddeath = min(onscoviddeathcensor_date, hcq_first_after_date, died_date_ons)
@@ -609,7 +617,8 @@ gen stime_onsnoncoviddeath = min(onscoviddeathcensor_date, hcq_first_after_date,
 * If outcome was after censoring occurred, set to zero
 replace onscoviddeath 	= 0 if (died_date_onscovid	> onscoviddeathcensor_date) 
 replace onsnoncoviddeath = 0 if (died_date_onsnoncovid > onscoviddeathcensor_date)
-replace firstpos 		= 0 if (first_positive_test_date		> testposcensor_date) 
+replace firstpos_sgss 		= 0 if (first_pos_test_sgss		> testposcensor_date_sgss) 
+replace firstpos_primcare 		= 0 if (first_pos_test_primcare		> testposcensor_date_primcare) 
 
 * Format date variables
 format  stime* %td 
@@ -737,21 +746,25 @@ label var gp_consult_count				"GP consultation count"
 
 * Outcomes and follow-up
 label var enter_date					"Date of study entry"
-label var testposcensor_date 			"Date of admin censoring for positive test"
+label var testposcensor_date_sgss		"Date of admin censoring for SGSS positive test"
+label var testposcensor_date_primcare	"Date of admin censoring for primary care positive test"
 label var onscoviddeathcensor_date 		"Date of admin censoring for ONS deaths"
 label var hcq_first_after_date			"Date of censoring for initiating HCQ after baseline"
 
-label var firstpos						"Failure/censoring indicator for outcome: SGSS positive test"
+label var firstpos_sgss					"Failure/censoring indicator for outcome: SGSS positive test"
+label var firstpos_primcare				"Failure/censoring indicator for outcome: primary care positive test"
 label var onscoviddeath					"Failure/censoring indicator for outcome: ONS covid death"
 label var onsnoncoviddeath				"Failure/censoring indicator for outcome: ONS non-covid death"
 
-label var first_positive_test_date		"Date of first SGSS positive test"
+label var first_pos_test_sgss			"Date of first SGSS positive test"
+label var first_pos_test_primcare		"Date of first primcary care positive test"
 label var died_date_ons					"Date of ONS Death"
 label var died_date_onscovid 			"Date of ONS COVID Death"
 label var died_date_onsnoncovid			"Date of ONS non-COVID death"
 
 * Survival times
-label var  stime_firstpos 				"Survival time (date); outcome SGSS positive test"
+label var  stime_firstpos_sgss 			"Survival time (date); outcome SGSS positive test"
+label var  stime_firstpos_primcare		"Survival time (date); outcome primary care positive test"
 label var  stime_onscoviddeath 			"Survival time (date); outcome ONS covid death"
 label var  stime_onsnoncoviddeath		"Survival tme (date); outcome ONS non covid death"
 
