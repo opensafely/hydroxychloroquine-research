@@ -84,7 +84,9 @@ foreach var of varlist  chronic_cardiac_disease_date	///
 						hba1c_percentage_date			///
 						resp_excl_asthma_date			///	
 						current_asthma_date				///
-						other_neuro_conditions_date	 { 
+						other_neuro_conditions_date	 	///
+						rheumatoid_date					///
+						sle_date	{ 
 						
 	summ `var', format
 
@@ -182,10 +184,14 @@ foreach var in $varlist 				{
 }
 
 
+
+/* SENSE CHECK POPULATIONS====================================================*/
+tab rheumatoid sle, row col
+
+
 /* SENSE CHECK OUTCOMES=======================================================*/
 
 tab onscoviddeath onsnoncoviddeath, row col
-
 
 /* ENSURE ENOUGH DEATHS IN EACH CATEGORY INCLUDED IN FULLY ADJUSTED MODEL ====*/
 foreach var in $varlist 				{

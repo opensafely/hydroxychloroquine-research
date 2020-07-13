@@ -134,7 +134,9 @@ foreach var of varlist 	 cancer_date						///
 						 oral_prednisolone_date				///					 
 						 other_neuro_conditions_date		///
 						 perm_immunodef_date				///
-						 resp_excl_asthma_date				///						 
+						 resp_excl_asthma_date				///	
+						 rheumatoid_date					///
+						 sle_date							///
 						 smoking_status_measured_date		///
 						 temp_immunodef_date			 {
 	/* date ranges are applied in python, so presence of date indicates presence of 
@@ -642,9 +644,11 @@ format  stime* %td
 *  Label variables you are intending to keep, drop the rest 
 
 * Population
-label var rheumatoid_date			"Date of RA"
-label var sle						"Date of SLE"
+label var rheumatoid				"RA"
+label var sle						"SLE"
 
+label var rheumatoid_date			"Date of RA"
+label var sle_date					"Date of SLE"
 
 * Demographics
 label var patient_id				"Patient ID"

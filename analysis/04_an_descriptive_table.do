@@ -197,6 +197,13 @@ gen byte cons=1
 tabulatevariable, variable(cons) min(1) max(1) 
 file write tablecontent _n 
 
+/* POPULATION */
+tabulatevariable, variable(rheumatoid) min(0) max(1) 
+file write tablecontent _n 
+
+tabulatevariable, variable(sle) min(0) max(1) 
+file write tablecontent _n 
+
 /* SOCIO-DEMOGRAPHICS */
 tabulatevariable, variable(agegroup) min(1) max(6) 
 file write tablecontent _n 
