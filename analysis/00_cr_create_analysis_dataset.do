@@ -12,7 +12,7 @@ DATASETS USED:			data in memory (from output/input.csv)
 
 DATASETS CREATED: 		none
 OTHER OUTPUT: 			logfiles, printed to folder $Logdir
-USER-INSTALLED ADO: 	 
+USER-INSTALLED ADO: 	distplot 
   (place .ado file(s) in analysis folder)						
 ==============================================================================*/
 
@@ -567,10 +567,33 @@ format first_positive_test_date %td
 
 /* CENSORING */
 /* SET FU DATES===============================================================*/ 
-* Censoring dates for each outcome (largely, last date outcome data available, minus a lag window) ********* TO DO: graph outcomes to find lag
+*Death, cumulative
+distplot died_date_ons, saving(out_death_cumprob, replace)
+graph export "$Tabfigdir/out_death_cumprob.svg", as(svg) replace
+graph close
+erase out_death_cumprob.gph
+*Death, frequency
+distplot died_date_ons, frequency saving(out_death_freq, replace)
+graph export "$Tabfigdir/out_death_freq.svg", as(svg) replace
+graph close
+erase out_death_freq.gph
+
+*SGSS test positive, cumulative
+distplot first_positive_test_date, saving(out_sgsspos_cumprob, replace)
+graph export "$Tabfigdir/out_sgsspos_cumprob.svg", as(svg) replace
+graph close
+erase out_sgsspos_cumprob.gph
+*SGSS test positive, frequency
+distplot first_positive_test_date, frequency saving(out_sgsspos_freq, replace)
+graph export "$Tabfigdir/out_sgsspos_freq.svg", as(svg) replace
+graph close
+erase out_sgsspos_freq.gph
+
+* Censoring dates for each outcome (largely, last date outcome data available, minus a lag window based on previous graphs)
+*death
 summ died_date_ons, format
 gen onscoviddeathcensor_date = r(max)-7
-
+*SGSS test positive
 summ first_positive_test_date, format
 gen testposcensor_date = r(max)
 
