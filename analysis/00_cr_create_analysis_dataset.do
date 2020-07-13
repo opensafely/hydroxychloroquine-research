@@ -50,7 +50,7 @@ rename dmards_primary_care_exposure			dmards_primary_care
    them to be processed as dates 											  */
 
 foreach var of varlist 	 azith_last_date					///
-						bmi_date_measured					///
+						 bmi_date_measured					///
 						 cancer								///
 						 chloroquine_not_hcq				///
 						 chronic_cardiac_disease			///
@@ -63,7 +63,8 @@ foreach var of varlist 	 azith_last_date					///
 						 hba1c_percentage_date				///
 						 hcq_last_date						///
 						 hypertension						///
-						 esrf 								///						 
+						 esrf 								///		
+						 nsaids								///
 						 oral_prednisolone					///	   			 
 						 other_neuro_conditions				///
 						 permanent_immunodeficiency			///
@@ -129,6 +130,7 @@ foreach var of varlist 	 cancer_date						///
 						 diabetes_date						///
 						 hypertension_date					///
 						 esrf_date 							///						 
+						 nsaids_date						///
 						 oral_prednisolone_date				///					 
 						 other_neuro_conditions_date		///
 						 perm_immunodef_date				///
@@ -675,12 +677,14 @@ label var dmard_pc					"DMARD (PC)"
 label var dmard_pc_sa				"DMARD (PC) for sensivity analysis"
 label var azith						"Azithromycin"
 label var oral_prednisolone			"OCS"
+label var nsaids					"NSAIDs"
 label var chloroquine_not_hcq		"Chloroquine phosphate/sulfate"
 
 label var hcq_date					"Last HCQ Rx"
 label var dmard_pc_date				"Last Other DMARD Rx"
 label var azith_date				"Last azithromycin Rx"   
 label var oral_prednisolone_date	"Last OCS Rx"
+label var nsaids_date				"Last NSAIDs Rx"
 label var chloroquine_not_hcq_date	"Last chloroquine phosphate/sulfate Rx"
 
 

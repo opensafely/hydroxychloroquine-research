@@ -29,6 +29,9 @@ global outcome 	  "onscoviddeath"
 global tableoutcome "COVID-19 Death in ONS"
 global ymax 0.005
 
+* all variables included in fully adjusted models
+global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardiac_disease resp_excl_asthma egfr_cat_nomiss chronic_liver_disease obese4cat hypertension cancer_ever other_neuro_conditions"
+
 pwd
 cd  "$Dodir"
 

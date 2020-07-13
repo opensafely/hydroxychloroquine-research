@@ -285,6 +285,7 @@ foreach treat of varlist 	hcq 			///
 							dmard_pc   		///
 							azith			///
 							oral_prednisolone ///
+							nsaids			///
 							hcq_sa			///
 							dmard_pc_sa     ///
 							/********************************************************   TO DO: ADD BIOLOGICS WHEN AVAILABLE******/ ///
