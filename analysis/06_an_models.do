@@ -72,7 +72,7 @@ cap file close tablecontent
 file open tablecontent using $Tabfigdir/table2.txt, write text replace
 
 * Column headings 
-file write tablecontent ("Table 2: Association between current HCQ use and $tableoutcome") _n
+file write tablecontent ("Table 2: Association between HCQ use and $tableoutcome") _n
 file write tablecontent _tab ("N") _tab ("Univariable") _tab _tab ("Age/Sex Adjusted") _tab _tab ///
 						("DAG Adjusted") _tab _tab ("Fully Adjusted") _tab _tab  _n
 file write tablecontent _tab _tab ("HR") _tab ("95% CI") _tab ("HR") _tab ///
