@@ -452,10 +452,12 @@ drop hba1c_pct hba1c_percentage hba1c_mmol_per_mol
 
 
 * urban vs rural flag
-// gen urban = 1 if rural_urban == "urban"
-// replace urban = 0 if rural_urban == "rural"
-// drop rural_urban
+gen urban = .
+replace urban = 1 if rural_urban in(1,2,3,4)
+replace urban = 0 if rural_urban in(5,6,7,8)
 
+// label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Unknown"
+// label values imd imd 
 
 
 
@@ -648,7 +650,8 @@ label var smoke_nomiss	 			"Smoking status (missing set to non)"
 label var imd 						"Index of Multiple Deprivation (IMD)"
 label var ethnicity					"Ethnicity"
 label var stp 						"Sustainability and Transformation Partnership"
-// label var urban						"Urban residence"
+label var rural_urban				"Residence type"
+label var urban						"Urban residence"
 
 label var age1 						"Age spline 1"
 label var age2 						"Age spline 2"
