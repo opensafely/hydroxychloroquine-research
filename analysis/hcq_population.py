@@ -15,13 +15,7 @@ study = StudyDefinition(
 
 
     # This line defines the study population
-    population=patients.satisfying(
-            """
-            has_follow_up AND
-            (age >=18 AND age <= 110) AND
-            (sex = "M" OR sex = "F") AND
-            imd > 0 AND
-            """,
+    population=patients.all(),
 
     #HYDROXYCHLOROQUINE Population
     hcq_count=patients.with_these_medications(
