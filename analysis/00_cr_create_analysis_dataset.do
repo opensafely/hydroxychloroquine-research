@@ -453,11 +453,22 @@ drop hba1c_pct hba1c_percentage hba1c_mmol_per_mol
 
 * urban vs rural flag
 gen urban = .
-replace urban = 1 if rural_urban in(1,2,3,4)
-replace urban = 0 if rural_urban in(5,6,7,8)
+replace urban = 1 if residence_type in(1,2,3,4)
+replace urban = 0 if residence_type in(5,6,7,8)
 
-// label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Unknown"
-// label values imd imd 
+*set unexpected values of residence_type to missing
+replace residence_type = .u if residence_type < 1 | residence_type > 8
+
+label define residence_type 	1 "1 urban major conurbation" 		///
+								2 "2 urban minor conurbation" 		///
+								3 "3 urban city and town" 			///
+								4 "4 urban city and town in a sparse setting" 	///
+								5 "5 rural town and fringe" 		///
+								6 "6 rural town and fringe in a sparse setting"	///
+								7 "7 rural village and dispersed"	///
+								8 "8 rural village and dispersed in a sparse setting" ///
+								.u "Unknown"
+label values residence_type residence_type 
 
 
 

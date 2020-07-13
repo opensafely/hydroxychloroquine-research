@@ -213,8 +213,11 @@ file write tablecontent _n
 tabulatevariable, variable(imd) min(1) max(5) missing
 file write tablecontent _n 
 
-// tabulatevariable, variable(urban) min(0) max(1) missing ********************************************************************************* TO DO
-// file write tablecontent _n 
+tabulatevariable, variable(residence_type) min(1) max(8) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(urban) min(0) max(1) missing 
+file write tablecontent _n 
 
 /* HEALTH BEHAVIOURS */
 tabulatevariable, variable(bmicat) min(1) max(6) missing
