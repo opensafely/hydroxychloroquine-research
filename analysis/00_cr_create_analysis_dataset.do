@@ -568,6 +568,7 @@ format first_positive_test_date %td
 /* CENSORING */
 /* SET FU DATES===============================================================*/ 
 *Death, cumulative
+ssc install distplot 
 distplot died_date_ons, saving(out_death_cumprob, replace)
 graph export "$Tabfigdir/out_death_cumprob.svg", as(svg) replace
 graph close
