@@ -1,5 +1,5 @@
 /*==============================================================================
-DO FILE NAME:			02_cr_create_asthma_exposure
+DO FILE NAME:			02_cr_create_exposure
 PROJECT:				HCQ in COVID-19 
 DATE: 					17 June 2020 
 AUTHOR:					C Rentsch
@@ -8,9 +8,9 @@ DESCRIPTION OF FILE:	create exposure of interest
 DATASETS USED:			data in memory (from output/input.csv)
 
 DATASETS CREATED: 		analysis_dataset.dta
-						analysis_dataset_STSET_cpnsdeath.dta 
-						both live in folder output/$tempdir
-OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
+						analysis_dataset_STSET_(outcome).dta 
+						both live in folder $Tempdir
+OTHER OUTPUT: 			logfiles, printed to folder $Logdir
 USER-INSTALLED ADO: 	 
   (place .ado file(s) in analysis folder)	
   

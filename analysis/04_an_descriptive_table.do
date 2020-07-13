@@ -1,5 +1,5 @@
 /*==============================================================================
-DO FILE NAME:			04_an_descriptive_table_asthma
+DO FILE NAME:			04_an_descriptive_table
 PROJECT:				HCQ in COVID-19 
 DATE: 					6 July 2020 
 AUTHOR:					C Rentsch

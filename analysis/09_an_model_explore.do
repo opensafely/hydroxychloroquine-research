@@ -1,5 +1,5 @@
 /*==============================================================================
-DO FILE NAME:			09_model_exploration
+DO FILE NAME:			09_an_model_explore
 PROJECT:				HCQ in COVID-19 
 DATE: 					13 July 2020 
 AUTHOR:					C Rentsch

@@ -11,8 +11,8 @@ DEPENDENCIES:
 DATASETS USED:			data in memory (from output/input.csv)
 
 DATASETS CREATED: 		analysis_dataset.dta
-						lives in folder output/$tempdir 
-OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
+						lives in folder $Tempdir 
+OTHER OUTPUT: 			logfiles, printed to folder $Logdir
 
 USER-INSTALLED ADO: 	datacheck 
   (place .ado file(s) in analysis folder)							

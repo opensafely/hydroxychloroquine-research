@@ -1,5 +1,5 @@
 /*==============================================================================
-DO FILE NAME:			10_models_ethnicity 
+DO FILE NAME:			10_an_models_ethnicity 
 PROJECT:				HCQ in COVID-19 
 DATE: 					13 July 2020 
 AUTHOR:					C Rentsch
