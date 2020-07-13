@@ -25,16 +25,17 @@ log using $Logdir\02_cr_create_exposure, replace t
 
 /* TREATMENT EXPOSURE=========================================================*/	
 
-/* SABA ONLY */ 
-
-* At least one prescription of SABA single 
+* At least two prescriptions of HCQ in 6 months prior
 gen exposure=hcq  
-
-						
 label define exposure 0 "No HCQ" 1 "HCQ"
 label values exposure exposure 
-
 label var exposure "HCQ Exposure"
+
+* At least one prescriptions of HCQ in 3 months prior
+gen exposure_sa=hcq  
+label define exposure_sa 0 "No HCQ" 1 "HCQ"
+label values exposure_sa exposure_sa 
+label var exposure_sa "HCQ Exposure, 3 mos"
 
 /* SAVE DATA==================================================================*/	
 

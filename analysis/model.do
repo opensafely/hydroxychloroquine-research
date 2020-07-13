@@ -52,6 +52,7 @@ do "08_an_model_checks.do"
 do "09_an_model_explore.do"
 do "10_an_models_ethnicity.do"
 do "11_an_models_sep_pops.do"
+do "12_an_models_sa_exposure.do"
 
 
 
@@ -115,3 +116,4 @@ do "08_an_model_checks.do"
 do "09_an_model_explore.do"
 do "10_an_models_ethnicity.do"
 do "11_an_models_sep_pops.do"
+do "12_an_models_sa_exposure.do"
