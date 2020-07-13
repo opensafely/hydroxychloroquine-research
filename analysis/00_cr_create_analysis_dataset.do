@@ -660,7 +660,7 @@ label var smoke_nomiss	 			"Smoking status (missing set to non)"
 label var imd 						"Index of Multiple Deprivation (IMD)"
 label var ethnicity					"Ethnicity"
 label var stp 						"Sustainability and Transformation Partnership"
-label var rural_urban				"Residence type"
+label var residence_type			"Residence type"
 label var urban						"Urban residence"
 
 label var age1 						"Age spline 1"
