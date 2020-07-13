@@ -55,10 +55,10 @@ stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(st
 										
 estimates save $Tempdir/multivar2, replace 
 
-* DAG+ other adjustments (heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
+* DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
 ****************************************************************************************************************************************************************************************************** TO DO: add urban?
 
-stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.other_neuro_conditions, strata(stp)	
+stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.other_neuro_conditions, strata(stp)	
 										
 estimates save $Tempdir/multivar3, replace 
 
@@ -74,7 +74,7 @@ file open tablecontent using $Tabfigdir/table2.txt, write text replace
 * Column headings 
 file write tablecontent ("Table 2: Association between current HCQ use and $tableoutcome") _n
 file write tablecontent _tab ("N") _tab ("Univariable") _tab _tab ("Age/Sex Adjusted") _tab _tab ///
-						("DAG Adjusted") _tab _tab ("DAG+ Adjusted") _tab _tab  _n
+						("DAG Adjusted") _tab _tab ("Fully Adjusted") _tab _tab  _n
 file write tablecontent _tab _tab ("HR") _tab ("95% CI") _tab ("HR") _tab ///
 						("95% CI") _tab ("HR") _tab ("95% CI") _tab ("HR") _tab ("95% CI") _n
 file write tablecontent ("Main Analysis") _n 					
