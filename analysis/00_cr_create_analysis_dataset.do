@@ -567,34 +567,20 @@ format first_positive_test_date %td
 
 /* CENSORING */
 /* SET FU DATES===============================================================*/ 
-*Death, cumulative
-ssc install distplot 
-distplot died_date_ons, saving(out_death_cumprob, replace)
-graph export "$Tabfigdir/out_death_cumprob.svg", as(svg) replace
-graph close
-erase out_death_cumprob.gph
-*Death, frequency
-distplot died_date_ons, frequency saving(out_death_freq, replace)
+* Censoring dates for each outcome (largely, last date outcome data available, minus a lag window based on previous graphs)
+*death
+histogram died_date_ons, discrete width(1) frequency ytitle(Number of ONS deaths) xtitle(Date) scheme(meta) saving(out_death_freq, replace)
 graph export "$Tabfigdir/out_death_freq.svg", as(svg) replace
 graph close
 erase out_death_freq.gph
+summ died_date_ons, format
+gen onscoviddeathcensor_date = r(max)-7
 
-*SGSS test positive, cumulative
-distplot first_positive_test_date, saving(out_sgsspos_cumprob, replace)
-graph export "$Tabfigdir/out_sgsspos_cumprob.svg", as(svg) replace
-graph close
-erase out_sgsspos_cumprob.gph
-*SGSS test positive, frequency
-distplot first_positive_test_date, frequency saving(out_sgsspos_freq, replace)
+*SGSS test positive
+histogram first_positive_test_date, discrete width(1) frequency ytitle(Number of SGSS positives tests) xtitle(Date) scheme(meta) saving(out_sgsspos_freq, replace)
 graph export "$Tabfigdir/out_sgsspos_freq.svg", as(svg) replace
 graph close
 erase out_sgsspos_freq.gph
-
-* Censoring dates for each outcome (largely, last date outcome data available, minus a lag window based on previous graphs)
-*death
-summ died_date_ons, format
-gen onscoviddeathcensor_date = r(max)-7
-*SGSS test positive
 summ first_positive_test_date, format
 gen testposcensor_date = r(max)
 
