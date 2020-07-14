@@ -98,7 +98,6 @@ recode dmard_pc .=0
 * Sex
 gen male = 1 if sex == "M"
 replace male = 0 if sex == "F"
-drop sex
 
 /*  IMD  */
 * Group into 5 groups
@@ -136,7 +135,46 @@ label define agegroup 	1 "18-<40" ///
 						6 "80+"
 						
 label values agegroup agegroup
-drop age
+
+
+
+
+
+/* APPLY INCLUSION/EXCLUIONS==================================================*/ 
+
+noi di "DROP MISSING GENDER:"
+drop if inlist(sex,"I", "U")
+
+noi di "DROP AGE <18:"
+drop if age < 18 
+
+noi di "DROP AGE >110:"
+drop if age > 110 & age != .
+
+noi di "DROP AGE MISSING:"
+drop if age == . 
+
+noi di "DROP IMD MISSING"
+drop if imd == .u
+
+
+/* CHECK INCLUSION AND EXCLUSION CRITERIA=====================================*/ 
+
+* DATA STRUCTURE: Confirm one row per patient 
+duplicates tag patient_id, generate(dup_check)
+assert dup_check == 0 
+drop dup_check
+
+* INCLUSION 2: >=18 and <=110 at 1 March 2020 
+assert age < .
+assert age >= 18 
+assert age <= 110
+ 
+ * EXCLUSION 3a: M or F gender at 1 March 2020 
+assert inlist(sex, "M", "F")
+
+* EXCLUSION 3b:  MISSING IMD
+assert inlist(imd, 1, 2, 3, 4, 5)
 
 
 
