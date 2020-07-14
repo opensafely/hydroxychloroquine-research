@@ -123,6 +123,14 @@ oral_pred_codes = codelist_from_csv(
     column="snomed_id",
 )
 
+dementia_codes = codelist_from_csv(
+    "codelists/opensafely-dementia.csv", system="ctv3", column="CTV3ID",
+)
+
+stroke_codes = codelist_from_csv(
+    "codelists/opensafely-stroke-updated.csv", system="ctv3", column="CTV3ID",
+)
+
 other_neuro_codes = codelist_from_csv(
     "codelists/opensafely-other-neurological-conditions.csv", system="ctv3", column="CTV3ID",
 )

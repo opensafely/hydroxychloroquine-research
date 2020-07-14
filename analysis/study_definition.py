@@ -375,9 +375,9 @@ study = StudyDefinition(
         return_expectations={"date": {"latest": "2020-02-29"}},
     ),
 
-    #NEUROLOGICAL DISEASE PLACEHOLDER
-    other_neuro_conditions=patients.with_these_clinical_events(
-        other_neuro_codes,
+    #NEUROLOGICAL DISEASE - 3 LISTS
+    neuro_conditions=patients.with_these_clinical_events(
+        combine_codelists(dementia_codes, stroke_codes, other_neuro_codes),
         on_or_before="2020-02-29",
         return_first_date_in_period=True,
         include_month=True,
