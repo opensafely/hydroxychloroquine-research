@@ -93,17 +93,101 @@ recode dmard_pc .=0
 
 
 
+/* DEMOGRAPHICS */ 
+
+* Sex
+gen male = 1 if sex == "M"
+replace male = 0 if sex == "F"
+drop sex
+
+/*  IMD  */
+* Group into 5 groups
+rename imd imd_o
+egen imd = cut(imd_o), group(5) icodes
+
+* add one to create groups 1 - 5 
+replace imd = imd + 1
+
+* - 1 is missing, should be excluded from population 
+replace imd = .u if imd_o == -1
+drop imd_o
+
+* Reverse the order (so high is more deprived)
+recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 .u = .u
+
+label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Unknown"
+label values imd imd 
+
+/*  Age variables  */ 
+
+* Create categorised age
+recode age 18/39.9999 = 1 /// 
+           40/49.9999 = 2 ///
+		   50/59.9999 = 3 ///
+	       60/69.9999 = 4 ///
+		   70/79.9999 = 5 ///
+		   80/max = 6, gen(agegroup) 
+
+label define agegroup 	1 "18-<40" ///
+						2 "40-<50" ///
+						3 "50-<60" ///
+						4 "60-<70" ///
+						5 "70-<80" ///
+						6 "80+"
+						
+label values agegroup agegroup
+drop age
 
 
-*get some stats on prevalence
 
-*prevalence overall
+
+
+
+
+
+*get some stats 
+
+*demographics
+tab1 male imd agegroup, m
+
+*PREVALENCE OVERALL
 tab1 hcq dmard_pc, m
-
 *hcq prevalence in patient groups
-tab hcq rheumatoid ,m row
-tab hcq sle, m row
+tab rheumatoid hcq,m row
+tab sle hcq, m row
+tab male hcq, m row
+tab imd hcq, m row
+tab agegroup hcq, m row
+*dmard prevalence in patient groups
+tab rheumatoid dmard_pc,m row
+tab sle dmard_pc, m row
+tab male dmard_pc, m row
+tab imd dmard_pc, m row
+tab agegroup dmard_pc, m row
 
+
+*PREVALENCE IN RA
+tab1 hcq dmard_pc if rheumatoid == 1, m
 *hcq prevalence in patient groups
-tab dmard_pc rheumatoid ,m row col
-tab dmard_pc sle, m row col
+tab sle hcq if rheumatoid == 1, m row
+tab male hcq if rheumatoid == 1, m row
+tab imd hcq if rheumatoid == 1, m row
+tab agegroup hcq if rheumatoid == 1, m row
+*dmard prevalence in patient groups
+tab sle dmard_pc if rheumatoid == 1, m row
+tab male dmard_pc if rheumatoid == 1, m row
+tab imd dmard_pc if rheumatoid == 1, m row
+tab agegroup dmard_pc if rheumatoid == 1, m row
+
+*PREVALENCE IN SLE
+tab1 hcq dmard_pc if sle == 1, m
+*hcq prevalence in patient groups
+tab rheumatoid hcq if sle == 1, m row
+tab male hcq if sle == 1, m row
+tab imd hcq if sle == 1, m row
+tab agegroup hcq if sle == 1, m row
+*dmard prevalence in patient groups
+tab rheumatoid dmard_pc if sle == 1, m row
+tab male dmard_pc if sle == 1, m row
+tab imd dmard_pc if sle == 1, m row
+tab agegroup dmard_pc if sle == 1, m row
