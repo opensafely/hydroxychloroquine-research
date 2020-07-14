@@ -11,6 +11,13 @@ covid_identification = codelist_from_csv(
     column="icd10_code",
 )
 
+covid_pos_primary_care = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-case.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+
+
 # INCLUSION CRITERIA
 rheumatoid_codes = codelist_from_csv(
     "codelists/opensafely-rheumatoid-arthritis.csv", system="ctv3", column="CTV3ID",
@@ -49,13 +56,12 @@ azithromycin_med_codes = codelist_from_csv(
     column="id",
 )
 
-#MEDICINE PLACEHOLDER - this is imported to act as a placeholder
-ace_med_codes = codelist_from_csv(
-    "codelists/opensafely-ace-inhibitor-medications.csv",
+#NSAIDs
+nsaid_codes = codelist_from_csv(
+    "codelists/opensafely-nsaids-oral.csv",
     system="snomed",
-    column="id",
-)
-
+    column="snomed_id",
+    )
 
 
 # DEMOGRAPHIC CODELIST
@@ -115,6 +121,14 @@ oral_pred_codes = codelist_from_csv(
     "codelists/opensafely-asthma-oral-prednisolone-medication.csv",
     system="snomed",
     column="snomed_id",
+)
+
+dementia_codes = codelist_from_csv(
+    "codelists/opensafely-dementia.csv", system="ctv3", column="CTV3ID",
+)
+
+stroke_codes = codelist_from_csv(
+    "codelists/opensafely-stroke-updated.csv", system="ctv3", column="CTV3ID",
 )
 
 other_neuro_codes = codelist_from_csv(

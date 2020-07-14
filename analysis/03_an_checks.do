@@ -46,6 +46,9 @@ datacheck inlist(bmicat, 1, 2, 3, 4, 5, 6, .u), nol
 * IMD
 datacheck inlist(imd, 1, 2, 3, 4, 5), nol
 
+* Residence type
+datacheck inlist(residence_type, 1, 2, 3, 4, 5, 6, 7, 8, .u), nol
+
 * Ethnicity
 datacheck inlist(ethnicity, 1, 2, 3, 4, 5, .u), nol
 
@@ -55,10 +58,12 @@ datacheck inlist(smoke_nomiss, 1, 2, 3), nol
 
 
 
-* Check date ranges for all treatment variables   ***************************************** NEED TO ADD AZITH DATE
+* Check date ranges for all treatment variables   
 foreach var of varlist 	hcq					///
 						dmard_pc        	///
 						oral_prednisolone 	///
+						nsaids				///
+						azith				///
 	 {
 						
 	tab `var', missing					
@@ -69,7 +74,7 @@ foreach var of varlist 	hcq					///
 * Check date ranges for all comorbidities 
 foreach var of varlist  chronic_cardiac_disease_date	///
 						chronic_liver_disease_date		///
-						ckd_date     					///
+						egfr_date     					///
 						hypertension_date				///
 						diabetes_date					///
 						cancer_ever_date 				///
@@ -79,7 +84,9 @@ foreach var of varlist  chronic_cardiac_disease_date	///
 						hba1c_percentage_date			///
 						resp_excl_asthma_date			///	
 						current_asthma_date				///
-						other_neuro_conditions_date	 { 
+						neuro_conditions_date	 		///
+						rheumatoid_date					///
+						sle_date	{ 
 						
 	summ `var', format
 
@@ -117,8 +124,11 @@ tab smoke smoke_nomiss, m
 * Diabetes
 tab diabcat diabetes, m
 
-* CKD
-tab ckd egfr_cat, m
+* eGFR
+tab egfr_cat_nomiss egfr_cat, m
+
+* urban residence
+tab residence_type urban, m
 
 /* Treatment variables */ 
 
@@ -174,9 +184,25 @@ foreach var in $varlist 				{
 }
 
 
+
+/* SENSE CHECK POPULATIONS====================================================*/
+tab rheumatoid sle, row col
+
+
 /* SENSE CHECK OUTCOMES=======================================================*/
 
 tab onscoviddeath onsnoncoviddeath, row col
+
+/* ENSURE ENOUGH DEATHS IN EACH CATEGORY INCLUDED IN FULLY ADJUSTED MODEL ====*/
+foreach var in $varlist 				{
+	local var: subinstr local var "i." ""	
+ 	tab onscoviddeath `var', row 
+}
+
+foreach var in $varlist 				{
+	local var: subinstr local var "i." ""	
+ 	tab onsnoncoviddeath `var', row 
+}
 
 
 * Close log file 

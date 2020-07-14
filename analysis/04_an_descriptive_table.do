@@ -1,5 +1,5 @@
 /*==============================================================================
-DO FILE NAME:			04_an_descriptive_table_asthma
+DO FILE NAME:			04_an_descriptive_table
 PROJECT:				HCQ in COVID-19 
 DATE: 					6 July 2020 
 AUTHOR:					C Rentsch
@@ -197,7 +197,18 @@ gen byte cons=1
 tabulatevariable, variable(cons) min(1) max(1) 
 file write tablecontent _n 
 
+/* POPULATION */
+tabulatevariable, variable(rheumatoid) min(0) max(1) 
+file write tablecontent _n 
+
+tabulatevariable, variable(sle) min(0) max(1) 
+file write tablecontent _n 
+
+/* SOCIO-DEMOGRAPHICS */
 tabulatevariable, variable(agegroup) min(1) max(6) 
+file write tablecontent _n 
+
+summarizevariable, variable(age)
 file write tablecontent _n 
 
 tabulatevariable, variable(male) min(0) max(1) 
@@ -209,9 +220,13 @@ file write tablecontent _n
 tabulatevariable, variable(imd) min(1) max(5) missing
 file write tablecontent _n 
 
-// tabulatevariable, variable(urban) min(0) max(1) missing
-// file write tablecontent _n 
+tabulatevariable, variable(residence_type) min(1) max(8) missing 
+file write tablecontent _n 
 
+tabulatevariable, variable(urban) min(0) max(1) missing 
+file write tablecontent _n 
+
+/* HEALTH BEHAVIOURS */
 tabulatevariable, variable(bmicat) min(1) max(6) missing
 file write tablecontent _n 
 
@@ -224,20 +239,63 @@ file write tablecontent _n
 tabulatevariable, variable(smoke_nomiss) min(1) max(3) missing 
 file write tablecontent _n 
 
+/* COMORBIDITY */
 tabulatevariable, variable(diabcat) min(1) max(4) missing
 file write tablecontent _n 
 
+tabulatevariable, variable(egfr_cat) min(1) max(3) missing 
+file write tablecontent _n 
 
+tabulatevariable, variable(egfr_cat_nomiss) min(1) max(3) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(chronic_cardiac_disease) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(chronic_liver_disease) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(resp_excl_asthma) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(neuro_conditions) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(hypertension) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(diabetes) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(cancer_ever) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(immunodef_any) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(flu_vaccine) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(pneumococcal_vaccine) min(0) max(1) missing 
+file write tablecontent _n 
+
+tabulatevariable, variable(gp_consult) min(0) max(1) missing 
+file write tablecontent _n 
+
+summarizevariable, variable(gp_consult_count)
+file write tablecontent _n 
 
 file write tablecontent _n _n
 
-** OTHER TREATMENT VARIABLES (binary)
+** TREATMENT VARIABLES (binary)
 foreach treat of varlist 	hcq 			///
 							dmard_pc   		///
 							azith			///
+							oral_prednisolone ///
+							nsaids			///
 							hcq_sa			///
 							dmard_pc_sa     ///
-							/********************************************************   ADD BIOLOGICS WHEN AVAILABLE******/ ///
+							/********************************************************   TO DO: ADD BIOLOGICS WHEN AVAILABLE******/ ///
 						{    		
 
 local lab: variable label `treat'
@@ -245,29 +303,12 @@ file write tablecontent ("`lab'") _n
 	
 generaterow, variable(`treat') condition("==0")
 generaterow, variable(`treat') condition("==1")
+generaterow, variable(`treat') condition("==.")
 
 file write tablecontent _n
 
 }
 
-** COMORBIDITIES (categorical and continous)
-
-** COMORBIDITIES (binary)
-
-foreach comorb in $varlist { 
-	local comorb: subinstr local comorb "i." ""
-	local lab: variable label `comorb'
-	file write tablecontent ("`lab'") _n 
-								
-	generaterow, variable(`comorb') condition("==0")
-	generaterow, variable(`comorb') condition("==1")
-	file write tablecontent _n
-}
-
-* COMORBIDITIES (continous)
-
-summarizevariable, variable(gp_consult_count)
-summarizevariable, variable(age)
 
 file close tablecontent
 

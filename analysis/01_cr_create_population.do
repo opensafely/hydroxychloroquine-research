@@ -11,8 +11,8 @@ DEPENDENCIES:
 DATASETS USED:			data in memory (from output/input.csv)
 
 DATASETS CREATED: 		analysis_dataset.dta
-						lives in folder output/$tempdir 
-OTHER OUTPUT: 			logfiles, printed to folder output/$logdir
+						lives in folder $Tempdir 
+OTHER OUTPUT: 			logfiles, printed to folder $Logdir
 
 USER-INSTALLED ADO: 	datacheck 
   (place .ado file(s) in analysis folder)							
@@ -57,7 +57,7 @@ duplicates tag patient_id, generate(dup_check)
 assert dup_check == 0 
 drop dup_check
 
-* INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 2019  **********************  CHECK AGAIN AFTER UPDATING STUDYDEF
+* INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 2019 
 gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(11,1,2019)
 recode excl_ra .=0
 gen excl_sle = 1 if sle_date != . & sle_date >= mdy(11,1,2019)

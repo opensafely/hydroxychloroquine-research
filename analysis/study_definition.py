@@ -51,14 +51,25 @@ study = StudyDefinition(
         include_day=True,
         return_expectations={"date": {"earliest": "2020-03-01"}},
     ),
-    # SECONDARY OUTCOME:testing +ve for covid
-        first_positive_test_date=patients.with_test_result_in_sgss(
+    # SECONDARY OUTCOMES: testing positive (SGSS or primary care)
+    first_pos_test_sgss=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "2020-03-01"}},
+        return_expectations={"date": {"earliest": "2020-01-01"}},
+    ),
+
+    first_pos_test_primcare=patients.with_these_clinical_events(
+        covid_pos_primary_care,
+        on_or_before="today",
+        return_first_date_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2020-01-01", "latest": "today"}
+        },
     ),
 
     # MEDICATIONS EXPOSURES
@@ -149,6 +160,16 @@ study = StudyDefinition(
         },
     ),
 
+    #NSAIDs
+	nsaids=patients.with_these_medications(
+        nsaid_codes,
+        between=["2019-09-01", "2020-02-29"],
+        return_last_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
+        },
+    ),
     # DMARDS EXPOSURE (SECONDARYCARE) - THIS IS A PLACEHOLDR FOR EXPECTED DATA - IT WILL BE QUEIRED IN DIFFERENT WAY (PROBABLY) TO OTHER MEDS
 
 
@@ -223,12 +244,12 @@ study = StudyDefinition(
         },
     ),
 
-    rural_urban=patients.address_as_of(
+    residence_type=patients.address_as_of(
         "2020-02-01",
         returning="rural_urban_classification",
         return_expectations={
             "rate": "universal",
-            "category": {"ratios": {"rural": 0.1, "urban": 0.9}},
+            "category": {"ratios": {"1": 0.25, "2": 0.25, "7": 0.25, "8": 0.25}},
         },
     ),
 
@@ -354,9 +375,9 @@ study = StudyDefinition(
         return_expectations={"date": {"latest": "2020-02-29"}},
     ),
 
-    #NEUROLOGICAL DISEASE PLACEHOLDER
-    other_neuro_conditions=patients.with_these_clinical_events(
-        other_neuro_codes,
+    #NEUROLOGICAL DISEASE - 3 LISTS
+    neuro_conditions=patients.with_these_clinical_events(
+        combine_codelists(dementia_codes, stroke_codes, other_neuro_codes),
         on_or_before="2020-02-29",
         return_first_date_in_period=True,
         include_month=True,
