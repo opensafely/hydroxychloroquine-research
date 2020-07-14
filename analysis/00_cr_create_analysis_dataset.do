@@ -12,7 +12,7 @@ DATASETS USED:			data in memory (from output/input.csv)
 
 DATASETS CREATED: 		none
 OTHER OUTPUT: 			logfiles, printed to folder $Logdir
-USER-INSTALLED ADO: 	distplot 
+USER-INSTALLED ADO: 	 
   (place .ado file(s) in analysis folder)						
 ==============================================================================*/
 

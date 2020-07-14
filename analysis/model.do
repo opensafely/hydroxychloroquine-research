@@ -60,6 +60,22 @@ do "12_an_models_sa_exposure.do"
 
 
 
+* =====        PREVALENCE OF HCQ TPP-WIDE     =============================================;
+cd ..
+import delimited `c(pwd)'/output/input_hcq_pop.csv, clear
+set more off 
+
+pwd
+cd  "$Dodir"
+do "x2_hcq_pop.do"
+
+
+
+
+
+
+
+
 * =====        SENSITIVITY 1: Non-COVID death       =================================================;
 clear 
 cd ..
