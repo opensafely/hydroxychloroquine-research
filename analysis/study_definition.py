@@ -63,9 +63,8 @@ study = StudyDefinition(
 
     first_pos_test_primcare=patients.with_these_clinical_events(
         covid_pos_primary_care,
-        on_or_before="today",
-        return_first_date_in_period=True,
         returning="date",
+        find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": "2020-01-01", "latest": "today"}
