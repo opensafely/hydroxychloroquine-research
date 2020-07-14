@@ -258,7 +258,7 @@ file write tablecontent _n
 tabulatevariable, variable(resp_excl_asthma) min(0) max(1) missing 
 file write tablecontent _n 
 
-tabulatevariable, variable(other_neuro_conditions) min(0) max(1) missing 
+tabulatevariable, variable(neuro_conditions) min(0) max(1) missing 
 file write tablecontent _n 
 
 tabulatevariable, variable(hypertension) min(0) max(1) missing 

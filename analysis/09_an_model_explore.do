@@ -34,7 +34,7 @@ file write tablecontent _tab ("HR") _tab ("95% CI") _n
 
 /* Adjust one covariate at a time=============================================*/
 
-foreach var in i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.other_neuro_conditions { 
+foreach var in i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions { 
 	local var: subinstr local var "i." ""
 	local lab: variable label `var'
 	file write tablecontent ("`lab'") _n 

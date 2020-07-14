@@ -84,7 +84,7 @@ foreach var of varlist  chronic_cardiac_disease_date	///
 						hba1c_percentage_date			///
 						resp_excl_asthma_date			///	
 						current_asthma_date				///
-						other_neuro_conditions_date	 	///
+						neuro_conditions_date	 		///
 						rheumatoid_date					///
 						sle_date	{ 
 						

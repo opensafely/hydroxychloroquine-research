@@ -64,9 +64,9 @@ foreach var of varlist 	 azith_last_date					///
 						 hcq_last_date						///
 						 hypertension						///
 						 esrf 								///		
+						 neuro_conditions					///
 						 nsaids								///
 						 oral_prednisolone					///	   			 
-						 other_neuro_conditions				///
 						 permanent_immunodeficiency			///
 						 resp_excl_asthma					///		
 						 rheumatoid							///
@@ -130,9 +130,9 @@ foreach var of varlist 	 cancer_date						///
 						 diabetes_date						///
 						 hypertension_date					///
 						 esrf_date 							///						 
+						 neuro_conditions_date				///
 						 nsaids_date						///
 						 oral_prednisolone_date				///					 
-						 other_neuro_conditions_date		///
 						 perm_immunodef_date				///
 						 resp_excl_asthma_date				///	
 						 rheumatoid_date					///
@@ -720,7 +720,7 @@ label var immunodef_any					"Immunosuppressed (combination algorithm)"
 label var diabcat						"Diabetes Severity"
 label var resp_excl_asthma				"Respiratory disease (excl asthma)"
 label var current_asthma				"Current asthma"
-label var other_neuro_conditions		"Neurological conditions (stroke+dementia)"
+label var neuro_conditions				"Neurological conditions (stroke+dementia+other)"
 
 label var chronic_cardiac_disease_date	"Date of chronic cardiac disease"
 label var chronic_liver_disease_date	"Date of chronic liver disease"
@@ -735,7 +735,7 @@ label var hba1c_mmol_per_mol_date		"Date of HbA1c mmol/mol"
 label var hba1c_percentage_date			"Date of HbA1c %"
 label var resp_excl_asthma_date			"Date of respiratory disease (excl asthma)"
 label var current_asthma_date			"Date of current asthma"
-label var other_neuro_conditions_date	"Date of other neurological conditions"
+label var neuro_conditions_date			"Date of neurological condition"
 
 label var flu_vaccine					"Flu vaccine"
 label var pneumococcal_vaccine			"Pneumococcal Vaccine"
