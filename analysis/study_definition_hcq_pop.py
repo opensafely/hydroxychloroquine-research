@@ -68,4 +68,31 @@ study = StudyDefinition(
         return_expectations={"date": {"latest": "2020-02-29"}},
     ),
 
+
+    # The rest of the lines define the covariates with associated GitHub issues
+    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/33
+    age=patients.age_as_of(
+        "2020-03-01",
+        return_expectations={
+            "rate": "universal",
+            "int": {"distribution": "population_ages"},
+        },
+    ),
+    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/46
+    sex=patients.sex(
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.49, "F": 0.51}},
+        }
+    ),
+
+    imd=patients.address_as_of(
+        "2020-02-29",
+        returning="index_of_multiple_deprivation",
+        round_to_nearest=100,
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"100": 0.1, "200": 0.2, "300": 0.7}},
+        },
+    ),
 )
