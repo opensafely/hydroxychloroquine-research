@@ -1,7 +1,7 @@
-Table 2: Association between current HCQ use and COVID-19 Death in ONS
-	N	Univariable		Age/Sex Adjusted		DAG Adjusted		DAG+ Adjusted		
+Table 2: Association between HCQ use and COVID-19 Death in ONS
+	N	Univariable		Age/Sex Adjusted		DAG Adjusted		Fully Adjusted		
 		HR	95% CI	HR	95% CI	HR	95% CI	HR	95% CI
 Main Analysis
-No HCQ	461 (0.3)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
-HCQ	66 (0.2)	0.76	0.59 - 0.98	1.06	0.82 - 1.37	0.99	0.76 - 1.29	0.98	0.75 - 1.27
+No HCQ	465 (0.3)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
+HCQ	67 (0.2)	0.76	0.59 - 0.99	1.06	0.82 - 1.38	1.00	0.77 - 1.29	0.99	0.76 - 1.28
 

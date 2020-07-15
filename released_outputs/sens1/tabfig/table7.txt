@@ -1,0 +1,12 @@
+Table 7: RA and SLE populations separately
+	N	Univariable		Age/Sex Adjusted		DAG Adjusted		Fully Adjusted		
+		HR	95% CI	HR	95% CI	HR	95% CI	HR	95% CI
+Rheumatoid arthritis (RA)
+No HCQ	1384 (1.0)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
+HCQ	178 (0.7)	0.76	0.65 - 0.89	1.02	0.88 - 1.20	1.04	0.89 - 1.22	1.03	0.87 - 1.20
+
+
+Systemic lupus erythematosus (SLE)
+No HCQ	109 (0.5)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
+HCQ	28 (0.4)	0.69	0.46 - 1.05	1.14	0.75 - 1.74	1.04	0.62 - 1.74	1.13	0.67 - 1.90
+

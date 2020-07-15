@@ -1,0 +1,1404 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens3/log\04_an_des
+> criptive_table.log
+  log type:  text
+ opened on:  15 Jul 2020, 10:08:12
+
+. 
+. * Open Stata dataset
+. use $Tempdir\analysis_dataset, clear
+
+. 
+. /* PROGRAMS TO AUTOMATE TABULATIONS==========================================
+> =*/ 
+. 
+. *****************************************************************************
+> ***
+. * All below code from K Baskharan 
+. * Generic code to output one row of table
+. 
+. cap prog drop generaterow
+
+. program define generaterow
+  1. syntax, variable(varname) condition(string) 
+  2.         
+.         cou
+  3.         local overalldenom=r(N)
+  4.         
+.         qui sum `variable' if `variable' `condition'
+  5.         file write tablecontent (r(max)) _tab
+  6.         
+.         cou if `variable' `condition'
+  7.         local rowdenom = r(N)
+  8.         local colpct = 100*(r(N)/`overalldenom')
+  9.         file write tablecontent %9.0gc (`rowdenom')  (" (") %3.1f (`colpct
+> ') (")") _tab
+ 10. 
+.         cou if exposure == 0 
+ 11.         local rowdenom = r(N)
+ 12.         cou if exposure == 0 & `variable' `condition'
+ 13.         local pct = 100*(r(N)/`rowdenom') 
+ 14.         file write tablecontent %9.0gc (r(N)) (" (") %3.1f (`pct') (")") _
+> tab
+ 15. 
+.         cou if exposure == 1 
+ 16.         local rowdenom = r(N)
+ 17.         cou if exposure == 1 & `variable' `condition'
+ 18.         local pct = 100*(r(N)/`rowdenom')
+ 19.         file write tablecontent %9.0gc (r(N)) (" (") %3.1f  (`pct') (")") 
+> _tab
+ 20. 
+.         cou if exposure >= .
+ 21.         local rowdenom = r(N)
+ 22.         cou if exposure >= . & `variable' `condition'
+ 23.         local pct = 100*(r(N)/`rowdenom')
+ 24.         file write tablecontent %9.0gc (r(N)) (" (") %3.1f (`pct') (")") _
+> n
+ 25.         
+. end
+
+. 
+. /* Explanatory Notes 
+> 
+> defines a program (SAS macro/R function equivalent), generate row
+> the syntax row specifies two inputs for the program: 
+> 
+>         a VARNAME which is your variable 
+>         a CONDITION which is a string of some condition you impose 
+>         
+> the program counts if variable and condition and returns the counts
+> column percentages are then automatically generated
+> this is then written to the text file 'tablecontent' 
+> the number followed by space, brackets, formatted pct, end bracket and then t
+> ab
+> 
+> the format %3.1f specifies length of 3, followed by 1 dp. 
+> 
+> */ 
+. 
+. *****************************************************************************
+> ***
+. * Generic code to output one section (varible) within table (calls above)
+. 
+. cap prog drop tabulatevariable
+
+. prog define tabulatevariable
+  1. syntax, variable(varname) min(real) max(real) [missing]
+  2. 
+.         local lab: variable label `variable'
+  3.         file write tablecontent ("`lab'") _n 
+  4. 
+.         forvalues varlevel = `min'/`max'{ 
+  5.                 generaterow, variable(`variable') condition("==`varlevel'"
+> )
+  6.         }
+  7.         
+.         if "`missing'"!="" generaterow, variable(`variable') condition(">=.")
+  8. 
+. end
+
+. 
+. *****************************************************************************
+> ***
+. 
+. /* Explanatory Notes 
+> 
+> defines program tabulate variable 
+> syntax is : 
+> 
+>         - a VARNAME which you stick in variable 
+>         - a numeric minimum 
+>         - a numeric maximum 
+>         - optional missing option, default value is . 
+> 
+> forvalues lowest to highest of the variable, manually set for each var
+> run the generate row program for the level of the variable 
+> if there is a missing specified, then run the generate row for missing vals
+> 
+> */ 
+. 
+. *****************************************************************************
+> ***
+. * Generic code to summarize a continous variable 
+. 
+. cap prog drop summarizevariable 
+
+. prog define summarizevariable
+  1. syntax, variable(varname) 
+  2. 
+.         local lab: variable label `variable'
+  3.         file write tablecontent ("`lab'") _n 
+  4.         
+.         qui summarize `variable', d
+  5.         file write tablecontent ("Median (IQR)") _tab 
+  6.         file write tablecontent (r(p50)) (" (") (r(p25)) ("-") (r(p75)) ("
+> )") _tab
+  7.                                                         
+.         qui summarize `variable' if exposure == 0, d
+  8.         file write tablecontent (r(p50)) (" (") (r(p25)) ("-") (r(p75)) ("
+> )") _tab
+  9. 
+.         qui summarize `variable' if exposure == 1, d
+ 10.         file write tablecontent (r(p50)) (" (") (r(p25)) ("-") (r(p75)) ("
+> )") _tab
+ 11.         
+.         qui summarize `variable' if exposure >= ., d
+ 12.         file write tablecontent (r(p50)) (" (") (r(p25)) ("-") (r(p75)) ("
+> )") _n
+ 13.         
+.         qui summarize `variable', d
+ 14.         file write tablecontent ("Mean (SD)") _tab 
+ 15.         file write tablecontent (r(mean)) (" (") (r(sd)) (")") _tab
+ 16.                                                         
+.         qui summarize `variable' if exposure == 0, d
+ 17.         file write tablecontent (r(mean)) (" (") (r(sd)) (")") _tab
+ 18. 
+.         qui summarize `variable' if exposure == 1, d
+ 19.         file write tablecontent (r(mean)) (" (") (r(sd)) (")") _tab
+ 20.         
+.         qui summarize `variable' if exposure >= ., d
+ 21.         file write tablecontent (r(mean)) (" (") (r(sd))  (")") _n
+ 22.         
+.         
+.         qui summarize `variable', d
+ 23.         file write tablecontent ("Min, Max") _tab 
+ 24.         file write tablecontent (r(min)) (", ") (r(max)) ("") _tab
+ 25.                                                         
+.         qui summarize `variable' if exposure == 0, d
+ 26.         file write tablecontent (r(min)) (", ") (r(max)) ("") _tab
+ 27. 
+.         qui summarize `variable' if exposure == 1, d
+ 28.         file write tablecontent (r(min)) (", ") (r(max)) ("") _tab
+ 29.         
+.         qui summarize `variable' if exposure >= ., d
+ 30.         file write tablecontent (r(min)) (", ") (r(max)) ("") _n
+ 31.         
+. end
+
+. 
+. 
+. /* INVOKE PROGRAMS FOR TABLE 1===============================================
+> =*/ 
+. 
+. *Set up output file
+. cap file close tablecontent
+
+. file open tablecontent using $Tabfigdir/table1.txt, write text replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/table1.
+> txt not found)
+
+. 
+. file write tablecontent ("Table 1: Demographic and Clinical Characteristics")
+>  _n
+
+. 
+. * Exposure labelled columns
+. 
+. local lab0: label exposure 0
+
+. local lab1: label exposure 1
+
+. local labu: label exposure .u
+
+. 
+. 
+. file write tablecontent _tab ("Total")                                       
+>              _tab ///
+>                                                          ("`lab0'")          
+>                                          _tab ///
+>                                                          ("`lab1'")          
+>                                      _tab ///
+>                                                          ("`labu'")          
+>                                              _n 
+
+. 
+. * DEMOGRAPHICS (more than one level, potentially missing) 
+. 
+. gen byte cons=1
+
+. tabulatevariable, variable(cons) min(1) max(1) 
+  194,226
+  194,226
+  163,727
+  163,727
+  30,499
+  30,499
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. /* POPULATION */
+. tabulatevariable, variable(rheumatoid) min(0) max(1) 
+  194,226
+  25,623
+  163,727
+  19,219
+  30,499
+  6,404
+  0
+  0
+  194,226
+  168,603
+  163,727
+  144,508
+  30,499
+  24,095
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(sle) min(0) max(1) 
+  194,226
+  165,950
+  163,727
+  142,914
+  30,499
+  23,036
+  0
+  0
+  194,226
+  28,276
+  163,727
+  20,813
+  30,499
+  7,463
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. /* SOCIO-DEMOGRAPHICS */
+. tabulatevariable, variable(agegroup) min(1) max(6) 
+  194,226
+  13,683
+  163,727
+  11,409
+  30,499
+  2,274
+  0
+  0
+  194,226
+  19,406
+  163,727
+  15,804
+  30,499
+  3,602
+  0
+  0
+  194,226
+  37,023
+  163,727
+  30,407
+  30,499
+  6,616
+  0
+  0
+  194,226
+  45,613
+  163,727
+  37,652
+  30,499
+  7,961
+  0
+  0
+  194,226
+  49,099
+  163,727
+  41,975
+  30,499
+  7,124
+  0
+  0
+  194,226
+  29,402
+  163,727
+  26,480
+  30,499
+  2,922
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. summarizevariable, variable(age)
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(male) min(0) max(1) 
+  194,226
+  138,151
+  163,727
+  114,859
+  30,499
+  23,292
+  0
+  0
+  194,226
+  56,075
+  163,727
+  48,868
+  30,499
+  7,207
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(ethnicity) min(1) max(5) missing 
+  194,226
+  132,402
+  163,727
+  112,119
+  30,499
+  20,283
+  0
+  0
+  194,226
+  1,281
+  163,727
+  1,007
+  30,499
+  274
+  0
+  0
+  194,226
+  10,477
+  163,727
+  8,489
+  30,499
+  1,988
+  0
+  0
+  194,226
+  2,995
+  163,727
+  2,424
+  30,499
+  571
+  0
+  0
+  194,226
+  1,834
+  163,727
+  1,503
+  30,499
+  331
+  0
+  0
+  194,226
+  45,237
+  163,727
+  38,185
+  30,499
+  7,052
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(imd) min(1) max(5) missing
+  194,226
+  38,901
+  163,727
+  32,890
+  30,499
+  6,011
+  0
+  0
+  194,226
+  39,314
+  163,727
+  33,251
+  30,499
+  6,063
+  0
+  0
+  194,226
+  38,830
+  163,727
+  32,712
+  30,499
+  6,118
+  0
+  0
+  194,226
+  38,385
+  163,727
+  32,325
+  30,499
+  6,060
+  0
+  0
+  194,226
+  38,796
+  163,727
+  32,549
+  30,499
+  6,247
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(residence_type) min(1) max(8) missing 
+  194,226
+  34,677
+  163,727
+  29,434
+  30,499
+  5,243
+  0
+  0
+  194,226
+  11,682
+  163,727
+  9,868
+  30,499
+  1,814
+  0
+  0
+  194,226
+  101,666
+  163,727
+  85,675
+  30,499
+  15,991
+  0
+  0
+  194,226
+  826
+  163,727
+  689
+  30,499
+  137
+  0
+  0
+  194,226
+  25,078
+  163,727
+  21,053
+  30,499
+  4,025
+  0
+  0
+  194,226
+  1,257
+  163,727
+  1,036
+  30,499
+  221
+  0
+  0
+  194,226
+  17,450
+  163,727
+  14,620
+  30,499
+  2,830
+  0
+  0
+  194,226
+  1,578
+  163,727
+  1,341
+  30,499
+  237
+  0
+  0
+  194,226
+  12
+  163,727
+  11
+  30,499
+  1
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(urban) min(0) max(1) missing 
+  194,226
+  45,363
+  163,727
+  38,050
+  30,499
+  7,313
+  0
+  0
+  194,226
+  148,851
+  163,727
+  125,666
+  30,499
+  23,185
+  0
+  0
+  194,226
+  12
+  163,727
+  11
+  30,499
+  1
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. /* HEALTH BEHAVIOURS */
+. tabulatevariable, variable(bmicat) min(1) max(6) missing
+  194,226
+  4,450
+  163,727
+  3,777
+  30,499
+  673
+  0
+  0
+  194,226
+  57,178
+  163,727
+  48,218
+  30,499
+  8,960
+  0
+  0
+  194,226
+  61,717
+  163,727
+  52,521
+  30,499
+  9,196
+  0
+  0
+  194,226
+  35,165
+  163,727
+  29,505
+  30,499
+  5,660
+  0
+  0
+  194,226
+  15,035
+  163,727
+  12,396
+  30,499
+  2,639
+  0
+  0
+  194,226
+  7,687
+  163,727
+  6,127
+  30,499
+  1,560
+  0
+  0
+  194,226
+  12,994
+  163,727
+  11,183
+  30,499
+  1,811
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(obese4cat) min(1) max(4) missing
+  194,226
+  136,339
+  163,727
+  115,699
+  30,499
+  20,640
+  0
+  0
+  194,226
+  35,165
+  163,727
+  29,505
+  30,499
+  5,660
+  0
+  0
+  194,226
+  15,035
+  163,727
+  12,396
+  30,499
+  2,639
+  0
+  0
+  194,226
+  7,687
+  163,727
+  6,127
+  30,499
+  1,560
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(smoke) min(1) max(3) missing 
+  194,226
+  74,027
+  163,727
+  62,574
+  30,499
+  11,453
+  0
+  0
+  194,226
+  92,231
+  163,727
+  77,576
+  30,499
+  14,655
+  0
+  0
+  194,226
+  27,358
+  163,727
+  23,033
+  30,499
+  4,325
+  0
+  0
+  194,226
+  610
+  163,727
+  544
+  30,499
+  66
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(smoke_nomiss) min(1) max(3) missing 
+  194,226
+  74,637
+  163,727
+  63,118
+  30,499
+  11,519
+  0
+  0
+  194,226
+  92,231
+  163,727
+  77,576
+  30,499
+  14,655
+  0
+  0
+  194,226
+  27,358
+  163,727
+  23,033
+  30,499
+  4,325
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. /* COMORBIDITY */
+. tabulatevariable, variable(diabcat) min(1) max(4) missing
+  194,226
+  159,496
+  163,727
+  133,682
+  30,499
+  25,814
+  0
+  0
+  194,226
+  24,807
+  163,727
+  21,328
+  30,499
+  3,479
+  0
+  0
+  194,226
+  9,363
+  163,727
+  8,262
+  30,499
+  1,101
+  0
+  0
+  194,226
+  560
+  163,727
+  455
+  30,499
+  105
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(egfr_cat) min(1) max(3) missing 
+  194,226
+  127,173
+  163,727
+  104,166
+  30,499
+  23,007
+  0
+  0
+  194,226
+  23,801
+  163,727
+  20,503
+  30,499
+  3,298
+  0
+  0
+  194,226
+  1,885
+  163,727
+  1,646
+  30,499
+  239
+  0
+  0
+  194,226
+  41,367
+  163,727
+  37,412
+  30,499
+  3,955
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(egfr_cat_nomiss) min(1) max(3) missing 
+  194,226
+  168,540
+  163,727
+  141,578
+  30,499
+  26,962
+  0
+  0
+  194,226
+  23,801
+  163,727
+  20,503
+  30,499
+  3,298
+  0
+  0
+  194,226
+  1,885
+  163,727
+  1,646
+  30,499
+  239
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(chronic_cardiac_disease) min(0) max(1) missing 
+  194,226
+  163,688
+  163,727
+  137,493
+  30,499
+  26,195
+  0
+  0
+  194,226
+  30,538
+  163,727
+  26,234
+  30,499
+  4,304
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(chronic_liver_disease) min(0) max(1) missing 
+  194,226
+  191,517
+  163,727
+  161,507
+  30,499
+  30,010
+  0
+  0
+  194,226
+  2,709
+  163,727
+  2,220
+  30,499
+  489
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(resp_excl_asthma) min(0) max(1) missing 
+  194,226
+  167,611
+  163,727
+  141,627
+  30,499
+  25,984
+  0
+  0
+  194,226
+  26,615
+  163,727
+  22,100
+  30,499
+  4,515
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(neuro_conditions) min(0) max(1) missing 
+  194,226
+  181,543
+  163,727
+  152,756
+  30,499
+  28,787
+  0
+  0
+  194,226
+  12,683
+  163,727
+  10,971
+  30,499
+  1,712
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(hypertension) min(0) max(1) missing 
+  194,226
+  111,014
+  163,727
+  92,779
+  30,499
+  18,235
+  0
+  0
+  194,226
+  83,212
+  163,727
+  70,948
+  30,499
+  12,264
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(diabetes) min(0) max(1) missing 
+  194,226
+  159,496
+  163,727
+  133,682
+  30,499
+  25,814
+  0
+  0
+  194,226
+  34,730
+  163,727
+  30,045
+  30,499
+  4,685
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(cancer_ever) min(0) max(1) missing 
+  194,226
+  174,266
+  163,727
+  146,636
+  30,499
+  27,630
+  0
+  0
+  194,226
+  19,960
+  163,727
+  17,091
+  30,499
+  2,869
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(immunodef_any) min(0) max(1) missing 
+  194,226
+  191,262
+  163,727
+  161,332
+  30,499
+  29,930
+  0
+  0
+  194,226
+  2,964
+  163,727
+  2,395
+  30,499
+  569
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(flu_vaccine) min(0) max(1) missing 
+  194,226
+  72,228
+  163,727
+  62,863
+  30,499
+  9,365
+  0
+  0
+  194,226
+  121,998
+  163,727
+  100,864
+  30,499
+  21,134
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(pneumococcal_vaccine) min(0) max(1) missing 
+  194,226
+  161,234
+  163,727
+  137,476
+  30,499
+  23,758
+  0
+  0
+  194,226
+  32,992
+  163,727
+  26,251
+  30,499
+  6,741
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. tabulatevariable, variable(gp_consult) min(0) max(1) missing 
+  194,226
+  8,719
+  163,727
+  8,197
+  30,499
+  522
+  0
+  0
+  194,226
+  185,507
+  163,727
+  155,530
+  30,499
+  29,977
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. file write tablecontent _n 
+
+. 
+. summarizevariable, variable(gp_consult_count)
+
+. file write tablecontent _n 
+
+. 
+. file write tablecontent _n _n
+
+. 
+. ** TREATMENT VARIABLES (binary)
+. foreach treat of varlist        hcq                     ///
+>                                                         dmard_pc             
+>    ///
+>                                                         azith                
+>    ///
+>                                                         oral_prednisolone ///
+>                                                         nsaids               
+>    ///
+>                                                         hcq_sa               
+>    ///
+>                                                         dmard_pc_sa     ///
+>                                                         /********************
+> ************************************   TO DO: ADD BIOLOGICS WHEN AVAILABLE***
+> ***/ ///
+>                                                 {               
+  2. 
+. local lab: variable label `treat'
+  3. file write tablecontent ("`lab'") _n 
+  4.         
+. generaterow, variable(`treat') condition("==0")
+  5. generaterow, variable(`treat') condition("==1")
+  6. generaterow, variable(`treat') condition("==.")
+  7. 
+. file write tablecontent _n
+  8. 
+. }
+  194,226
+  163,727
+  163,727
+  163,727
+  30,499
+  0
+  0
+  0
+  194,226
+  30,499
+  163,727
+  0
+  30,499
+  30,499
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+  194,226
+  122,889
+  163,727
+  108,093
+  30,499
+  14,796
+  0
+  0
+  194,226
+  71,337
+  163,727
+  55,634
+  30,499
+  15,703
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+  194,226
+  193,279
+  163,727
+  162,977
+  30,499
+  30,302
+  0
+  0
+  194,226
+  947
+  163,727
+  750
+  30,499
+  197
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+  194,226
+  160,635
+  163,727
+  137,001
+  30,499
+  23,634
+  0
+  0
+  194,226
+  33,591
+  163,727
+  26,726
+  30,499
+  6,865
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+  194,226
+  160,971
+  163,727
+  137,114
+  30,499
+  23,857
+  0
+  0
+  194,226
+  33,255
+  163,727
+  26,613
+  30,499
+  6,642
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+  194,226
+  163,600
+  163,727
+  162,255
+  30,499
+  1,345
+  0
+  0
+  194,226
+  30,626
+  163,727
+  1,472
+  30,499
+  29,154
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+  194,226
+  123,172
+  163,727
+  108,232
+  30,499
+  14,940
+  0
+  0
+  194,226
+  71,054
+  163,727
+  55,495
+  30,499
+  15,559
+  0
+  0
+  194,226
+  0
+  163,727
+  0
+  30,499
+  0
+  0
+  0
+
+. 
+. 
+. file close tablecontent
+
+. 
+. * Close log file 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens3/log\04_an_des
+> criptive_table.log
+  log type:  text
+ closed on:  15 Jul 2020, 10:08:20
+-------------------------------------------------------------------------------

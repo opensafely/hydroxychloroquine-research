@@ -1,0 +1,82 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\02_cr_cre
+> ate_exposure.log
+  log type:  text
+ opened on:  15 Jul 2020, 09:59:09
+
+. 
+. /* TREATMENT EXPOSURE========================================================
+> =*/        
+. 
+. * At least two prescriptions of HCQ in 6 months prior
+. gen exposure=hcq  
+
+. label define exposure 0 "No HCQ" 1 "HCQ"
+
+. label values exposure exposure 
+
+. label var exposure "HCQ Exposure"
+
+. 
+. * At least one prescriptions of HCQ in 3 months prior
+. gen exposure_sa=hcq  
+
+. label define exposure_sa 0 "No HCQ" 1 "HCQ"
+
+. label values exposure_sa exposure_sa 
+
+. label var exposure_sa "HCQ Exposure, 3 mos"
+
+. 
+. /* SAVE DATA=================================================================
+> =*/        
+. 
+. sort patient_id
+
+. save $Tempdir\analysis_dataset, replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analy
+> sis_dataset.dta not found)
+file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analysis_dat
+> aset.dta saved
+
+. 
+. * Save a version set on outcome
+. stset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) origin(
+> enter_date)        
+
+                id:  patient_id
+     failure event:  firstpos_sgss != 0 & firstpos_sgss < .
+obs. time interval:  (stime_firstpos_sgss[_n-1], stime_firstpos_sgss]
+ enter on or after:  time enter_date
+ exit on or before:  failure
+    t for analysis:  (time-origin)
+            origin:  time enter_date
+
+------------------------------------------------------------------------------
+    194,236  total observations
+          0  exclusions
+------------------------------------------------------------------------------
+    194,236  observations remaining, representing
+    194,236  subjects
+      1,338  failures in single-failure-per-subject data
+   24574010  total analysis time at risk and under observation
+                                                at risk from t =         0
+                                     earliest observed entry t =         0
+                                          last observed exit t =       129
+
+. save $Tempdir\analysis_dataset_STSET_$outcome, replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analy
+> sis_dataset_STSET_firstpos_sgss.dta not found)
+file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analysis_dat
+> aset_STSET_firstpos_sgss.dta saved
+
+. 
+. * Close log file 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\02_cr_cre
+> ate_exposure.log
+  log type:  text
+ closed on:  15 Jul 2020, 09:59:11
+-------------------------------------------------------------------------------

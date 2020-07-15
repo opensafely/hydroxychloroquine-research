@@ -1,15 +1,17 @@
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descriptive_plots.log
+       log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descripti
+> ve_plots.log
   log type:  text
- opened on:   8 Jul 2020, 11:34:58
+ opened on:  15 Jul 2020, 09:36:33
 
 . 
 . * Open Stata dataset
 . use $Tempdir\analysis_dataset_STSET_$outcome, clear
 
 . 
-. /* Sense check outcomes=======================================================*/ 
+. /* Sense check outcomes======================================================
+> =*/ 
 . tab exposure $outcome
 
            |   Failure/censoring
@@ -18,31 +20,41 @@
        HCQ |         death
   Exposure |         0          1 |     Total
 -----------+----------------------+----------
-    No HCQ |   163,259        461 |   163,720 
-       HCQ |    30,434         66 |    30,500 
+    No HCQ |   163,270        465 |   163,735 
+       HCQ |    30,434         67 |    30,501 
 -----------+----------------------+----------
-     Total |   193,693        527 |   194,220 
+     Total |   193,704        532 |   194,236 
 
 . 
-. /* Generate KM PLOT===========================================================*/ 
+. /* Generate KM PLOT==========================================================
+> =*/ 
 . 
 . count if exposure != .u
-  194,220
+  194,236
 
 . noi display "RUNNING THE KM PLOT FOR `r(N)' PEOPLE WITH NON-MISSING EXPOSURE"
-RUNNING THE KM PLOT FOR 194220 PEOPLE WITH NON-MISSING EXPOSURE
+RUNNING THE KM PLOT FOR 194236 PEOPLE WITH NON-MISSING EXPOSURE
 
 . 
-. sts graph, by(exposure) failure                                                                                 ///     
->                    title("Time to $tableoutcome", justification(left) size(medsmall) )             ///
->                    xtitle("Days since 1 Mar 2020", size(small))                                         ///
->                    yscale(range(0, $ymax))                                                                                      ///
->                    ylabel(0 ($ymax) 0.02, angle(0) format(%4.3f) labsize(small))        ///
->                    xscale(range(30, 84))                                                                                        ///
->                    xlabel(0 (20) 160, labsize(small))                                                           ///                             
->                    legend(size(vsmall) label (1 "No HCQ") label (2 "HCQ") region(lwidth(none)) position(12))    ///
+. sts graph, by(exposure) failure                                              
+>                                    ///     
+>                    title("Time to $tableoutcome", justification(left) size(me
+> dsmall) )             ///
+>                    xtitle("Days since 1 Mar 2020", size(small))              
+>                            ///
+>                    yscale(range(0, $ymax))                                   
+>                                                    ///
+>                    ylabel(0 (0.001) $ymax, angle(0) format(%4.3f) labsize(sma
+> ll))       ///
+>                    xscale(range(30, 84))                                     
+>                                                    ///
+>                    xlabel(0 (20) 160, labsize(small))                        
+>                                    ///                             
+>                    legend(size(vsmall) label (1 "No HCQ") label (2 "HCQ") reg
+> ion(lwidth(none)) position(12))    ///
 >                    graphregion(fcolor(white)) ///       
->                    risktable(,size(vsmall) order (1 "No HCQ" 2 "HCQ") title(,size(vsmall))) ///
+>                    risktable(,size(vsmall) order (1 "No HCQ" 2 "HCQ") title(,
+> size(vsmall))) ///
 >                    saving(kmplot1, replace)
 
          failure _d:  onscoviddeath
@@ -56,8 +68,8 @@ RUNNING THE KM PLOT FOR 194220 PEOPLE WITH NON-MISSING EXPOSURE
 
 . 
 . graph export "$Tabfigdir/kmplot1.svg", as(svg) replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/kmplot1.svg not found)
-(file E:\analyses\hydroxychloroquine-research/output/tabfig/kmplot1.svg written in SVG format)
+(file E:\analyses\hydroxychloroquine-research/output/tabfig/kmplot1.svg written
+>  in SVG format)
 
 . 
 . * Close window 
@@ -71,7 +83,8 @@ RUNNING THE KM PLOT FOR 194220 PEOPLE WITH NON-MISSING EXPOSURE
 . * Close log file 
 . log close
       name:  <unnamed>
-       log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descriptive_plots.log
+       log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descripti
+> ve_plots.log
   log type:  text
- closed on:   8 Jul 2020, 11:35:09
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ closed on:  15 Jul 2020, 09:36:40
+-------------------------------------------------------------------------------

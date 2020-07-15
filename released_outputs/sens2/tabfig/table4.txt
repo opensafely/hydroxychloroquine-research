@@ -1,0 +1,5 @@
+Table 4: Testing the PH assumption for SGSS positive COVID-19 test
+	Univariable	Age/Sex Adjusted	DAG Adjusted	Fully Adjusted	
+	p-value	p-value	p-value	p-value	
+HCQ	.232	.276	.358	.364
+

@@ -1,0 +1,92 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\05_an_des
+> criptive_plots.log
+  log type:  text
+ opened on:  15 Jul 2020, 09:59:25
+
+. 
+. * Open Stata dataset
+. use $Tempdir\analysis_dataset_STSET_$outcome, clear
+
+. 
+. /* Sense check outcomes======================================================
+> =*/ 
+. tab exposure $outcome
+
+           |   Failure/censoring
+           |     indicator for
+           |     outcome: SGSS
+       HCQ |     positive test
+  Exposure |         0          1 |     Total
+-----------+----------------------+----------
+    No HCQ |   162,571      1,164 |   163,735 
+       HCQ |    30,327        174 |    30,501 
+-----------+----------------------+----------
+     Total |   192,898      1,338 |   194,236 
+
+. 
+. /* Generate KM PLOT==========================================================
+> =*/ 
+. 
+. count if exposure != .u
+  194,236
+
+. noi display "RUNNING THE KM PLOT FOR `r(N)' PEOPLE WITH NON-MISSING EXPOSURE"
+RUNNING THE KM PLOT FOR 194236 PEOPLE WITH NON-MISSING EXPOSURE
+
+. 
+. sts graph, by(exposure) failure                                              
+>                                    ///     
+>                    title("Time to $tableoutcome", justification(left) size(me
+> dsmall) )             ///
+>                    xtitle("Days since 1 Mar 2020", size(small))              
+>                            ///
+>                    yscale(range(0, $ymax))                                   
+>                                                    ///
+>                    ylabel(0 (0.001) $ymax, angle(0) format(%4.3f) labsize(sma
+> ll))       ///
+>                    xscale(range(30, 84))                                     
+>                                                    ///
+>                    xlabel(0 (20) 160, labsize(small))                        
+>                                    ///                             
+>                    legend(size(vsmall) label (1 "No HCQ") label (2 "HCQ") reg
+> ion(lwidth(none)) position(12))    ///
+>                    graphregion(fcolor(white)) ///       
+>                    risktable(,size(vsmall) order (1 "No HCQ" 2 "HCQ") title(,
+> size(vsmall))) ///
+>                    saving(kmplot1, replace)
+
+         failure _d:  firstpos_sgss
+   analysis time _t:  (stime_firstpos_sgss-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+(note: file kmplot1.gph not found)
+(file kmplot1.gph saved)
+(file kmplot1.gph saved)
+
+. 
+. graph export "$Tabfigdir/kmplot1.svg", as(svg) replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tabfig/kmplot1
+> .svg not found)
+(file E:\analyses\hydroxychloroquine-research/output/sens2/tabfig/kmplot1.svg w
+> ritten in SVG format)
+
+. 
+. * Close window 
+. graph close
+
+. 
+. * Delete unneeded graphs
+. erase kmplot1.gph
+
+. 
+. * Close log file 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\05_an_des
+> criptive_plots.log
+  log type:  text
+ closed on:  15 Jul 2020, 09:59:32
+-------------------------------------------------------------------------------

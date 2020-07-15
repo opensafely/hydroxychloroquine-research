@@ -1,0 +1,73 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\09_an_model_exp
+> lore_asthma.log
+  log type:  text
+ opened on:  15 Jul 2020, 09:42:45
+
+. 
+. * Open Stata dataset
+. use $Tempdir\analysis_dataset_STSET_$outcome, clear
+
+. 
+. /* Print table===============================================================
+> =*/ 
+. *  Print the results for the main model 
+. 
+. cap file close tablecontent
+
+. file open tablecontent using $Tabfigdir/table5.txt, write text replace
+(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/table5.txt no
+> t found)
+
+. 
+. * Column headings 
+. file write tablecontent ("Table 5: 1 by 1 adjustments (after age/sex and stra
+> ta adjustments)") _n
+
+. file write tablecontent _tab ("HR") _tab ("95% CI") _n
+
+. 
+. /* Adjust one covariate at a time============================================
+> =*/
+. 
+. foreach var in i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_dise
+> ase i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat 
+> i.hypertension i.cancer_ever i.neuro_conditions { 
+  2.         local var: subinstr local var "i." ""
+  3.         local lab: variable label `var'
+  4.         file write tablecontent ("`lab'") _n 
+  5.         
+.         capture stcox i.exposure i.male age1 age2 age3 i.`var', strata(stp)  
+>    
+  6.         if !_rc {
+  7.                 local lab0: label exposure 0
+  8.                 local lab1: label exposure 1
+  9. 
+.                 file write tablecontent ("`lab0'") _tab
+ 10.                 file write tablecontent ("1.00 (ref)") _tab _n
+ 11.                 file write tablecontent ("`lab1'") _tab  
+ 12.                 
+.                 qui lincom 1.exposure, eform
+ 13.                 file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(
+> lb)) (" - ") %4.2f (r(ub)) _n
+ 14.                                                 
+.                                                                         
+.         }
+ 15.         else di "*WARNING `var' MODEL DID NOT SUCCESSFULLY FIT*"
+ 16. }
+
+. 
+. file write tablecontent _n
+
+. file close tablecontent
+
+. 
+. * Close log file 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\09_an_model_exp
+> lore_asthma.log
+  log type:  text
+ closed on:  15 Jul 2020, 09:43:44
+-------------------------------------------------------------------------------

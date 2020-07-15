@@ -1,38 +1,47 @@
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  E:\analyses\hydroxychloroquine-research/output/log\02_cr_create_exposure.log
+       log:  E:\analyses\hydroxychloroquine-research/output/log\02_cr_create_ex
+> posure.log
   log type:  text
- opened on:   8 Jul 2020, 11:34:46
+ opened on:  15 Jul 2020, 09:36:16
 
 . 
-. /* TREATMENT EXPOSURE=========================================================*/        
+. /* TREATMENT EXPOSURE========================================================
+> =*/        
 . 
-. /* SABA ONLY */ 
-. 
-. * At least one prescription of SABA single 
+. * At least two prescriptions of HCQ in 6 months prior
 . gen exposure=hcq  
 
-. 
-.                                                 
 . label define exposure 0 "No HCQ" 1 "HCQ"
 
 . label values exposure exposure 
 
-. 
 . label var exposure "HCQ Exposure"
 
 . 
-. /* SAVE DATA==================================================================*/        
+. * At least one prescriptions of HCQ in 3 months prior
+. gen exposure_sa=hcq  
+
+. label define exposure_sa 0 "No HCQ" 1 "HCQ"
+
+. label values exposure_sa exposure_sa 
+
+. label var exposure_sa "HCQ Exposure, 3 mos"
+
+. 
+. /* SAVE DATA=================================================================
+> =*/        
 . 
 . sort patient_id
 
 . save $Tempdir\analysis_dataset, replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset.dta not found)
-file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset.dta saved
+file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset.d
+> ta saved
 
 . 
 . * Save a version set on outcome
-. stset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) origin(enter_date)        
+. stset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) origin(
+> enter_date)        
 
                 id:  patient_id
      failure event:  onscoviddeath != 0 & onscoviddeath < .
@@ -43,26 +52,27 @@ obs. time interval:  (stime_onscoviddeath[_n-1], stime_onscoviddeath]
             origin:  time enter_date
 
 ------------------------------------------------------------------------------
-    194,220  total observations
+    194,236  total observations
           0  exclusions
 ------------------------------------------------------------------------------
-    194,220  observations remaining, representing
-    194,220  subjects
-        527  failures in single-failure-per-subject data
-   20289531  total analysis time at risk and under observation
+    194,236  observations remaining, representing
+    194,236  subjects
+        532  failures in single-failure-per-subject data
+   21616600  total analysis time at risk and under observation
                                                 at risk from t =         0
                                      earliest observed entry t =         0
-                                          last observed exit t =       106
+                                          last observed exit t =       113
 
 . save $Tempdir\analysis_dataset_STSET_$outcome, replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset_STSET_onscoviddeath.dta not found)
-file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset_STSET_onscoviddeath.dta saved
+file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset_S
+> TSET_onscoviddeath.dta saved
 
 . 
 . * Close log file 
 . log close
       name:  <unnamed>
-       log:  E:\analyses\hydroxychloroquine-research/output/log\02_cr_create_exposure.log
+       log:  E:\analyses\hydroxychloroquine-research/output/log\02_cr_create_ex
+> posure.log
   log type:  text
- closed on:   8 Jul 2020, 11:34:49
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ closed on:  15 Jul 2020, 09:36:18
+-------------------------------------------------------------------------------
