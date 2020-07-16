@@ -583,7 +583,7 @@ summ first_pos_test_sgss, format
 gen testposcensor_date_sgss = r(max)
 
 *Primary care test positive
-histogram first_pos_test_primcare, discrete width(1) frequency ytitle(Number of primary care positives tests) xtitle(Date) scheme(meta) saving(out_primcarepos_freq, replace)
+histogram first_pos_test_primcare if first_pos_test_primcare>=mdy(1,1,2020), discrete width(1) frequency ytitle(Number of primary care positives tests) xtitle(Date) scheme(meta) saving(out_primcarepos_freq, replace)
 graph export "$Tabfigdir/out_primcarepos_freq.svg", as(svg) replace
 graph close
 erase out_primcarepos_freq.gph
