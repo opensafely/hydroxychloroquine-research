@@ -1,8 +1,10 @@
 *~
 model.log
 */input.csv
+*/input_hcq_pop.csv
 __pycache__
 .python-version
+
 !*.do
 !*.ado
 !*.hlp
@@ -10,3 +12,11 @@ __pycache__
 !*.sthlp
 output/*
 .idea/
+.cache
+*.exe
+*.log
+*.ster
+*.txt
+*.dta
+*.svg
+*.gph
