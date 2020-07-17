@@ -42,10 +42,10 @@ estimates save $Tempdir/univar, replace
 stcox i.exposure i.male age1 age2 age3 
 estimates save $Tempdir/multivar1, replace 
 * DAG adjusted (age, sex, geographic region, other immunosuppressives (will include biologics when we have them))  
-stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(stp)				
+stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(stp population)				
 estimates save $Tempdir/multivar2, replace 
 * DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
-stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions, strata(stp)	
+stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine, strata(stp population)	
 estimates save $Tempdir/multivar3, replace 
 ****************************************************************************************************************************************************************************************
 ****************************************************************************************************************************************************************************************
@@ -61,10 +61,10 @@ estimates save $Tempdir/univar_eth, replace
 stcox i.exposure i.male age1 age2 age3 
 estimates save $Tempdir/multivar1_eth, replace 
 * DAG adjusted (age, sex, geographic region, other immunosuppressives (will include biologics when we have them))  
-stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone, strata(stp)				
+stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone, strata(stp population)				
 estimates save $Tempdir/multivar2_eth, replace 
 * DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
-stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions, strata(stp)	
+stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine, strata(stp population)	
 estimates save $Tempdir/multivar3_eth, replace 
 ****************************************************************************************************************************************************************************************
 ****************************************************************************************************************************************************************************************
@@ -117,19 +117,19 @@ file write tablecontent ("`lab1'") _tab
 /* Main Model */ 
 estimates use $Tempdir/univar 
 lincom 1.exposure, eform
-file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab 
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
 estimates use $Tempdir/multivar1 
 lincom 1.exposure, eform
-file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab 
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
 estimates use $Tempdir/multivar2 
 lincom 1.exposure, eform
-file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab 
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
 estimates use $Tempdir/multivar3 
 lincom 1.exposure, eform
-file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _n 
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _n 
 
 file write tablecontent _n _n
 
@@ -167,19 +167,19 @@ file write tablecontent ("`lab1'") _tab
 /* Main Model */ 
 estimates use $Tempdir/univar_eth 
 lincom 1.exposure, eform
-file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab 
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
 estimates use $Tempdir/multivar1_eth 
 lincom 1.exposure, eform
-file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab 
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
 estimates use $Tempdir/multivar2_eth 
 lincom 1.exposure, eform
-file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab 
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
 estimates use $Tempdir/multivar3_eth 
 lincom 1.exposure, eform
-file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _n 
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _n 
 
 file write tablecontent _n
 

@@ -31,7 +31,7 @@ tab exposure $outcome
 count if exposure != .u
 noi display "RUNNING THE KM PLOT FOR `r(N)' PEOPLE WITH NON-MISSING EXPOSURE"
 
-sts graph, by(exposure) failure 							    			///	
+sts graph, by(exposure) failure ci							    			///	
 		   title("Time to $tableoutcome", justification(left) size(medsmall) )  	   ///
 		   xtitle("Days since 1 Mar 2020", size(small))						///
 		   yscale(range(0, $ymax)) 											///

@@ -58,13 +58,14 @@ assert dup_check == 0
 drop dup_check
 
 * INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 2019 
-gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(11,1,2019)
+gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(9,1,2019)
 recode excl_ra .=0
-gen excl_sle = 1 if sle_date != . & sle_date >= mdy(11,1,2019)
+gen excl_sle = 1 if sle_date != . & sle_date >= mdy(9,1,2019)
 recode excl_sle .=0
 
 datacheck excl_ra==0, nol
 datacheck excl_sle==0, nol
+datacheck population != ., nol
 
 
 * INCLUSION 2: >=18 and <=110 at 1 March 2020 

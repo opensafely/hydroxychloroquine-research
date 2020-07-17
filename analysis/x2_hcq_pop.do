@@ -28,15 +28,6 @@ global indexdate 			= "01/03/2020"
 
 
 
-// variable i have are
-// hcq_count
-// dmards_primary_care_count
-// rheumatoid
-// sle
-
-
-
-
 /* CONVERT STRINGS TO DATE====================================================*/
 /* Comorb dates are given with month/year only, so adding day 15 to enable
    them to be processed as dates 											  */
@@ -229,3 +220,6 @@ tab rheumatoid dmard_pc if sle == 1, m row
 tab male dmard_pc if sle == 1, m row
 tab imd dmard_pc if sle == 1, m row
 tab agegroup dmard_pc if sle == 1, m row
+
+* Close log file 
+log close

@@ -160,10 +160,17 @@ replace male = 0 if sex == "F"
 * Ethnicity
 replace ethnicity = .u if ethnicity == .
 
+*rearrange in order of prevalence
+recode ethnicity 2=6 /* mixed to 6 */
+recode ethnicity 3=2 /* south asian to 2 */
+recode ethnicity 4=3 /* black to 3 */
+recode ethnicity 6=4 /* mixed to 4 */
+
+
 label define ethnicity 	1 "White"  					///
-						2 "Mixed" 					///
-						3 "Asian or Asian British"	///
-						4 "Black"  					///
+						2 "South Asian"				///
+						3 "Black"  					///
+						4 "Mixed" 					///
 						5 "Other"					///
 						.u "Unknown"
 label values ethnicity ethnicity
@@ -471,9 +478,10 @@ label define residence_type 	1 "1 urban major conurbation" 		///
 label values residence_type residence_type 
 
 * urban vs rural flag
-gen urban = .
-replace urban = 1 if inrange(residence_type, 1, 4)
-replace urban = 0 if inrange(residence_type, 5, 8)
+gen urban = 0 if inrange(residence_type, 5, 8)
+recode urban . = 1 
+label define urban 0 "Rural" 1 "Urban"
+label values urban urban
 
 
 
@@ -488,13 +496,6 @@ recode hcq_sa .=0
 
 tab1 hcq hcq_sa, m
 tab hcq hcq_sa, m
-
-
-
-
-
-
-
 
 
 
@@ -525,12 +526,21 @@ recode azith .=0
 
 
 
+/* POPULATION =============================================================*/
+tab rheumatoid sle, m
+*small % both population, so take most recent
+gen population = .
+replace population = 0 if rheumatoid == 1 & sle != 1
+replace population = 1 if rheumatoid != 1 & sle == 1
+replace population = 0 if rheumatoid == 1 & sle == 1 & rheumatoid_date >= sle_date
+replace population = 1 if rheumatoid == 1 & sle == 1 & rheumatoid_date < sle_date
+
+label define population 0 "RA" 1 "SLE"
+label values population population
 
 
 
 /* OUTCOME AND SURVIVAL TIME==================================================*/
-
-
 /*  Cohort entry and censor dates  */
 
 * Date of cohort entry, 1 Mar 2020
@@ -661,6 +671,7 @@ format  stime* %td
 * Population
 label var rheumatoid				"RA"
 label var sle						"SLE"
+label var population				"Population"
 
 label var rheumatoid_date			"Date of RA"
 label var sle_date					"Date of SLE"
