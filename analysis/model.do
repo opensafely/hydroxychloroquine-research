@@ -35,7 +35,7 @@ global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardia
 
 pwd
 cd  "$Dodir"
-adopath + "./adofiles"
+adopath + "$Dodir/adofiles"
 
 /*  Pre-analysis data manipulation  */
 do "00_cr_create_analysis_dataset.do"
@@ -116,7 +116,7 @@ global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardia
 
 pwd
 cd  "$Dodir"
-adopath + "./adofiles"
+adopath + "$Dodir/adofiles"
 
 /*  Pre-analysis data manipulation  */
 do "00_cr_create_analysis_dataset.do"
@@ -183,7 +183,7 @@ global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardia
 
 pwd
 cd  "$Dodir"
-adopath + "./adofiles"
+adopath + "$Dodir/adofiles"
 
 /*  Pre-analysis data manipulation  */
 do "00_cr_create_analysis_dataset.do"
@@ -251,7 +251,7 @@ global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardia
 
 pwd
 cd  "$Dodir"
-adopath + "./adofiles"
+adopath + "$Dodir/adofiles"
 
 /*  Pre-analysis data manipulation  */
 do "00_cr_create_analysis_dataset.do"
