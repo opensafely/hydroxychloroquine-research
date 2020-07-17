@@ -1,6 +1,10 @@
 import delimited `c(pwd)'/output/input.csv, clear
 set more off 
 
+ssc install datacheck 
+ssc install rcsgen 
+ssc install stpm2
+
 * =====        MAIN ANALYSES       =================================================;
 *set filepaths
 global Projectdir `c(pwd)'
