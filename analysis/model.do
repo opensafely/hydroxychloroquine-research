@@ -35,6 +35,7 @@ global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardia
 
 pwd
 cd  "$Dodir"
+adopath
 adopath + "$Dodir/adofiles"
 
 /*  Pre-analysis data manipulation  */
