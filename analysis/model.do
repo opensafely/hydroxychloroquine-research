@@ -1,9 +1,6 @@
 import delimited `c(pwd)'/output/input.csv, clear
 set more off 
 
-ssc install datacheck 
-ssc install rcsgen 
-ssc install stpm2
 
 * =====        MAIN ANALYSES       =================================================;
 *set filepaths
@@ -38,6 +35,7 @@ global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardia
 
 pwd
 cd  "$Dodir"
+adopath + "./adofiles"
 
 /*  Pre-analysis data manipulation  */
 do "00_cr_create_analysis_dataset.do"
@@ -118,6 +116,7 @@ global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardia
 
 pwd
 cd  "$Dodir"
+adopath + "./adofiles"
 
 /*  Pre-analysis data manipulation  */
 do "00_cr_create_analysis_dataset.do"
@@ -184,6 +183,7 @@ global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardia
 
 pwd
 cd  "$Dodir"
+adopath + "./adofiles"
 
 /*  Pre-analysis data manipulation  */
 do "00_cr_create_analysis_dataset.do"
@@ -251,6 +251,7 @@ global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardia
 
 pwd
 cd  "$Dodir"
+adopath + "./adofiles"
 
 /*  Pre-analysis data manipulation  */
 do "00_cr_create_analysis_dataset.do"
