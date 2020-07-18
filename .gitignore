@@ -15,7 +15,6 @@ output/*
 .cache
 *.exe
 *.log
-*.ster
 *.txt
 *.dta
 *.svg
