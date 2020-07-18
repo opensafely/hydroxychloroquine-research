@@ -34,12 +34,12 @@ file write tablecontent _tab ("HR") _tab ("95% CI") _n
 
 /* Adjust one covariate at a time=============================================*/
 
-foreach var in i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions { 
+foreach var in i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine { 
 	local var: subinstr local var "i." ""
 	local lab: variable label `var'
 	file write tablecontent ("`lab'") _n 
 	
-	capture stcox i.exposure i.male age1 age2 age3 i.`var', strata(stp)	
+	capture stcox i.exposure i.male age1 age2 age3 i.`var', strata(stp population)	
 	if !_rc {
 		local lab0: label exposure 0
 		local lab1: label exposure 1
@@ -49,7 +49,7 @@ foreach var in i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease
 		file write tablecontent ("`lab1'") _tab  
 		
 		qui lincom 1.exposure, eform
-		file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _n
+		file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _n
 						
 									
 	}

@@ -44,10 +44,10 @@ foreach intvar of varlist agegroup2 dmard_pc oral_prednisolone nsaids {
 bysort `intvar': tab exposure $outcome, row
 
 /* Univariable model */ 
-stcox i.exposure i.agegroup2
+stcox i.exposure
 estimates store A
 
-stcox i.exposure##i.`intvar' i.agegroup2
+stcox i.exposure##i.`intvar'
 estimates store B
 estimates save $Tempdir/univar_int_`intvar', replace 
 
@@ -68,11 +68,11 @@ lrtest A B
 global multivar1_p_`intvar' = round(r(p),0.001)
 
 * DAG Adjusted 
-stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone, strata(stp)					
+stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone, strata(stp population)					
 										
 estimates store A
 
-stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolone, strata(stp)			
+stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolone, strata(stp population)			
 estimates store B
 estimates save $Tempdir/multivar2_int_`intvar', replace 
 
@@ -80,10 +80,10 @@ lrtest A B
 global multivar2_p_`intvar' = round(r(p),0.001)
 
 * Fully Adjusted 
-stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions, strata(stp)
+stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine, strata(stp population)
 estimates store A
 
-stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions, strata(stp)
+stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine, strata(stp population)
 estimates store B
 estimates save $Tempdir/multivar3_int_`intvar', replace 
 
@@ -159,19 +159,19 @@ file write tablecontent ("`variable'") _tab _tab _tab _tab ("${univar_p_`variabl
 		* Print models 
 		estimates use $Tempdir/univar_int_`variable' 
 		qui lincom 1.exposure + 1.exposure#`varlevel'.`variable', eform
-		file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab _tab
+		file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab _tab
 
 		estimates use $Tempdir/multivar1_int_`variable'
 		qui lincom 1.exposure + 1.exposure#`varlevel'.`variable', eform
-		file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab _tab
+		file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab _tab
 
 		estimates use $Tempdir/multivar2_int_`variable'
 		qui lincom 1.exposure + 1.exposure#`varlevel'.`variable', eform
-		file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab _tab 
+		file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab _tab 
 	
 		estimates use $Tempdir/multivar3_int_`variable'
 		qui lincom 1.exposure + 1.exposure#`varlevel'.`variable', eform
-		file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f (r(ub)) _tab _n
+		file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab _n
 	} 
 		
 end

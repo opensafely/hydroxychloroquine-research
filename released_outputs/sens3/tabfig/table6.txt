@@ -1,0 +1,12 @@
+Table 6: Ethnicity adjustments
+	N	Univariable		Age/Sex Adjusted		DAG Adjusted		Fully Adjusted		
+		HR	95% CI	HR	95% CI	HR	95% CI	HR	95% CI
+Main Analysis, dropping individuals with missing ethnicity
+No HCQ	853 (0.7)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
+HCQ	129 (0.6)	0.80	0.66 - 0.96	0.90	0.74 - 1.08	0.84	0.70 - 1.01	0.83	0.69 - 1.00
+
+
+Main Analysis, adjusting for ethnicity
+No HCQ	853 (0.7)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
+HCQ	129 (0.6)	0.80	0.66 - 0.96	0.90	0.74 - 1.08	0.83	0.69 - 1.01	0.82	0.68 - 0.99
+

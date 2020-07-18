@@ -1,0 +1,421 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens3/log\08_an_mod
+> el_checks.log
+  log type:  text
+ opened on:  15 Jul 2020, 10:12:34
+
+. 
+. * Open Stata dataset
+. use $Tempdir\analysis_dataset_STSET_$outcome, clear
+
+. 
+. * Exposure labels 
+. local lab1: label exposure 1
+
+. 
+. /* Quietly run models, perform test and store results in local macro=========
+> =*/
+. 
+. qui stcox i.exposure 
+
+. estat phtest, detail
+
+      Test of proportional-hazards assumption
+
+      Time:  Time
+      ----------------------------------------------------------------
+                  |       rho            chi2       df       Prob>chi2
+      ------------+---------------------------------------------------
+      0b.exposure |            .            .        1             .
+      1.exposure  |      0.02726         0.99        1         0.3197
+      ------------+---------------------------------------------------
+      global test |                      0.99        1         0.3197
+      ----------------------------------------------------------------
+
+. local univar_p1 = round(r(phtest)[2,4],0.001)
+
+. 
+. di `univar_p1'
+.32
+
+.  
+. estat phtest, plot(1.exposure) ///
+>                           graphregion(fcolor(white)) ///
+>                           ylabel(, nogrid labsize(small)) ///
+>                           xlabel(, labsize(small)) ///
+>                           xtitle("Time", size(small)) ///
+>                           ytitle("Scaled Shoenfeld Residuals", size(small)) /
+> //
+>                           msize(small) ///
+>                           mcolor(gs6) ///
+>                           msymbol(circle_hollow) ///
+>                           scheme(s1mono) ///
+>                           title ("Schoenfeld residuals against time, Univaria
+> ble `lab1'", position(11) size(medsmall)) 
+
+. 
+. graph export "$Tabfigdir/schoenplot1a.svg", as(svg) replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/schoenp
+> lot1a.svg not found)
+(file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/schoenplot1a.
+> svg written in SVG format)
+
+. 
+. * Close window 
+. graph close  
+
+.                           
+. stcox i.exposure i.male age1 age2 age3 
+
+         failure _d:  firstpos_primcare
+   analysis time _t:  (stime_firstpos_primcare-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+
+Iteration 0:   log likelihood = -16194.173
+Iteration 1:   log likelihood = -16101.116
+Iteration 2:   log likelihood = -16067.483
+Iteration 3:   log likelihood =  -16066.79
+Iteration 4:   log likelihood =  -16066.79
+Refining estimates:
+Iteration 0:   log likelihood =  -16066.79
+
+Cox regression -- Breslow method for ties
+
+No. of subjects =      194,226                  Number of obs    =     194,226
+No. of failures =        1,332
+Time at risk    =     24565206
+                                                LR chi2(5)       =      254.77
+Log likelihood  =    -16066.79                  Prob > chi2      =      0.0000
+
+------------------------------------------------------------------------------
+          _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |   .9593563   .0765111    -0.52   0.603     .8205299    1.121671
+      1.male |   1.143496   .0674103     2.27   0.023     1.018721    1.283553
+        age1 |     1.0076    .007484     1.02   0.308     .9930381    1.022376
+        age2 |   1.001322   .0148066     0.09   0.929     .9727178    1.030767
+        age3 |   1.136168   .0795965     1.82   0.068     .9903986    1.303392
+------------------------------------------------------------------------------
+
+. estat phtest, detail
+
+      Test of proportional-hazards assumption
+
+      Time:  Time
+      ----------------------------------------------------------------
+                  |       rho            chi2       df       Prob>chi2
+      ------------+---------------------------------------------------
+      0b.exposure |            .            .        1             .
+      1.exposure  |      0.02404         0.76        1         0.3825
+      0b.male     |            .            .        1             .
+      1.male      |     -0.03547         1.66        1         0.1974
+      age1        |     -0.02928         1.03        1         0.3111
+      age2        |     -0.00609         0.05        1         0.8298
+      age3        |      0.02109         0.56        1         0.4542
+      ------------+---------------------------------------------------
+      global test |                     11.53        5         0.0418
+      ----------------------------------------------------------------
+
+. local multivar1_p1 = round(r(phtest)[2,4],0.001)
+
+.  
+. estat phtest, plot(1.exposure) ///
+>                           graphregion(fcolor(white)) ///
+>                           ylabel(, nogrid labsize(small)) ///
+>                           xlabel(, labsize(small)) ///
+>                           xtitle("Time", size(small)) ///
+>                           ytitle("Scaled Shoenfeld Residuals", size(small)) /
+> //
+>                           msize(small) ///
+>                           mcolor(gs6) ///
+>                           msymbol(circle_hollow) ///
+>                           scheme(s1mono) ///
+>                           title ("Schoenfeld residuals against time, Age/Sex 
+> Adjusted `lab1'", position(11) size(medsmall))                       
+
+. 
+. graph export "$Tabfigdir/schoenplot2a.svg", as(svg) replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/schoenp
+> lot2a.svg not found)
+(file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/schoenplot2a.
+> svg written in SVG format)
+
+. 
+. * Close window 
+. graph close
+
+.                   
+. stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata
+> (stp)
+
+         failure _d:  firstpos_primcare
+   analysis time _t:  (stime_firstpos_primcare-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+
+Iteration 0:   log likelihood = -11932.449
+Iteration 1:   log likelihood = -11791.178
+Iteration 2:   log likelihood = -11753.642
+Iteration 3:   log likelihood = -11752.966
+Iteration 4:   log likelihood = -11752.966
+Refining estimates:
+Iteration 0:   log likelihood = -11752.966
+
+Stratified Cox regr. -- Breslow method for ties
+
+No. of subjects =      194,226                  Number of obs    =     194,226
+No. of failures =        1,332
+Time at risk    =     24565206
+                                                LR chi2(7)       =      358.97
+Log likelihood  =   -11752.966                  Prob > chi2      =      0.0000
+
+------------------------------------------------------------------------------
+          _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |   .9067939   .0731843    -1.21   0.225     .7741247      1.0622
+      1.male |   1.154672   .0681573     2.44   0.015     1.028524    1.296292
+        age1 |   1.008697   .0075276     1.16   0.246     .9940501    1.023559
+        age2 |    .995704    .014796    -0.29   0.772     .9671226     1.02513
+        age3 |   1.171791   .0826906     2.25   0.025     1.020429    1.345605
+  1.dmard_pc |   1.130862   .0646463     2.15   0.031     1.010998    1.264937
+1.oral_pr~ne |   1.811588    .111111     9.69   0.000     1.606394    2.042991
+------------------------------------------------------------------------------
+                                                             Stratified by stp
+
+. estat phtest, detail
+
+      Test of proportional-hazards assumption
+
+      Time:  Time
+      ----------------------------------------------------------------
+                  |       rho            chi2       df       Prob>chi2
+      ------------+---------------------------------------------------
+      0b.exposure |            .            .        1             .
+      1.exposure  |      0.01887         0.48        1         0.4895
+      0b.male     |            .            .        1             .
+      1.male      |     -0.03509         1.62        1         0.2025
+      age1        |     -0.02725         0.89        1         0.3450
+      age2        |     -0.00659         0.05        1         0.8155
+      age3        |      0.02141         0.58        1         0.4455
+      0b.dmard_pc |            .            .        1             .
+      1.dmard_pc  |      0.01945         0.51        1         0.4748
+      0b.oral_p~ne|            .            .        1             .
+      1.oral_pr~ne|     -0.05285         3.72        1         0.0538
+      ------------+---------------------------------------------------
+      global test |                     14.95        7         0.0367
+      ----------------------------------------------------------------
+
+. local multivar2_p1 = round(r(phtest)[2,4],0.001)
+
+.  
+. estat phtest, plot(1.exposure) ///
+>                           graphregion(fcolor(white)) ///
+>                           ylabel(, nogrid labsize(small)) ///
+>                           xlabel(, labsize(small)) ///
+>                           xtitle("Time", size(small)) ///
+>                           ytitle("Scaled Shoenfeld Residuals", size(small)) /
+> //
+>                           msize(small) ///
+>                           mcolor(gs6) ///
+>                           msymbol(circle_hollow) ///
+>                           scheme(s1mono) /// 
+>                           title ("Schoenfeld residuals against time, DAG Adju
+> sted `lab1'", position(11) size(medsmall))                   
+
+.                           
+. graph export "$Tabfigdir/schoenplot3a.svg", as(svg) replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/schoenp
+> lot3a.svg not found)
+(file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/schoenplot3a.
+> svg written in SVG format)
+
+. 
+. * Close window 
+. graph close
+
+. 
+. stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaid
+> s i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_li
+> ver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions, stra
+> ta(stp)
+
+         failure _d:  firstpos_primcare
+   analysis time _t:  (stime_firstpos_primcare-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+
+Iteration 0:   log likelihood = -11932.449
+Iteration 1:   log likelihood = -11795.485
+Iteration 2:   log likelihood = -11695.869
+Iteration 3:   log likelihood =  -11687.31
+Iteration 4:   log likelihood = -11686.983
+Iteration 5:   log likelihood = -11686.983
+Refining estimates:
+Iteration 0:   log likelihood = -11686.983
+
+Stratified Cox regr. -- Breslow method for ties
+
+No. of subjects =      194,226                  Number of obs    =     194,226
+No. of failures =        1,332
+Time at risk    =     24565206
+                                                LR chi2(19)      =      490.93
+Log likelihood  =   -11686.983                  Prob > chi2      =      0.0000
+
+------------------------------------------------------------------------------
+          _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |   .8946609     .07225    -1.38   0.168     .7636917    1.048091
+      1.male |   1.101715   .0660052     1.62   0.106     .9796535    1.238984
+        age1 |   1.004231   .0075385     0.56   0.574     .9895645    1.019116
+        age2 |   .9879638   .0148714    -0.80   0.421     .9592421    1.017545
+        age3 |   1.215906   .0868532     2.74   0.006     1.057056    1.398628
+  1.dmard_pc |   1.181818   .0679746     2.90   0.004     1.055825    1.322845
+1.oral_pr~ne |   1.626722   .1034246     7.65   0.000     1.436135    1.842602
+    1.nsaids |   1.020923   .0825994     0.26   0.798     .8712147    1.196357
+1.~c_disease |   1.341821   .0908174     4.34   0.000     1.175123    1.532166
+1.resp_exc~a |    1.29788   .0918233     3.69   0.000     1.129831    1.490926
+             |
+egfr_cat_n~s |
+      30-59  |   1.107055   .0856398     1.31   0.189     .9513095    1.288299
+        <30  |   2.161065   .3448961     4.83   0.000     1.580593    2.954716
+             |
+1.~r_disease |   1.180879   .2490475     0.79   0.431     .7810647    1.785353
+             |
+   obese4cat |
+Obese I ..)  |   1.203983   .0857467     2.61   0.009     1.047125    1.384338
+Obese II..)  |   1.264034   .1291501     2.29   0.022     1.034639    1.544289
+Obese II..)  |   1.623696     .20788     3.79   0.000     1.263358    2.086811
+             |
+1.hyperten~n |   1.106939   .0690581     1.63   0.103     .9795354    1.250913
+1.cancer_e~r |    1.27202   .0993118     3.08   0.002     1.091534     1.48235
+1.neuro_co~s |   1.533799   .1298068     5.05   0.000     1.299363    1.810533
+------------------------------------------------------------------------------
+                                                             Stratified by stp
+
+. estat phtest, detail
+
+      Test of proportional-hazards assumption
+
+      Time:  Time
+      ----------------------------------------------------------------
+                  |       rho            chi2       df       Prob>chi2
+      ------------+---------------------------------------------------
+      0b.exposure |            .            .        1             .
+      1.exposure  |      0.01714         0.39        1         0.5302
+      0b.male     |            .            .        1             .
+      1.male      |     -0.03194         1.36        1         0.2443
+      age1        |     -0.02613         0.83        1         0.3622
+      age2        |      0.00125         0.00        1         0.9647
+      age3        |      0.01320         0.22        1         0.6391
+      0b.dmard_pc |            .            .        1             .
+      1.dmard_pc  |      0.01984         0.53        1         0.4675
+      0b.oral_p~ne|            .            .        1             .
+      1.oral_pr~ne|     -0.04268         2.45        1         0.1175
+      0b.nsaids   |            .            .        1             .
+      1.nsaids    |      0.00663         0.06        1         0.8082
+      0b.chronic..|            .            .        1             .
+      1.~c_disease|      0.04926         3.32        1         0.0683
+      0b.resp_ex~a|            .            .        1             .
+      1.resp_exc~a|     -0.04480         2.67        1         0.1025
+      1b.egfr_ca~s|            .            .        1             .
+      2.egfr_cat~s|      0.00100         0.00        1         0.9706
+      3.egfr_cat~s|     -0.00752         0.08        1         0.7806
+      0b.chronic..|            .            .        1             .
+      1.~r_disease|      0.06093         4.98        1         0.0256
+      1b.obese4cat|            .            .        1             .
+      2.obese4cat |      0.00138         0.00        1         0.9596
+      3.obese4cat |      0.04273         2.44        1         0.1182
+      4.obese4cat |      0.03067         1.24        1         0.2654
+      0b.hyperte~n|            .            .        1             .
+      1.hyperten~n|     -0.05136         3.63        1         0.0567
+      0b.cancer_~r|            .            .        1             .
+      1.cancer_e~r|     -0.03042         1.24        1         0.2656
+      0b.neuro_c~s|            .            .        1             .
+      1.neuro_co~s|      0.01567         0.33        1         0.5685
+      ------------+---------------------------------------------------
+      global test |                     32.49       19         0.0275
+      ----------------------------------------------------------------
+
+. local multivar3_p1 = round(r(phtest)[2,4],0.001)
+
+.  
+. estat phtest, plot(1.exposure) ///
+>                           graphregion(fcolor(white)) ///
+>                           ylabel(, nogrid labsize(small)) ///
+>                           xlabel(, labsize(small)) ///
+>                           xtitle("Time", size(small)) ///
+>                           ytitle("Scaled Shoenfeld Residuals", size(small)) /
+> //
+>                           msize(small) ///
+>                           mcolor(gs6) ///
+>                           msymbol(circle_hollow) ///
+>                           scheme(s1mono) /// 
+>                           title ("Schoenfeld residuals against time, Fully Ad
+> justed `lab1'", position(11) size(medsmall))                 
+
+.                           
+. graph export "$Tabfigdir/schoenplot4a.svg", as(svg) replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/schoenp
+> lot4a.svg not found)
+(file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/schoenplot4a.
+> svg written in SVG format)
+
+. 
+. * Close window 
+. graph close
+
+. 
+. * Print table of results=====================================================
+> =*/        
+. 
+. 
+. cap file close tablecontent
+
+. file open tablecontent using $Tabfigdir/table4.txt, write text replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/table4.
+> txt not found)
+
+. 
+. * Column headings 
+. file write tablecontent ("Table 4: Testing the PH assumption for $tableoutcom
+> e") _n
+
+. file write tablecontent _tab ("Univariable") _tab ("Age/Sex Adjusted") _tab /
+> //
+>                                                 ("DAG Adjusted") _tab ("Fully
+>  Adjusted") _tab _n
+
+.                                                 
+. file write tablecontent _tab ("p-value") _tab ("p-value") _tab ("p-value") _t
+> ab ("p-value") _tab _n
+
+. 
+. * Row heading and content  
+. file write tablecontent ("`lab1'") _tab
+
+. file write tablecontent ("`univar_p1'") _tab ("`multivar1_p1'") _tab ("`multi
+> var2_p1'") _tab ("`multivar3_p1'") _n
+
+. 
+. file write tablecontent _n
+
+. file close tablecontent
+
+. 
+. 
+. * Close log file 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens3/log\08_an_mod
+> el_checks.log
+  log type:  text
+ closed on:  15 Jul 2020, 10:14:11
+-------------------------------------------------------------------------------

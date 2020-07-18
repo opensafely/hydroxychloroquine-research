@@ -20,19 +20,9 @@ log using $Logdir\x2_hcq_pop, replace t
 
 
 
-
 /* SET Index date ===========================================================*/
 global indexdate 			= "01/03/2020"
 
-
-
-
-
-// variable i have are
-// hcq_count
-// dmards_primary_care_count
-// rheumatoid
-// sle
 
 
 
@@ -138,6 +128,18 @@ label values agegroup agegroup
 
 
 
+/* POPULATION =============================================================*/
+tab rheumatoid sle, m
+*small % both population, so take most recent
+gen population = .
+replace population = 0 if rheumatoid == 1 & sle != 1
+replace population = 1 if rheumatoid != 1 & sle == 1
+replace population = 0 if rheumatoid == 1 & sle == 1 & rheumatoid_date >= sle_date
+replace population = 1 if rheumatoid == 1 & sle == 1 & rheumatoid_date < sle_date
+
+label define population 0 "RA" 1 "SLE"
+label values population population
+
 
 
 /* APPLY INCLUSION/EXCLUIONS==================================================*/ 
@@ -191,12 +193,14 @@ tab1 male imd agegroup, m
 *PREVALENCE OVERALL
 tab1 hcq dmard_pc, m
 *hcq prevalence in patient groups
+tab population hcq,m row
 tab rheumatoid hcq,m row
 tab sle hcq, m row
 tab male hcq, m row
 tab imd hcq, m row
 tab agegroup hcq, m row
 *dmard prevalence in patient groups
+tab population dmard_pc,m row
 tab rheumatoid dmard_pc,m row
 tab sle dmard_pc, m row
 tab male dmard_pc, m row
@@ -205,27 +209,30 @@ tab agegroup dmard_pc, m row
 
 
 *PREVALENCE IN RA
-tab1 hcq dmard_pc if rheumatoid == 1, m
+tab1 hcq dmard_pc if population == 0, m
 *hcq prevalence in patient groups
-tab sle hcq if rheumatoid == 1, m row
-tab male hcq if rheumatoid == 1, m row
-tab imd hcq if rheumatoid == 1, m row
-tab agegroup hcq if rheumatoid == 1, m row
+tab sle hcq if population == 0, m row
+tab male hcq if population == 0, m row
+tab imd hcq if population == 0, m row
+tab agegroup hcq if population == 0, m row
 *dmard prevalence in patient groups
-tab sle dmard_pc if rheumatoid == 1, m row
-tab male dmard_pc if rheumatoid == 1, m row
-tab imd dmard_pc if rheumatoid == 1, m row
-tab agegroup dmard_pc if rheumatoid == 1, m row
+tab sle dmard_pc if population == 0, m row
+tab male dmard_pc if population == 0, m row
+tab imd dmard_pc if population == 0, m row
+tab agegroup dmard_pc if population == 0, m row
 
 *PREVALENCE IN SLE
-tab1 hcq dmard_pc if sle == 1, m
+tab1 hcq dmard_pc if population == 1, m
 *hcq prevalence in patient groups
-tab rheumatoid hcq if sle == 1, m row
-tab male hcq if sle == 1, m row
-tab imd hcq if sle == 1, m row
-tab agegroup hcq if sle == 1, m row
+tab rheumatoid hcq if population == 1, m row
+tab male hcq if population == 1, m row
+tab imd hcq if population == 1, m row
+tab agegroup hcq if population == 1, m row
 *dmard prevalence in patient groups
-tab rheumatoid dmard_pc if sle == 1, m row
-tab male dmard_pc if sle == 1, m row
-tab imd dmard_pc if sle == 1, m row
-tab agegroup dmard_pc if sle == 1, m row
+tab rheumatoid dmard_pc if population == 1, m row
+tab male dmard_pc if population == 1, m row
+tab imd dmard_pc if population == 1, m row
+tab agegroup dmard_pc if population == 1, m row
+
+* Close log file 
+log close

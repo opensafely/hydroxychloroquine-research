@@ -1,12 +1,14 @@
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  E:\analyses\hydroxychloroquine-research/output/log\01_cr_create_population.log
+       log:  E:\analyses\hydroxychloroquine-research/output/log\01_cr_create_po
+> pulation.log
   log type:  text
- opened on:   8 Jul 2020, 11:34:45
+ opened on:  15 Jul 2020, 09:36:15
 
 . 
 . 
-. /* APPLY INCLUSION/EXCLUIONS==================================================*/ 
+. /* APPLY INCLUSION/EXCLUIONS=================================================
+> =*/ 
 . 
 . noi di "DROP MISSING GENDER:"
 DROP MISSING GENDER:
@@ -60,7 +62,8 @@ DROP EXPOSURE TO CHLOROQUINE
 . 
 . 
 . 
-. /* CHECK INCLUSION AND EXCLUSION CRITERIA=====================================*/ 
+. /* CHECK INCLUSION AND EXCLUSION CRITERIA====================================
+> =*/ 
 . 
 . * DATA STRUCTURE: Confirm one row per patient 
 . duplicates tag patient_id, generate(dup_check)
@@ -72,18 +75,19 @@ Duplicates in terms of patient_id
 . drop dup_check
 
 . 
-. * INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 2019  **********************  CHECK AGAIN AFTER UPDATING STUDYDEF
+. * INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 
+> 2019 
 . gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(11,1,2019)
-(194,220 missing values generated)
+(194,236 missing values generated)
 
 . recode excl_ra .=0
-(excl_ra: 194220 changes made)
+(excl_ra: 194236 changes made)
 
 . gen excl_sle = 1 if sle_date != . & sle_date >= mdy(11,1,2019)
-(194,220 missing values generated)
+(194,236 missing values generated)
 
 . recode excl_sle .=0
-(excl_sle: 194220 changes made)
+(excl_sle: 194236 changes made)
 
 . 
 . datacheck excl_ra==0, nol
@@ -103,7 +107,7 @@ Duplicates in terms of patient_id
 .  
 . * EXCLUSION 1: No chloroquine phosphate/sulfate exposure window
 . gen chlor_check = 1 if chloroquine_not_hcq == 1 
-(194,220 missing values generated)
+(194,236 missing values generated)
 
 . datacheck chlor_check >=., nol
 
@@ -129,7 +133,8 @@ Duplicates in terms of patient_id
 . * Close log file 
 . log close                                          
       name:  <unnamed>
-       log:  E:\analyses\hydroxychloroquine-research/output/log\01_cr_create_population.log
+       log:  E:\analyses\hydroxychloroquine-research/output/log\01_cr_create_po
+> pulation.log
   log type:  text
- closed on:   8 Jul 2020, 11:34:46
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ closed on:  15 Jul 2020, 09:36:16
+-------------------------------------------------------------------------------

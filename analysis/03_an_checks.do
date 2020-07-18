@@ -92,19 +92,28 @@ foreach var of varlist  chronic_cardiac_disease_date	///
 
 }
 
+
+
+* Outcome dates
+summ  died_date_onscovid died_date_onsnoncovid first_pos_test_sgss first_pos_test_primcare, format
+
+* Censoring dates
+summ  onscoviddeathcensor_date hcq_first_after_date, format
+
+* Last dates
+summ  stime_onscoviddeath stime_onsnoncoviddeath stime_firstpos_sgss stime_firstpos_primcare,   format
+
+
+
+
+/* FREQUENCIES ===============================================================*/ 
+* Check frequency of all variables in fully adjusted model 
 foreach comorb in $varlist { 
 
 	local comorb: subinstr local comorb "i." ""
 	tab `comorb', m
 	
 }
-
-* Outcome dates
-summ  died_date_onscovid died_date_onsnoncovid , format
-summ  onscoviddeathcensor_date hcq_first_after_date, format
-summ  stime_onscoviddeath stime_onsnoncoviddeath,   format
-
-
 
 
 
@@ -130,17 +139,6 @@ tab egfr_cat_nomiss egfr_cat, m
 * urban residence
 tab residence_type urban, m
 
-/* Treatment variables */ 
-
-foreach var of varlist 	hcq					///
-						dmard_pc 			///
-						azith	        	///
-						oral_prednisolone 	///
-						{
-						
-	tab exposure `var', row missing
-
-}
 
 
 
@@ -148,49 +146,69 @@ foreach var of varlist 	hcq					///
 
 /*  Relationships between demographic/lifestyle variables  */
 
-tab agegroup bmicat, 	row 
-tab agegroup smoke, 	row  
-tab agegroup ethnicity, row 
-tab agegroup imd, 		row 
+// tab agegroup bmicat, 	row 
+// tab agegroup smoke, 	row  
+// tab agegroup ethnicity, row 
+// tab agegroup imd, 		row 
+//
+// tab bmicat smoke, 		 row   
+// tab bmicat ethnicity, 	 row 
+// tab bmicat imd, 	 	 row 
+// tab bmicat hypertension, row 
+//                            
+// tab smoke ethnicity, 	row 
+// tab smoke imd, 			row 
+// tab smoke hypertension, row 
+//                            
+// tab ethnicity imd, 		row 
+//
+// * Relationships with age
+// foreach var in $varlist  				{
+// 	local var: subinstr local var "i." ""
+//  	tab agegroup `var', row 
+//  }
+//
+//
+//  * Relationships with sex
+// foreach var in $varlist 					{
+// 	local var: subinstr local var "i." ""						
+//  	tab male `var', row 
+// }
+//
+//  * Relationships with smoking
+// foreach var in $varlist 				{
+// 	local var: subinstr local var "i." ""	
+//  	tab smoke `var', row 
+// }
 
-tab bmicat smoke, 		 row   
-tab bmicat ethnicity, 	 row 
-tab bmicat imd, 	 	 row 
-tab bmicat hypertension, row 
-                            
-tab smoke ethnicity, 	row 
-tab smoke imd, 			row 
-tab smoke hypertension, row 
-                            
-tab ethnicity imd, 		row 
-
-* Relationships with age
-foreach var in $varlist  				{
-	local var: subinstr local var "i." ""
- 	tab agegroup `var', row 
- }
 
 
- * Relationships with sex
-foreach var in $varlist 					{
-	local var: subinstr local var "i." ""						
- 	tab male `var', row 
+/* CROSS TABS=================================================================*/ 
+/* Treatment variables */ 
+foreach var of varlist 	hcq					///
+						dmard_pc 			///
+						azith	        	///
+						oral_prednisolone 	///
+						{
+						
+	tab exposure `var', row col missing
+
 }
 
- * Relationships with smoking
-foreach var in $varlist 				{
-	local var: subinstr local var "i." ""	
- 	tab smoke `var', row 
-}
-
+/* AGE/SEX DISTRIBUTION BY HCQ USE      ======================================*/
+tab agegroup sex if hcq == 1,m
+tab agegroup sex if hcq == 0,m
 
 
 /* SENSE CHECK POPULATIONS====================================================*/
 tab rheumatoid sle, row col
+tab population, m
+tab population rheumatoid, m
+tab population sle, m
 
 
 /* SENSE CHECK OUTCOMES=======================================================*/
-
+tab firstpos_sgss firstpos_primcare, row col
 tab onscoviddeath onsnoncoviddeath, row col
 
 /* ENSURE ENOUGH DEATHS IN EACH CATEGORY INCLUDED IN FULLY ADJUSTED MODEL ====*/
