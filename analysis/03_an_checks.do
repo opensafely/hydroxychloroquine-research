@@ -137,7 +137,7 @@ tab diabcat diabetes, m
 tab egfr_cat_nomiss egfr_cat, m
 
 * urban residence
-tab residence_type urban, m
+*tab residence_type urban, m
 
 
 

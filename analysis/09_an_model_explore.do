@@ -17,7 +17,7 @@ OTHER OUTPUT: 			logfiles, printed to folder $Logdir
 * Open a log file
 
 cap log close
-log using $Logdir\09_an_model_explore_asthma, replace t
+log using $Logdir\09_an_model_explore, replace t
 
 * Open Stata dataset
 use $Tempdir\analysis_dataset_STSET_$outcome, clear

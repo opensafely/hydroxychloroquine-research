@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\00_cr_create_an
 > alysis_dataset.log
   log type:  text
- opened on:  15 Jul 2020, 09:35:56
+ opened on:  19 Jul 2020, 20:27:23
 
 . 
 . 
@@ -319,12 +319,27 @@ variable temporary_immunodeficiency was str7 now str10
 (45,245 real changes made, 45,245 to missing)
 
 . 
+. *rearrange in order of prevalence
+. recode ethnicity 2=6 /* mixed to 6 */
+(ethnicity: 1278 changes made)
+
+. recode ethnicity 3=2 /* south asian to 2 */
+(ethnicity: 10479 changes made)
+
+. recode ethnicity 4=3 /* black to 3 */
+(ethnicity: 2995 changes made)
+
+. recode ethnicity 6=4 /* mixed to 4 */
+(ethnicity: 1278 changes made)
+
+. 
+. 
 . label define ethnicity  1 "White"                                       ///
->                                                 2 "Mixed"                    
+>                                                 2 "South Asian"              
+>            ///
+>                                                 3 "Black"                    
 >                    ///
->                                                 3 "Asian or Asian British"   
->    ///
->                                                 4 "Black"                    
+>                                                 4 "Mixed"                    
 >                    ///
 >                                                 5 "Other"                    
 >                    ///
@@ -520,10 +535,10 @@ variable temporary_immunodeficiency was str7 now str10
 (120,215 missing values generated)
 
 . replace smoke = 2  if smoking_status == "E"
-(92,245 real changes made)
+(92,243 real changes made)
 
 . replace smoke = 3  if smoking_status == "S"
-(27,360 real changes made)
+(27,362 real changes made)
 
 . replace smoke = .u if smoking_status == "M"
 (610 real changes made, 610 to missing)
@@ -600,7 +615,7 @@ variable temporary_immunodeficiency was str7 now str10
 . * Set implausible creatinine values to missing (Note: zero changed to missing
 > )
 . replace creatinine = . if !inrange(creatinine, 20, 3000) 
-(41,372 real changes made, 41,372 to missing)
+(41,377 real changes made, 41,377 to missing)
 
 . 
 . * Remove creatinine dates if no measurements, and vice versa 
@@ -609,68 +624,68 @@ variable temporary_immunodeficiency was str7 now str10
 (0 real changes made)
 
 . replace creatinine_measured_date = . if creatinine == . 
-(226 real changes made, 226 to missing)
+(231 real changes made, 231 to missing)
 
 . 
 . 
 . * Divide by 88.4 (to convert umol/l to mg/dl)
 . gen SCr_adj = creatinine/88.4
-(41,372 missing values generated)
+(41,377 missing values generated)
 
 . 
 . gen min = .
 (194,251 missing values generated)
 
 . replace min = SCr_adj/0.7 if male==0
-(108,683 real changes made)
+(108,680 real changes made)
 
 . replace min = SCr_adj/0.9 if male==1
-(44,196 real changes made)
+(44,194 real changes made)
 
 . replace min = min^-0.329  if male==0
-(108,683 real changes made)
+(108,680 real changes made)
 
 . replace min = min^-0.411  if male==1
-(44,196 real changes made)
+(44,194 real changes made)
 
 . replace min = 1 if min<1
-(101,832 real changes made)
+(101,829 real changes made)
 
 . 
 . gen max=.
 (194,251 missing values generated)
 
 . replace max=SCr_adj/0.7 if male==0
-(108,683 real changes made)
+(108,680 real changes made)
 
 . replace max=SCr_adj/0.9 if male==1
-(44,196 real changes made)
+(44,194 real changes made)
 
 . replace max=max^-1.209
-(152,879 real changes made)
+(152,874 real changes made)
 
 . replace max=1 if max>1
-(92,419 real changes made)
+(92,422 real changes made)
 
 . 
 . gen egfr=min*max*141
-(41,372 missing values generated)
+(41,377 missing values generated)
 
 . replace egfr=egfr*(0.993^age)
-(152,879 real changes made)
+(152,874 real changes made)
 
 . replace egfr=egfr*1.018 if male==0
-(108,683 real changes made)
+(108,680 real changes made)
 
 . label var egfr "egfr calculated using CKD-EPI formula with no eth"
 
 . 
 . * Categorise into ckd stages
 . egen egfr_cat_all = cut(egfr), at(0, 15, 30, 45, 60, 5000)
-(41372 missing values generated)
+(41377 missing values generated)
 
 . recode egfr_cat_all 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
-(152879 differences between egfr_cat_all and ckd_egfr)
+(152874 differences between egfr_cat_all and ckd_egfr)
 
 . 
 . /* 
@@ -688,13 +703,13 @@ variable temporary_immunodeficiency was str7 now str10
 (egfr_cat: 1886 changes made)
 
 . recode egfr_cat . = 2 if egfr < 60
-(egfr_cat: 23808 changes made)
+(egfr_cat: 23806 changes made)
 
 . recode egfr_cat . = 1 if egfr < .
-(egfr_cat: 127185 changes made)
+(egfr_cat: 127182 changes made)
 
 . replace egfr_cat = .u if egfr >= .
-(41,372 real changes made, 41,372 to missing)
+(41,377 real changes made, 41,377 to missing)
 
 . 
 . label define egfr_cat   1 ">=60"                ///
@@ -709,10 +724,10 @@ variable temporary_immunodeficiency was str7 now str10
 . *if missing eGFR, assume normal
 . 
 . gen egfr_cat_nomiss = egfr_cat
-(41,372 missing values generated)
+(41,377 missing values generated)
 
 . replace egfr_cat_nomiss = 1 if egfr_cat == .u
-(41,372 real changes made)
+(41,377 real changes made)
 
 . 
 . label define egfr_cat_nomiss    1 ">=60/missing"        ///
@@ -724,7 +739,7 @@ variable temporary_immunodeficiency was str7 now str10
 
 . 
 . gen egfr_date = creatinine_measured_date
-(41,372 missing values generated)
+(41,377 missing values generated)
 
 . format egfr_date %td
 
@@ -734,7 +749,7 @@ variable temporary_immunodeficiency was str7 now str10
 . gen ckd = 0
 
 . replace ckd = 1 if ckd_egfr != . & ckd_egfr >= 1
-(25,694 real changes made)
+(25,692 real changes made)
 
 . replace ckd = 1 if esrf == 1
 (332 real changes made)
@@ -749,13 +764,13 @@ variable temporary_immunodeficiency was str7 now str10
 . 
 . * Create date (most recent measure prior to index)
 . gen temp1_ckd_date = creatinine_measured_date if ckd_egfr >=1
-(168,557 missing values generated)
+(168,559 missing values generated)
 
 . gen temp2_ckd_date = esrf_date if esrf == 1
 (193,570 missing values generated)
 
 . gen ckd_date = max(temp1_ckd_date,temp2_ckd_date) 
-(168,225 missing values generated)
+(168,227 missing values generated)
 
 . format ckd_date %td 
 
@@ -769,7 +784,7 @@ variable temporary_immunodeficiency was str7 now str10
 (151,880 real changes made, 151,880 to missing)
 
 . replace hba1c_mmol_per_mol = . if hba1c_mmol_per_mol <= 0
-(43,177 real changes made, 43,177 to missing)
+(43,174 real changes made, 43,174 to missing)
 
 . 
 . /* Express  HbA1c as percentage  */ 
@@ -779,14 +794,14 @@ variable temporary_immunodeficiency was str7 now str10
 
     Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
-hba1c_per~ge |     42,371    28.27471     4521.44         .1     930709
-hba1c_mmol~l |    151,074    41.06333    136.6727        2.9      43000
+hba1c_per~ge |     42,371    28.27436     4521.44         .1     930709
+hba1c_mmol~l |    151,077    41.06351    136.6714        2.9      43000
 
 . gen     hba1c_pct = hba1c_percentage 
 (151,880 missing values generated)
 
 . replace hba1c_pct = (hba1c_mmol_per_mol/10.929)+2.15 if hba1c_mmol_per_mol<. 
-(151,074 real changes made)
+(151,077 real changes made)
 
 . 
 . * Valid % range between 0-20  
@@ -794,17 +809,17 @@ hba1c_mmol~l |    151,074    41.06333    136.6727        2.9      43000
 (9 real changes made, 9 to missing)
 
 . replace hba1c_pct = round(hba1c_pct, 0.1)
-(151,079 real changes made)
+(151,082 real changes made)
 
 . 
 . /* Categorise hba1c and diabetes  */
 . 
 . * Group hba1c
 . gen     hba1ccat = 0 if hba1c_pct <  6.5
-(63,329 missing values generated)
+(63,323 missing values generated)
 
 . replace hba1ccat = 1 if hba1c_pct >= 6.5  & hba1c_pct < 7.5
-(11,757 real changes made)
+(11,755 real changes made)
 
 . replace hba1ccat = 2 if hba1c_pct >= 7.5  & hba1c_pct < 8
 (2,938 real changes made)
@@ -813,7 +828,7 @@ hba1c_mmol~l |    151,074    41.06333    136.6727        2.9      43000
 (3,195 real changes made)
 
 . replace hba1ccat = 4 if hba1c_pct >= 9    & hba1c_pct !=.
-(3,354 real changes made)
+(3,353 real changes made)
 
 . label define hba1ccat 0 "<6.5%" 1">=6.5-7.4" 2">=7.5-7.9" 3">=8-8.9" 4">=9"
 
@@ -828,10 +843,10 @@ hba1c_mmol~l |    151,074    41.06333    136.6727        2.9      43000
 (24,812 real changes made)
 
 . replace diabcat = 3 if diabetes==1 & inlist(hba1ccat, 2, 3, 4)
-(9,364 real changes made)
+(9,363 real changes made)
 
 . replace diabcat = 4 if diabetes==1 & !inlist(hba1ccat, 0, 1, 2, 3, 4)
-(560 real changes made)
+(561 real changes made)
 
 . 
 . label define diabcat    1 "No diabetes"                         ///
@@ -877,14 +892,15 @@ hba1c_mmol~l |    151,074    41.06333    136.6727        2.9      43000
 
 . 
 . * urban vs rural flag
-. gen urban = .
-(194,251 missing values generated)
+. gen urban = 0 if inrange(residence_type, 5, 8)
+(148,885 missing values generated)
 
-. replace urban = 1 if inrange(residence_type, 1, 4)
-(148,873 real changes made)
+. recode urban . = 1 
+(urban: 148885 changes made)
 
-. replace urban = 0 if inrange(residence_type, 5, 8)
-(45,366 real changes made)
+. label define urban 0 "Rural" 1 "Urban"
+
+. label values urban urban
 
 . 
 . 
@@ -939,13 +955,6 @@ hba1c_mmol~l |    151,074    41.06333    136.6727        2.9      43000
 -----------+----------------------+----------
      Total |   163,621     30,630 |   194,251 
 
-. 
-. 
-. 
-. 
-. 
-. 
-. 
 . 
 . 
 . 
@@ -1022,13 +1031,45 @@ dmard_pc_sa |      Freq.     Percent        Cum.
 . 
 . 
 . 
+. /* POPULATION =============================================================*/
+. tab rheumatoid sle, m
+
+           |          sle
+rheumatoid |         0          1 |     Total
+-----------+----------------------+----------
+         0 |         0     25,623 |    25,623 
+         1 |   165,975      2,653 |   168,628 
+-----------+----------------------+----------
+     Total |   165,975     28,276 |   194,251 
+
+. *small % both population, so take most recent
+. gen population = .
+(194,251 missing values generated)
+
+. replace population = 0 if rheumatoid == 1 & sle != 1
+(165,975 real changes made)
+
+. replace population = 1 if rheumatoid != 1 & sle == 1
+(25,623 real changes made)
+
+. replace population = 0 if rheumatoid == 1 & sle == 1 & rheumatoid_date >= sle
+> _date
+(1,553 real changes made)
+
+. replace population = 1 if rheumatoid == 1 & sle == 1 & rheumatoid_date < sle_
+> date
+(1,100 real changes made)
+
+. 
+. label define population 0 "RA" 1 "SLE"
+
+. label values population population
+
 . 
 . 
 . 
 . /* OUTCOME AND SURVIVAL TIME=================================================
 > =*/
-. 
-. 
 . /*  Cohort entry and censor dates  */
 . 
 . * Date of cohort entry, 1 Mar 2020
@@ -1055,20 +1096,20 @@ dmard_pc_sa |      Freq.     Percent        Cum.
   5.         drop `var'_dstr
   6.         format `var' %td 
   7. }
-(191,985 missing values generated)
+(191,879 missing values generated)
 (192,913 missing values generated)
 (192,909 missing values generated)
 
 . 
 . * Date of Covid death in ONS
 . gen died_date_onscovid = died_date_ons if died_ons_covid_flag_any == 1
-(193,716 missing values generated)
+(193,712 missing values generated)
 
 . 
 . * Date of non-COVID death in ONS 
 . * If missing date of death resulting died_date will also be missing
 . gen died_date_onsnoncovid = died_date_ons if died_ons_covid_flag_any != 1 
-(192,520 missing values generated)
+(192,418 missing values generated)
 
 . 
 . format died_date_ons died_date_onscovid died_date_onsnoncovid first_pos_test_
@@ -1088,8 +1129,6 @@ dmard_pc_sa |      Freq.     Percent        Cum.
 (file out_death_freq.gph saved)
 
 . graph export "$Tabfigdir/out_death_freq.svg", as(svg) replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/out_death_fre
-> q.svg not found)
 (file E:\analyses\hydroxychloroquine-research/output/tabfig/out_death_freq.svg 
 > written in SVG format)
 
@@ -1101,7 +1140,7 @@ dmard_pc_sa |      Freq.     Percent        Cum.
 
     Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
-died_date_~s |      2,266   23apr2020    30.32532  01mar2020  29jun2020
+died_date_~s |      2,372   26apr2020    32.45811  01mar2020  06jul2020
 
 . gen onscoviddeathcensor_date = r(max)-7
 
@@ -1115,8 +1154,6 @@ died_date_~s |      2,266   23apr2020    30.32532  01mar2020  29jun2020
 (file out_sgsspos_freq.gph saved)
 
 . graph export "$Tabfigdir/out_sgsspos_freq.svg", as(svg) replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/out_sgsspos_f
-> req.svg not found)
 (file E:\analyses\hydroxychloroquine-research/output/tabfig/out_sgsspos_freq.sv
 > g written in SVG format)
 
@@ -1134,16 +1171,14 @@ first_pos_~s |      1,338   23apr2020    24.87733  03mar2020  08jul2020
 
 . 
 . *Primary care test positive
-. histogram first_pos_test_primcare, discrete width(1) frequency ytitle(Number 
-> of primary care positives tests) xtitle(Date) scheme(meta) saving(out_primcar
-> epos_freq, replace)
-(start=19761, width=1)
+. histogram first_pos_test_primcare if first_pos_test_primcare>=mdy(1,1,2020), 
+> discrete width(1) frequency ytitle(Number of primary care positives tests) xt
+> itle(Date) scheme(meta) saving(out_primcarepos_freq, replace)
+(start=21975, width=1)
 (note: file out_primcarepos_freq.gph not found)
 (file out_primcarepos_freq.gph saved)
 
 . graph export "$Tabfigdir/out_primcarepos_freq.svg", as(svg) replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/out_primcarep
-> os_freq.svg not found)
 (file E:\analyses\hydroxychloroquine-research/output/tabfig/out_primcarepos_fre
 > q.svg written in SVG format)
 
@@ -1205,11 +1240,11 @@ first_pos_~e |      1,342   22apr2020     101.263  07feb2014  08jul2020
 . * If outcome was after censoring occurred, set to zero
 . replace onscoviddeath   = 0 if (died_date_onscovid      > onscoviddeathcensor
 > _date) 
-(3 real changes made)
+(1 real change made)
 
 . replace onsnoncoviddeath = 0 if (died_date_onsnoncovid > onscoviddeathcensor_
 > date)
-(35 real changes made)
+(28 real changes made)
 
 . replace firstpos_sgss           = 0 if (first_pos_test_sgss             > tes
 > tposcensor_date_sgss) 
@@ -1264,6 +1299,8 @@ first_pos_~e |      1,342   22apr2020     101.263  07feb2014  08jul2020
 . label var rheumatoid                            "RA"
 
 . label var sle                                           "SLE"
+
+. label var population                            "Population"
 
 . 
 . label var rheumatoid_date                       "Date of RA"
@@ -1517,5 +1554,5 @@ ethnicity_~e  creatinine~e  bmi_time      temp1_ckd_~e
        log:  E:\analyses\hydroxychloroquine-research/output/log\00_cr_create_an
 > alysis_dataset.log
   log type:  text
- closed on:  15 Jul 2020, 09:36:15
+ closed on:  19 Jul 2020, 20:27:43
 -------------------------------------------------------------------------------

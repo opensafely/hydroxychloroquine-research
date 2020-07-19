@@ -1,5 +1,5 @@
 Table 4: Testing the PH assumption for Non COVID-19 Death in ONS
 	Univariable	Age/Sex Adjusted	DAG Adjusted	Fully Adjusted	
 	p-value	p-value	p-value	p-value	
-HCQ	.2	.245	.262	.251
+HCQ	.187	.237	.317	.322
 

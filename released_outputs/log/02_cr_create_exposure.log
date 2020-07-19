@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\02_cr_create_ex
 > posure.log
   log type:  text
- opened on:  15 Jul 2020, 09:36:16
+ opened on:  19 Jul 2020, 20:27:44
 
 . 
 . /* TREATMENT EXPOSURE========================================================
@@ -57,11 +57,11 @@ obs. time interval:  (stime_onscoviddeath[_n-1], stime_onscoviddeath]
 ------------------------------------------------------------------------------
     194,236  observations remaining, representing
     194,236  subjects
-        532  failures in single-failure-per-subject data
-   21616600  total analysis time at risk and under observation
+        538  failures in single-failure-per-subject data
+   22940752  total analysis time at risk and under observation
                                                 at risk from t =         0
                                      earliest observed entry t =         0
-                                          last observed exit t =       113
+                                          last observed exit t =       120
 
 . save $Tempdir\analysis_dataset_STSET_$outcome, replace
 file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset_S
@@ -74,5 +74,5 @@ file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset_S
        log:  E:\analyses\hydroxychloroquine-research/output/log\02_cr_create_ex
 > posure.log
   log type:  text
- closed on:  15 Jul 2020, 09:36:18
+ closed on:  19 Jul 2020, 20:27:47
 -------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\05_an_des
 > criptive_plots.log
   log type:  text
- opened on:  15 Jul 2020, 09:49:58
+ opened on:  19 Jul 2020, 18:19:44
 
 . 
 . * Open Stata dataset
@@ -20,10 +20,10 @@
        HCQ |    non-covid death
   Exposure |         0          1 |     Total
 -----------+----------------------+----------
-    No HCQ |   162,253      1,482 |   163,735 
-       HCQ |    30,302        199 |    30,501 
+    No HCQ |   162,158      1,577 |   163,735 
+       HCQ |    30,288        213 |    30,501 
 -----------+----------------------+----------
-     Total |   192,555      1,681 |   194,236 
+     Total |   192,446      1,790 |   194,236 
 
 . 
 . /* Generate KM PLOT==========================================================
@@ -36,7 +36,7 @@
 RUNNING THE KM PLOT FOR 194236 PEOPLE WITH NON-MISSING EXPOSURE
 
 . 
-. sts graph, by(exposure) failure                                              
+. sts graph, by(exposure) failure ci                                           
 >                                    ///     
 >                    title("Time to $tableoutcome", justification(left) size(me
 > dsmall) )             ///
@@ -68,8 +68,6 @@ RUNNING THE KM PLOT FOR 194236 PEOPLE WITH NON-MISSING EXPOSURE
 
 . 
 . graph export "$Tabfigdir/kmplot1.svg", as(svg) replace
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tabfig/kmplot1
-> .svg not found)
 (file E:\analyses\hydroxychloroquine-research/output/sens1/tabfig/kmplot1.svg w
 > ritten in SVG format)
 
@@ -82,11 +80,135 @@ RUNNING THE KM PLOT FOR 194236 PEOPLE WITH NON-MISSING EXPOSURE
 . erase kmplot1.gph
 
 . 
+. 
+. 
+. 
+. 
+. 
+. 
+. /* DAG Adjusted curves ======================================================
+> =*/ 
+. stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone, df(4) scale(ha
+> zard) eform /*strata(stp population) ******************** TO DO: HOW TO HANDL
+> E STRATA ***/ 
+
+Iteration 0:   log likelihood = -10691.529  
+Iteration 1:   log likelihood = -10687.189  
+Iteration 2:   log likelihood =  -10687.18  
+Iteration 3:   log likelihood =  -10687.18  
+
+Log likelihood =  -10687.18                     Number of obs     =    194,236
+
+------------------------------------------------------------------------------
+             |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+xb           |
+    exposure |    1.01928    .075424     0.26   0.796     .8816722    1.178366
+        male |   1.289816   .0644907     5.09   0.000     1.169412    1.422616
+        age1 |   1.060882   .0191167     3.28   0.001     1.024068     1.09902
+        age2 |   1.031863   .0276625     1.17   0.242      .979045     1.08753
+        age3 |   .9521309   .0982887    -0.48   0.635     .7777265    1.165645
+    dmard_pc |   .6734241   .0360372    -7.39   0.000     .6063704    .7478927
+oral_pred~ne |   2.016793   .1012296    13.98   0.000     1.827834    2.225287
+       _rcs1 |   1.298684   .0088616    38.30   0.000     1.281431    1.316169
+       _rcs2 |   1.015246    .004956     3.10   0.002     1.005579    1.025007
+       _rcs3 |   1.004477   .0021128     2.12   0.034     1.000344    1.008626
+       _rcs4 |    .999398   .0007984    -0.75   0.451     .9978344    1.000964
+       _cons |   .0000568   .0000514   -10.79   0.000     9.61e-06    .0003352
+------------------------------------------------------------------------------
+Note: Estimates are transformed only in the first equation.
+
+. 
+. summ _t
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+          _t |    194,236    118.1076     12.6492          1        120
+
+. local tmax=r(max)
+
+. local tmaxplus1=r(max)+1
+
+. 
+. range days 0 `tmax' `tmaxplus1'
+(194,115 missing values generated)
+
+. stpm2_standsurv if exposure == 1, at1(exposure 0) at2(exposure 1) timevar(day
+> s) ci contrast(difference) fail
+
+. 
+. gen date = d(1/3/2020)+ days
+(194,115 missing values generated)
+
+. format date %tddd_Month
+
+. 
+. for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci: replace X=100*X
+
+->  replace _at1=100*_at1
+(120 real changes made)
+
+->  replace _at2=100*_at2
+(120 real changes made)
+
+->  replace _at1_lci=100*_at1_lci
+(120 real changes made)
+
+->  replace _at1_uci=100*_at1_uci
+(120 real changes made)
+
+->  replace _at2_lci=100*_at2_lci
+(120 real changes made)
+
+->  replace _at2_uci=100*_at2_uci
+(120 real changes made)
+
+. 
+. *l date days _at1 _at1_lci _at1_uci _at2 _at2_lci _at2_uci if days<.
+. 
+. twoway  (rarea _at1_lci _at1_uci days, color(red%25)) ///
+>                  (rarea _at2_lci _at2_uci days if _at2_uci<1, color(blue%25))
+>  ///
+>                  (line _at1 days, sort lcolor(red)) ///
+>                  (line _at2  days, sort lcolor(blue)) ///
+>                  , legend(order(1 "No HCQ" 2 "HCQ") ring(0) cols(1) pos(11) r
+> egion(lwidth(none))) ///
+>                                  title("Time to $tableoutcome", justification
+> (left) size(medsmall) )       ///
+>                                  yscale(range(0, 1))                         
+>                                                            ///
+>                                  ylabel(0 (0.1) 1, angle(0) format(%4.1f) lab
+> size(small))       ///
+>                                  xlabel(0 (20) 160, labsize(small))          
+>                                                    ///                     
+>                  ytitle("Cumulative incidence (%)") ///
+>                  xtitle("Days since 1 Mar 2020", size(small))                
+>    ///
+>                                  graphregion(fcolor(white)) saving(adjcurv1, 
+> replace)
+(note: file adjcurv1.gph not found)
+(file adjcurv1.gph saved)
+
+. 
+. graph export "$Tabfigdir/adjcurv1.svg", as(svg) replace
+(file E:\analyses\hydroxychloroquine-research/output/sens1/tabfig/adjcurv1.svg 
+> written in SVG format)
+
+. 
+. * Close window 
+. graph close
+
+. 
+. * Delete unneeded graphs
+. erase adjcurv1.gph
+
+. 
+. 
 . * Close log file 
 . log close
       name:  <unnamed>
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\05_an_des
 > criptive_plots.log
   log type:  text
- closed on:  15 Jul 2020, 09:50:05
+ closed on:  19 Jul 2020, 18:20:33
 -------------------------------------------------------------------------------

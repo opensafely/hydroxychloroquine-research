@@ -124,10 +124,10 @@ do "00_cr_create_analysis_dataset.do"
 do "01_cr_create_population.do"
 do "02_cr_create_exposure.do"
 /*  Checks  */
-do "03_an_checks.do"
+*do "03_an_checks.do"
 /* Run analysis */ 
 * Analyses 
-do "04_an_descriptive_table.do"
+*do "04_an_descriptive_table.do"
 do "05_an_descriptive_plots.do"
 do "06_an_models.do"
 do "07_an_models_interact.do"
@@ -191,10 +191,10 @@ do "00_cr_create_analysis_dataset.do"
 do "01_cr_create_population.do"
 do "02_cr_create_exposure.do"
 /*  Checks  */
-do "03_an_checks.do"
+*do "03_an_checks.do"
 /* Run analysis */ 
 * Analyses 
-do "04_an_descriptive_table.do"
+*do "04_an_descriptive_table.do"
 do "05_an_descriptive_plots.do"
 do "06_an_models.do"
 do "07_an_models_interact.do"
@@ -259,10 +259,10 @@ do "00_cr_create_analysis_dataset.do"
 do "01_cr_create_population.do"
 do "02_cr_create_exposure.do"
 /*  Checks  */
-do "03_an_checks.do"
+*do "03_an_checks.do"
 /* Run analysis */ 
 * Analyses 
-do "04_an_descriptive_table.do"
+*do "04_an_descriptive_table.do"
 do "05_an_descriptive_plots.do"
 do "06_an_models.do"
 do "07_an_models_interact.do"

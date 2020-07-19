@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\01_cr_cre
 > ate_population.log
   log type:  text
- opened on:  15 Jul 2020, 09:49:39
+ opened on:  19 Jul 2020, 18:19:40
 
 . 
 . 
@@ -77,13 +77,13 @@ Duplicates in terms of patient_id
 . 
 . * INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 
 > 2019 
-. gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(11,1,2019)
+. gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(9,1,2019)
 (194,236 missing values generated)
 
 . recode excl_ra .=0
 (excl_ra: 194236 changes made)
 
-. gen excl_sle = 1 if sle_date != . & sle_date >= mdy(11,1,2019)
+. gen excl_sle = 1 if sle_date != . & sle_date >= mdy(9,1,2019)
 (194,236 missing values generated)
 
 . recode excl_sle .=0
@@ -93,6 +93,8 @@ Duplicates in terms of patient_id
 . datacheck excl_ra==0, nol
 
 . datacheck excl_sle==0, nol
+
+. datacheck population != ., nol
 
 . 
 . 
@@ -136,5 +138,5 @@ Duplicates in terms of patient_id
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\01_cr_cre
 > ate_population.log
   log type:  text
- closed on:  15 Jul 2020, 09:49:41
+ closed on:  19 Jul 2020, 18:19:41
 -------------------------------------------------------------------------------

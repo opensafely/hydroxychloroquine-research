@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\06_an_mod
 > els.log
   log type:  text
- opened on:  15 Jul 2020, 09:59:32
+ opened on:  19 Jul 2020, 18:31:26
 
 . 
 . * Open Stata dataset
@@ -51,31 +51,29 @@
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16269.383
-Iteration 1:   log likelihood = -16265.038
-Iteration 2:   log likelihood = -16265.013
-Iteration 3:   log likelihood = -16265.013
+Iteration 0:   log likelihood =  -16269.37
+Iteration 1:   log likelihood = -16265.024
+Iteration 2:   log likelihood = -16264.999
+Iteration 3:   log likelihood = -16264.999
 Refining estimates:
-Iteration 0:   log likelihood = -16265.013
+Iteration 0:   log likelihood = -16264.999
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,236                  Number of obs    =     194,236
 No. of failures =        1,338
-Time at risk    =     24574010
+Time at risk    =     24572831
                                                 LR chi2(1)       =        8.74
-Log likelihood  =   -16265.013                  Prob > chi2      =      0.0031
+Log likelihood  =   -16264.999                  Prob > chi2      =      0.0031
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .7917485   .0643524    -2.87   0.004     .6751537    .9284787
+        HCQ  |   .7917429   .0643519    -2.87   0.004     .6751489    .9284721
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/univar, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/univa
-> r.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/univar.ster 
 > saved
 
@@ -93,37 +91,35 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/univar.ster
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16269.383
-Iteration 1:   log likelihood =  -16175.04
-Iteration 2:   log likelihood =   -16033.3
-Iteration 3:   log likelihood = -16027.877
-Iteration 4:   log likelihood = -16027.861
-Iteration 5:   log likelihood = -16027.861
+Iteration 0:   log likelihood =  -16269.37
+Iteration 1:   log likelihood = -16175.029
+Iteration 2:   log likelihood =  -16033.28
+Iteration 3:   log likelihood = -16027.856
+Iteration 4:   log likelihood =  -16027.84
+Iteration 5:   log likelihood =  -16027.84
 Refining estimates:
-Iteration 0:   log likelihood = -16027.861
+Iteration 0:   log likelihood =  -16027.84
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,236                  Number of obs    =     194,236
 No. of failures =        1,338
-Time at risk    =     24574010
-                                                LR chi2(5)       =      483.04
-Log likelihood  =   -16027.861                  Prob > chi2      =      0.0000
+Time at risk    =     24572831
+                                                LR chi2(5)       =      483.06
+Log likelihood  =    -16027.84                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9373163   .0767394    -0.79   0.429      .798357    1.100462
-      1.male |   1.222607   .0711593     3.45   0.001     1.090799    1.370343
-        age1 |   1.000367   .0076102     0.05   0.962     .9855622    1.015395
-        age2 |   1.016745   .0153658     1.10   0.272     .9870701    1.047312
-        age3 |   1.118955   .0787213     1.60   0.110     .9748287    1.284389
+        HCQ  |   .9373147   .0767393    -0.79   0.429     .7983556    1.100461
+      1.male |   1.222626   .0711603     3.45   0.001     1.090815    1.370364
+        age1 |   1.000367   .0076102     0.05   0.962      .985562    1.015394
+        age2 |   1.016746   .0153658     1.10   0.272      .987071    1.047313
+        age3 |   1.118953   .0787213     1.60   0.110     .9748271    1.284388
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/multivar1, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multi
-> var1.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar1.st
 > er saved
 
@@ -134,7 +130,7 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar1.st
 >  ways in separate do file
 . 
 . stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata
-> (stp)                              
+> (stp population)                           
 
          failure _d:  firstpos_sgss
    analysis time _t:  (stime_firstpos_sgss-origin)
@@ -142,42 +138,40 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar1.st
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11993.384
-Iteration 1:   log likelihood = -11847.676
-Iteration 2:   log likelihood = -11687.686
-Iteration 3:   log likelihood = -11682.119
-Iteration 4:   log likelihood = -11682.104
-Iteration 5:   log likelihood = -11682.104
+Iteration 0:   log likelihood = -11553.122
+Iteration 1:   log likelihood = -11398.969
+Iteration 2:   log likelihood = -11254.334
+Iteration 3:   log likelihood = -11249.706
+Iteration 4:   log likelihood = -11249.695
+Iteration 5:   log likelihood = -11249.695
 Refining estimates:
-Iteration 0:   log likelihood = -11682.104
+Iteration 0:   log likelihood = -11249.695
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,236                  Number of obs    =     194,236
 No. of failures =        1,338
-Time at risk    =     24574010
-                                                LR chi2(7)       =      622.56
-Log likelihood  =   -11682.104                  Prob > chi2      =      0.0000
+Time at risk    =     24572831
+                                                LR chi2(7)       =      606.85
+Log likelihood  =   -11249.695                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .8840351   .0731479    -1.49   0.136     .7516894    1.039682
-      1.male |   1.238955   .0721924     3.68   0.000     1.105241    1.388845
-        age1 |   1.001727   .0076544     0.23   0.821     .9868366    1.016843
-        age2 |   1.010744    .015349     0.70   0.482     .9811038    1.041279
-        age3 |   1.155543   .0818752     2.04   0.041     1.005715    1.327693
-  1.dmard_pc |   .9877547   .0575305    -0.21   0.832      .881195      1.1072
-1.oral_pr~ne |   1.948781   .1167859    11.13   0.000     1.732817    2.191662
+        HCQ  |   .8956306   .0745085    -1.32   0.185     .7608806    1.054245
+      1.male |   1.231038   .0719227     3.56   0.000     1.097843    1.380392
+        age1 |   1.001222    .007656     0.16   0.873     .9863289    1.016341
+        age2 |   1.010747   .0153449     0.70   0.481     .9811147    1.041275
+        age3 |   1.155955   .0818935     2.05   0.041     1.006092    1.328142
+  1.dmard_pc |   .9700665   .0574426    -0.51   0.608     .8637688    1.089445
+1.oral_pr~ne |   1.950652   .1169298    11.15   0.000     1.734424    2.193836
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
 .                                                                              
 >    
 . estimates save $Tempdir/multivar2, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multi
-> var2.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar2.st
 > er saved
 
@@ -188,8 +182,8 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar2.st
 . 
 . stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaid
 > s i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_li
-> ver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions, stra
-> ta(stp)  
+> ver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu
+> _vaccine, strata(stp population) 
 
          failure _d:  firstpos_sgss
    analysis time _t:  (stime_firstpos_sgss-origin)
@@ -197,59 +191,58 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar2.st
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11993.384
-Iteration 1:   log likelihood = -11640.809
-Iteration 2:   log likelihood = -11605.024
-Iteration 3:   log likelihood = -11604.884
-Iteration 4:   log likelihood = -11604.884
+Iteration 0:   log likelihood = -11553.122
+Iteration 1:   log likelihood = -11206.822
+Iteration 2:   log likelihood = -11171.147
+Iteration 3:   log likelihood = -11171.007
+Iteration 4:   log likelihood = -11171.007
 Refining estimates:
-Iteration 0:   log likelihood = -11604.884
+Iteration 0:   log likelihood = -11171.007
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,236                  Number of obs    =     194,236
 No. of failures =        1,338
-Time at risk    =     24574010
-                                                LR chi2(19)      =      777.00
-Log likelihood  =   -11604.884                  Prob > chi2      =      0.0000
+Time at risk    =     24572831
+                                                LR chi2(20)      =      764.23
+Log likelihood  =   -11171.007                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .8757294   .0725117    -1.60   0.109      .744542    1.030032
-      1.male |   1.195283   .0706622     3.02   0.003      1.06451    1.342121
-        age1 |   .9975294   .0076711    -0.32   0.748     .9826071    1.012678
-        age2 |   1.005099   .0154718     0.33   0.741     .9752275    1.035885
-        age3 |   1.181519   .0847973     2.32   0.020      1.02648    1.359976
-  1.dmard_pc |   1.039727   .0609689     0.66   0.506     .9268418    1.166362
-1.oral_pr~ne |   1.801517   .1116185     9.50   0.000      1.59551    2.034123
-    1.nsaids |    .997245   .0844534    -0.03   0.974      .844727    1.177301
-1.~c_disease |    1.29301    .085309     3.89   0.000     1.136166    1.471504
-1.resp_exc~a |   1.155552   .0818624     2.04   0.041     1.005746    1.327672
+        HCQ  |    .894159   .0745551    -1.34   0.180      .759349    1.052902
+      1.male |   1.187276   .0703878     2.90   0.004     1.057032    1.333569
+        age1 |   .9974522    .007678    -0.33   0.740     .9825165    1.012615
+        age2 |    1.00699   .0155579     0.45   0.652     .9769537    1.037949
+        age3 |   1.168195   .0843605     2.15   0.031      1.01402    1.345812
+  1.dmard_pc |   1.031999   .0618846     0.53   0.599     .9175635    1.160706
+1.oral_pr~ne |   1.810101   .1122765     9.57   0.000     1.602894    2.044095
+    1.nsaids |   .9904682   .0840829    -0.11   0.910     .8386491    1.169771
+1.~c_disease |   1.298707   .0858109     3.96   0.000     1.140956    1.478269
+1.resp_exc~a |   1.160933   .0823983     2.10   0.036     1.010166    1.334204
              |
 egfr_cat_n~s |
-      30-59  |   1.124512   .0830428     1.59   0.112     .9729819    1.299642
-        <30  |   2.411783   .3381148     6.28   0.000     1.832339    3.174466
+      30-59  |   1.125363   .0831401     1.60   0.110       .97366    1.300703
+        <30  |   2.413501    .338728     6.28   0.000      1.83309    3.177687
              |
-1.~r_disease |     1.1164    .240632     0.51   0.609     .7317271    1.703296
+1.~r_disease |   1.126229   .2429716     0.55   0.582     .7378863    1.718954
              |
    obese4cat |
-Obese I ..)  |   1.243744   .0885765     3.06   0.002     1.081709    1.430051
-Obese II..)  |   1.393542   .1409694     3.28   0.001     1.142914    1.699131
-Obese II..)  |   1.645806   .2195651     3.73   0.000     1.267129    2.137649
+Obese I ..)  |   1.242291   .0885274     3.04   0.002     1.080353    1.428503
+Obese II..)  |    1.39404   .1411081     3.28   0.001      1.14318    1.699949
+Obese II..)  |   1.649353   .2202604     3.75   0.000     1.269524    2.142821
              |
-1.hyperten~n |   1.071734   .0670493     1.11   0.268     .9480569    1.211544
-1.cancer_e~r |   1.152994    .090286     1.82   0.069     .9889467    1.344252
-1.neuro_co~s |   1.757663   .1370855     7.23   0.000     1.508509    2.047969
+1.hyperten~n |   1.080025   .0677029     1.23   0.219     .9551575    1.221216
+1.cancer_e~r |   1.155545     .09051     1.85   0.065     .9910946    1.347283
+1.neuro_co~s |   1.769454   .1382058     7.31   0.000      1.51829    2.062166
+1.flu_vacc~e |   .9001347   .0590236    -1.60   0.109     .7915758    1.023582
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
 .                                                                              
 >    
 . estimates save $Tempdir/multivar3, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multi
-> var3.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar3.st
 > er saved
 
@@ -264,8 +257,6 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar3.st
 . cap file close tablecontent
 
 . file open tablecontent using $Tabfigdir/table2.txt, write text replace
-(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tabfig/table2.
-> txt not found)
 
 . 
 . * Column headings 
@@ -342,11 +333,11 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar3.st
 ------------------------------------------------------------------------------
           _t |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
-         (1) |   .7917485   .0643524    -2.87   0.004     .6751537    .9284787
+         (1) |   .7917429   .0643519    -2.87   0.004     .6751489    .9284721
 ------------------------------------------------------------------------------
 
-. file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f 
-> (r(ub)) _tab 
+. file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4
+> .2f (r(ub)) (")") _tab 
 
 . 
 . estimates use $Tempdir/multivar1 
@@ -358,11 +349,11 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar3.st
 ------------------------------------------------------------------------------
           _t |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
-         (1) |   .9373163   .0767394    -0.79   0.429      .798357    1.100462
+         (1) |   .9373147   .0767393    -0.79   0.429     .7983556    1.100461
 ------------------------------------------------------------------------------
 
-. file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f 
-> (r(ub)) _tab 
+. file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4
+> .2f (r(ub)) (")") _tab 
 
 . 
 . estimates use $Tempdir/multivar2 
@@ -374,11 +365,11 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar3.st
 ------------------------------------------------------------------------------
           _t |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
-         (1) |   .8840351   .0731479    -1.49   0.136     .7516894    1.039682
+         (1) |   .8956306   .0745085    -1.32   0.185     .7608806    1.054245
 ------------------------------------------------------------------------------
 
-. file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f 
-> (r(ub)) _tab 
+. file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4
+> .2f (r(ub)) (")") _tab 
 
 . 
 . estimates use $Tempdir/multivar3 
@@ -390,11 +381,11 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar3.st
 ------------------------------------------------------------------------------
           _t |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
-         (1) |   .8757294   .0725117    -1.60   0.109      .744542    1.030032
+         (1) |    .894159   .0745551    -1.34   0.180      .759349    1.052902
 ------------------------------------------------------------------------------
 
-. file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(lb)) (" - ") %4.2f 
-> (r(ub)) _n 
+. file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4
+> .2f (r(ub)) (")") _n 
 
 . 
 . file write tablecontent _n
@@ -408,5 +399,5 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata/multivar3.st
        log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\06_an_mod
 > els.log
   log type:  text
- closed on:  15 Jul 2020, 09:59:53
+ closed on:  19 Jul 2020, 18:31:50
 -------------------------------------------------------------------------------

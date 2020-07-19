@@ -3,5 +3,5 @@ Table 2: Association between HCQ use and SGSS positive COVID-19 test
 		HR	95% CI	HR	95% CI	HR	95% CI	HR	95% CI
 Main Analysis
 No HCQ	1164 (0.7)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
-HCQ	174 (0.6)	0.79	0.68 - 0.93	0.94	0.80 - 1.10	0.88	0.75 - 1.04	0.88	0.74 - 1.03
+HCQ	174 (0.6)	0.79	(0.68-0.93)	0.94	(0.80-1.10)	0.90	(0.76-1.05)	0.89	(0.76-1.05)
 

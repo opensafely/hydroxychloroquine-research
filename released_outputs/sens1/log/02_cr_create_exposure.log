@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\02_cr_cre
 > ate_exposure.log
   log type:  text
- opened on:  15 Jul 2020, 09:49:41
+ opened on:  19 Jul 2020, 18:19:41
 
 . 
 . /* TREATMENT EXPOSURE========================================================
@@ -35,8 +35,6 @@
 . sort patient_id
 
 . save $Tempdir\analysis_dataset, replace
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata\analy
-> sis_dataset.dta not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata\analysis_dat
 > aset.dta saved
 
@@ -59,15 +57,13 @@ obs. time interval:  (stime_onsnoncoviddeath[_n-1], stime_onsnoncoviddeath]
 ------------------------------------------------------------------------------
     194,236  observations remaining, representing
     194,236  subjects
-      1,681  failures in single-failure-per-subject data
-   21616600  total analysis time at risk and under observation
+      1,790  failures in single-failure-per-subject data
+   22940752  total analysis time at risk and under observation
                                                 at risk from t =         0
                                      earliest observed entry t =         0
-                                          last observed exit t =       113
+                                          last observed exit t =       120
 
 . save $Tempdir\analysis_dataset_STSET_$outcome, replace
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata\analy
-> sis_dataset_STSET_onsnoncoviddeath.dta not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata\analysis_dat
 > aset_STSET_onsnoncoviddeath.dta saved
 
@@ -78,5 +74,5 @@ file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata\analysis_dat
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\02_cr_cre
 > ate_exposure.log
   log type:  text
- closed on:  15 Jul 2020, 09:49:43
+ closed on:  19 Jul 2020, 18:19:44
 -------------------------------------------------------------------------------
