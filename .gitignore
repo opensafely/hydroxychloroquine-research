@@ -15,8 +15,5 @@ tempdata/*
 .idea/
 .cache
 *.exe
-*.log
-*.txt
 *.dta
-*.svg
 *.gph
