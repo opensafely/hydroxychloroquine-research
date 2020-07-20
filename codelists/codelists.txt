@@ -28,7 +28,7 @@ opensafely/lung-cancer/2020-04-15
 opensafely/nsaids-oral/2020-06-09
 opensafely/other-neurological-conditions/2020-06-02
 opensafely/other-respiratory-conditions/2020-05-14
-opensafely/permanent-immunosuppresion/2020-06-02
+opensafely/permanent-immunosuppression/2020-06-02
 opensafely/pneumococcal-vaccination/2020-05-11
 opensafely/pneumococcal-vaccination-clinical-codes-indicative-of-being-administered/2020-05-21
 opensafely/pneumococcal-vaccination-clinical-codes-indicative-of-not-being-administered/2020-05-19
@@ -39,4 +39,4 @@ opensafely/sickle-cell-disease/2020-04-14
 opensafely/solid-organ-transplantation/2020-04-10
 opensafely/stroke-updated/2020-06-02
 opensafely/systemic-lupus-erythematosus-sle/2020-05-12
-opensafely/temporary-immunosuppresion/2020-04-24
+opensafely/temporary-immunosuppression/2020-04-24
