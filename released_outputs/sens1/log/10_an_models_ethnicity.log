@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\10_an_mod
 > els_ethnicity.log
   log type:  text
- opened on:  21 Jul 2020, 13:34:41
+ opened on:  21 Jul 2020, 22:15:13
 
 . 
 . * Open Stata dataset
@@ -751,5 +751,5 @@ file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar3_et
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\10_an_mod
 > els_ethnicity.log
   log type:  text
- closed on:  21 Jul 2020, 13:35:25
+ closed on:  21 Jul 2020, 22:15:56
 -------------------------------------------------------------------------------

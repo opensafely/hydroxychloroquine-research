@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\12_an_models_sa
 > _exposure.log
   log type:  text
- opened on:  21 Jul 2020, 13:23:56
+ opened on:  21 Jul 2020, 22:05:10
 
 . 
 . * Open Stata dataset
@@ -403,5 +403,5 @@ file E:\analyses\hydroxychloroquine-research/output/tempdata/multivar3_sa_expos
        log:  E:\analyses\hydroxychloroquine-research/output/log\12_an_models_sa
 > _exposure.log
   log type:  text
- closed on:  21 Jul 2020, 13:24:24
+ closed on:  21 Jul 2020, 22:05:37
 -------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\03_an_checks.lo
 > g
   log type:  text
- opened on:  21 Jul 2020, 14:32:56
+ opened on:  21 Jul 2020, 21:54:04
 
 . 
 . * Open Stata dataset
@@ -1629,5 +1629,5 @@ Failure/ce |
        log:  E:\analyses\hydroxychloroquine-research/output/log\03_an_checks.lo
 > g
   log type:  text
- closed on:  21 Jul 2020, 14:33:01
+ closed on:  21 Jul 2020, 21:54:09
 -------------------------------------------------------------------------------

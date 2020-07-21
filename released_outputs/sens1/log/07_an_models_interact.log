@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\07_an_mod
 > els_interact.log
   log type:  text
- opened on:  21 Jul 2020, 13:26:46
+ opened on:  21 Jul 2020, 22:07:55
 
 . 
 . * Open Stata dataset
@@ -2040,5 +2040,5 @@ Likelihood-ratio test                                 LR chi2(1)  =      0.39
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\07_an_mod
 > els_interact.log
   log type:  text
- closed on:  21 Jul 2020, 13:31:21
+ closed on:  21 Jul 2020, 22:12:11
 -------------------------------------------------------------------------------

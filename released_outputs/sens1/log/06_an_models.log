@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\06_an_mod
 > els.log
   log type:  text
- opened on:  21 Jul 2020, 13:26:16
+ opened on:  21 Jul 2020, 22:07:26
 
 . 
 . * Open Stata dataset
@@ -77,6 +77,13 @@ Log likelihood  =   -21746.598                  Prob > chi2      =      0.0000
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/univar.ster 
 > saved
 
+. parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_univar
+> _$outcome", replace) idstr("parmest_univar_$outcome") 
+(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parme
+> st_univar_onsnoncoviddeath.dta not found)
+file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parmest_univ
+> ar_onsnoncoviddeath.dta saved
+
 . 
 . /* Multivariable models */ 
 . 
@@ -123,6 +130,13 @@ Log likelihood  =   -20526.452                  Prob > chi2      =      0.0000
 . estimates save $Tempdir/multivar1, replace 
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar1.st
 > er saved
+
+. parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multiv
+> ar1_$outcome", replace) idstr("parmest_multivar1_$outcome") 
+(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parme
+> st_multivar1_onsnoncoviddeath.dta not found)
+file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parmest_mult
+> ivar1_onsnoncoviddeath.dta saved
 
 . 
 . * DAG adjusted (age, sex, geographic region, other immunosuppressives (will i
@@ -171,11 +185,16 @@ Log likelihood  =   -14194.731                  Prob > chi2      =      0.0000
 ------------------------------------------------------------------------------
                                                   Stratified by stp population
 
-.                                                                              
->    
 . estimates save $Tempdir/multivar2, replace 
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar2.st
 > er saved
+
+. parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multiv
+> ar2_$outcome", replace) idstr("parmest_multivar2_$outcome") 
+(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parme
+> st_multivar2_onsnoncoviddeath.dta not found)
+file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parmest_mult
+> ivar2_onsnoncoviddeath.dta saved
 
 . 
 . * DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease
@@ -244,13 +263,17 @@ Obese II..)  |   1.022752   .1588708     0.14   0.885     .7543064    1.386734
 ------------------------------------------------------------------------------
                                                   Stratified by stp population
 
-.                                                                              
->    
 . estimates save $Tempdir/multivar3, replace 
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar3.st
 > er saved
 
-. 
+. parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multiv
+> ar3_$outcome", replace) idstr("parmest_multivar3_$outcome") 
+(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parme
+> st_multivar3_onsnoncoviddeath.dta not found)
+file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parmest_mult
+> ivar3_onsnoncoviddeath.dta saved
+
 . 
 . 
 . 
@@ -403,5 +426,5 @@ file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar3.st
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\06_an_mod
 > els.log
   log type:  text
- closed on:  21 Jul 2020, 13:26:46
+ closed on:  21 Jul 2020, 22:07:55
 -------------------------------------------------------------------------------

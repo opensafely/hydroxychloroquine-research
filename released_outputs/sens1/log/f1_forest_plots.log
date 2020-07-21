@@ -1,0 +1,197 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\f1_forest
+> _plots.log
+  log type:  text
+ opened on:  21 Jul 2020, 22:40:27
+
+. 
+. 
+. 
+. 
+. *read in datasets 
+. *covid death
+. *need to do some acrobatics to get tempdata out of multiple folders (one for 
+> each outcome)
+. cd  "$Dodir"
+E:\analyses\hydroxychloroquine-research\analysis
+
+. cd ..
+E:\analyses\hydroxychloroquine-research
+
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_univar_onscovidd
+> eath.dta" "
+
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar1_onscov
+> iddeath.dta" "
+
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar2_onscov
+> iddeath.dta" "
+
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar3_onscov
+> iddeath.dta" "
+
+. *non covid death
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_univar_ons
+> noncoviddeath.dta" "
+
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar1_
+> onsnoncoviddeath.dta" "
+
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar2_
+> onsnoncoviddeath.dta" "
+
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar3_
+> onsnoncoviddeath.dta" "
+
+. 
+. *concatenate dataets
+. dsconcat `hr'
+
+. duplicates drop 
+
+Duplicates in terms of all variables
+
+(0 observations are duplicates)
+
+. 
+. *only keep necessary info
+. keep if label=="HCQ Exposure"
+(92 observations deleted)
+
+. drop if estimate == 1
+(8 observations deleted)
+
+. drop label parm stderr z p
+
+. 
+. *create labels
+. split idstr, p(_)
+variables created as string: 
+idstr1  idstr2  idstr3
+
+. drop idstr
+
+. 
+. *outcomes
+. gen outcome = "{bf:COVID-19 mortality}" if idstr3 == "onscoviddeath"
+(4 missing values generated)
+
+. replace outcome = "{bf:Non COVID-19 mortality}" if idstr3 == "onsnoncoviddeat
+> h"
+variable outcome was str23 now str27
+(4 real changes made)
+
+. drop idstr3
+
+. 
+. *adjustments
+. gen adjust = 1 if idstr2 == "univar"
+(6 missing values generated)
+
+. replace adjust = 2 if idstr2 == "multivar1"
+(2 real changes made)
+
+. replace adjust = 3 if idstr2 == "multivar2"
+(2 real changes made)
+
+. replace adjust = 4 if idstr2 == "multivar3"
+(2 real changes made)
+
+. 
+. label define adjust 1 "Univariable" 2 "Age/Sex Adjusted" 3 "DAG-Informed Adju
+> stment" 4 "Extended Adjustment"
+
+. label values adjust adjust
+
+. drop idstr2
+
+. drop idstr1
+
+. 
+. *log base 2
+. gen log_estimate = log(estimate)
+
+. gen log_min95 = log(min95)
+
+. gen log_max95 = log(max95)
+
+. 
+. graph set window 
+
+   window           current
+   setting          default          choices
+   ------------------------------------------------------------------------
+   fontface         Arial             font name
+   fontfacesans     Arial             font name
+   fontfaceserif    Times New Roman   font name
+   fontfacemono     Courier New       font name
+   fontfacesymbol   Symbol            font name
+   ------------------------------------------------------------------------
+   To change setting, type "graph set window setting choice"
+
+. gen num=[_n]
+
+. sum num
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+         num |          8         4.5     2.44949          1          8
+
+. save "`c(pwd)'/output/tempdata/HR_forestplot.dta", replace
+file E:\analyses\hydroxychloroquine-research/output/tempdata/HR_forestplot.dta 
+> saved
+
+. 
+. 
+. 
+. use "`c(pwd)'/output/tempdata/HR_forestplot.dta", clear
+
+. metan log_estimate log_min95 log_max95 , eform random ///
+>         effect(Hazard Ratio) null(1) lcols(adjust) by(outcome)  dp(2) xlab (.
+> 25,.5,1,2,4) ///
+>         nowt nosubgroup nooverall nobox graphregion(color(white)) scheme(sj) 
+> texts(100) astext(65) ///
+>         graphregion(margin(zero)) ///
+>         saving("`c(pwd)'/output/tabfig\forestplot1.gph", replace)
+
+           Study     |     ES    [95% Conf. Interval]     
+---------------------+---------------------------------------------------
+     {bf:COVID-19 mortali
+Univariable          |    0.766     0.594     0.988        
+Age/Sex Adjusted     |    1.068     0.827     1.380        
+DAG-Informed Adjustm |    1.015     0.784     1.315        
+Extended Adjustment  |    1.017     0.785     1.318        
+---------------------+---------------------------------------------------
+     {bf:Non COVID-19 mor
+Univariable          |    0.716     0.621     0.827        
+Age/Sex Adjusted     |    1.024     0.887     1.183        
+DAG-Informed Adjustm |    1.033     0.893     1.195        
+Extended Adjustment  |    1.038     0.897     1.201        
+---------------------+---------------------------------------------------
+(note: file E:\analyses\hydroxychloroquine-research/output/tabfig\forestplot1.g
+> ph not found)
+(file E:\analyses\hydroxychloroquine-research/output/tabfig\forestplot1.gph sav
+> ed)
+
+.         
+. graph export "`c(pwd)'/output/tabfig\forestplot1.svg", replace  
+(file E:\analyses\hydroxychloroquine-research/output/tabfig\forestplot1.svg wri
+> tten in SVG format)
+
+. 
+. * Close window 
+. graph close
+
+. 
+. * Delete unneeded graphs
+. erase `c(pwd)'/output/tabfig/forestplot1.gph
+
+. 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\f1_forest
+> _plots.log
+  log type:  text
+ closed on:  21 Jul 2020, 22:40:31
+-------------------------------------------------------------------------------
