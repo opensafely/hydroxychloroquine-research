@@ -140,6 +140,8 @@ do "12_an_models_sa_exposure.do"
 
 
 
+* =====        SENSITIVITY 2: SGSS positive test      =================================================;
+do "f1_forest_plots.do"
 
 
 
