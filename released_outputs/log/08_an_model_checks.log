@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\08_an_model_che
 > cks.log
   log type:  text
- opened on:  15 Jul 2020, 09:41:04
+ opened on:  21 Jul 2020, 13:18:46
 
 . 
 . * Open Stata dataset
@@ -28,16 +28,16 @@
                   |       rho            chi2       df       Prob>chi2
       ------------+---------------------------------------------------
       0b.exposure |            .            .        1             .
-      1.exposure  |     -0.01964         0.21        1         0.6505
+      1.exposure  |     -0.01289         0.09        1         0.7650
       ------------+---------------------------------------------------
-      global test |                      0.21        1         0.6505
+      global test |                      0.09        1         0.7650
       ----------------------------------------------------------------
 
 . local univar_p1 = round(r(phtest)[2,4],0.001)
 
 . 
 . di `univar_p1'
-.651
+.765
 
 .  
 . estat phtest, plot(1.exposure) ///
@@ -56,8 +56,6 @@
 
 . 
 . graph export "$Tabfigdir/schoenplot1a.svg", as(svg) replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/schoenplot1a.
-> svg not found)
 (file E:\analyses\hydroxychloroquine-research/output/tabfig/schoenplot1a.svg wr
 > itten in SVG format)
 
@@ -74,33 +72,33 @@
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -6469.8829
-Iteration 1:   log likelihood = -6467.5364
-Iteration 2:   log likelihood = -6142.5303
-Iteration 3:   log likelihood = -6122.3086
-Iteration 4:   log likelihood =  -6121.621
-Iteration 5:   log likelihood = -6121.6168
-Iteration 6:   log likelihood = -6121.6168
+Iteration 0:   log likelihood = -6542.9345
+Iteration 1:   log likelihood = -6260.1603
+Iteration 2:   log likelihood =  -6197.414
+Iteration 3:   log likelihood = -6191.5415
+Iteration 4:   log likelihood = -6190.8368
+Iteration 5:   log likelihood = -6190.7939
+Iteration 6:   log likelihood = -6190.7936
 Refining estimates:
-Iteration 0:   log likelihood = -6121.6168
+Iteration 0:   log likelihood = -6190.7936
 
 Cox regression -- Breslow method for ties
 
-No. of subjects =      194,236                  Number of obs    =     194,236
-No. of failures =          532
-Time at risk    =     21616600
-                                                LR chi2(5)       =      696.53
-Log likelihood  =   -6121.6168                  Prob > chi2      =      0.0000
+No. of subjects =      194,286                  Number of obs    =     194,286
+No. of failures =          538
+Time at risk    =     22946851
+                                                LR chi2(5)       =      704.28
+Log likelihood  =   -6190.7936                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   1.062885   .1399065     0.46   0.643       .82119    1.375718
-      1.male |   1.434078   .1288572     4.01   0.000     1.202511    1.710237
-        age1 |   1.060299   .0408327     1.52   0.128     .9832139    1.143427
-        age2 |   1.076918   .0595443     1.34   0.180     .9663148    1.200181
-        age3 |   .7286734   .1520736    -1.52   0.129     .4840473    1.096928
+        HCQ  |   1.067968   .1395795     0.50   0.615     .8266269    1.379772
+      1.male |   1.455328    .129815     4.21   0.000     1.221895    1.733357
+        age1 |     1.0508   .0377027     1.38   0.167     .9794424    1.127356
+        age2 |   1.087722   .0570467     1.60   0.109     .9814672     1.20548
+        age3 |   .7082564   .1418679    -1.72   0.085     .4782883    1.048796
 ------------------------------------------------------------------------------
 
 . estat phtest, detail
@@ -112,14 +110,14 @@ Log likelihood  =   -6121.6168                  Prob > chi2      =      0.0000
                   |       rho            chi2       df       Prob>chi2
       ------------+---------------------------------------------------
       0b.exposure |            .            .        1             .
-      1.exposure  |     -0.00782         0.03        1         0.8571
+      1.exposure  |     -0.00066         0.00        1         0.9879
       0b.male     |            .            .        1             .
-      1.male      |     -0.08917         4.23        1         0.0397
-      age1        |     -0.00657         0.01        1         0.9137
-      age2        |     -0.00694         0.02        1         0.9020
-      age3        |      0.02310         0.19        1         0.6639
+      1.male      |     -0.06808         2.50        1         0.1140
+      age1        |     -0.04661         0.58        1         0.4474
+      age2        |      0.02005         0.13        1         0.7228
+      age3        |      0.00460         0.01        1         0.9309
       ------------+---------------------------------------------------
-      global test |                     11.90        5         0.0361
+      global test |                     11.71        5         0.0390
       ----------------------------------------------------------------
 
 . local multivar1_p1 = round(r(phtest)[2,4],0.001)
@@ -141,8 +139,6 @@ Log likelihood  =   -6121.6168                  Prob > chi2      =      0.0000
 
 . 
 . graph export "$Tabfigdir/schoenplot2a.svg", as(svg) replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/schoenplot2a.
-> svg not found)
 (file E:\analyses\hydroxychloroquine-research/output/tabfig/schoenplot2a.svg wr
 > itten in SVG format)
 
@@ -152,7 +148,7 @@ Log likelihood  =   -6121.6168                  Prob > chi2      =      0.0000
 
 .                   
 . stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata
-> (stp)
+> (stp population)
 
          failure _d:  onscoviddeath
    analysis time _t:  (stime_onscoviddeath-origin)
@@ -160,37 +156,37 @@ Log likelihood  =   -6121.6168                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -4767.5032
-Iteration 1:   log likelihood = -4706.0426
-Iteration 2:   log likelihood = -4381.3121
-Iteration 3:   log likelihood = -4364.9569
-Iteration 4:   log likelihood = -4364.3839
-Iteration 5:   log likelihood = -4364.3814
-Iteration 6:   log likelihood = -4364.3814
+Iteration 0:   log likelihood = -4672.2087
+Iteration 1:   log likelihood = -4582.4233
+Iteration 2:   log likelihood =  -4285.364
+Iteration 3:   log likelihood = -4277.4369
+Iteration 4:   log likelihood = -4277.2706
+Iteration 5:   log likelihood =   -4277.27
+Iteration 6:   log likelihood =   -4277.27
 Refining estimates:
-Iteration 0:   log likelihood = -4364.3814
+Iteration 0:   log likelihood =   -4277.27
 
 Stratified Cox regr. -- Breslow method for ties
 
-No. of subjects =      194,236                  Number of obs    =     194,236
-No. of failures =          532
-Time at risk    =     21616600
-                                                LR chi2(7)       =      806.24
-Log likelihood  =   -4364.3814                  Prob > chi2      =      0.0000
+No. of subjects =      194,286                  Number of obs    =     194,286
+No. of failures =          538
+Time at risk    =     22946851
+                                                LR chi2(7)       =      789.88
+Log likelihood  =     -4277.27                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9953283   .1320282    -0.04   0.972      .767461    1.290852
-      1.male |   1.444127   .1299295     4.08   0.000     1.210659    1.722617
-        age1 |   1.065231   .0415057     1.62   0.105     .9869101    1.149768
-        age2 |   1.062363   .0592983     1.08   0.278     .9522727    1.185182
-        age3 |   .7754234   .1632706    -1.21   0.227     .5132307    1.171562
-  1.dmard_pc |   .9533099   .0878103    -0.52   0.604     .7958461    1.141929
-1.oral_pr~ne |   2.509965    .224715    10.28   0.000     2.106009    2.991403
+        HCQ  |   1.015003   .1340031     0.11   0.910     .7835913    1.314755
+      1.male |   1.457466   .1304545     4.21   0.000     1.222952    1.736951
+        age1 |   1.053833   .0381328     1.45   0.147     .9816826    1.131286
+        age2 |   1.074383   .0567164     1.36   0.174     .9687789      1.1915
+        age3 |   .7505944   .1513203    -1.42   0.155     .5055948    1.114315
+  1.dmard_pc |   .9257521   .0861008    -0.83   0.407     .7714852    1.110866
+1.oral_pr~ne |   2.497368   .2225279    10.27   0.000     2.097183    2.973917
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
 . estat phtest, detail
 
@@ -201,18 +197,18 @@ Log likelihood  =   -4364.3814                  Prob > chi2      =      0.0000
                   |       rho            chi2       df       Prob>chi2
       ------------+---------------------------------------------------
       0b.exposure |            .            .        1             .
-      1.exposure  |     -0.00842         0.04        1         0.8445
+      1.exposure  |     -0.00374         0.01        1         0.9306
       0b.male     |            .            .        1             .
-      1.male      |     -0.08990         4.29        1         0.0384
-      age1        |     -0.00471         0.01        1         0.9374
-      age2        |     -0.00826         0.02        1         0.8828
-      age3        |      0.02395         0.20        1         0.6509
+      1.male      |     -0.06596         2.35        1         0.1252
+      age1        |     -0.04436         0.53        1         0.4659
+      age2        |      0.01996         0.13        1         0.7231
+      age3        |      0.00404         0.01        1         0.9392
       0b.dmard_pc |            .            .        1             .
-      1.dmard_pc  |     -0.04791         1.24        1         0.2652
+      1.dmard_pc  |     -0.04614         1.16        1         0.2809
       0b.oral_p~ne|            .            .        1             .
-      1.oral_pr~ne|     -0.04690         1.18        1         0.2780
+      1.oral_pr~ne|     -0.05488         1.63        1         0.2018
       ------------+---------------------------------------------------
-      global test |                     15.26        7         0.0328
+      global test |                     15.61        7         0.0290
       ----------------------------------------------------------------
 
 . local multivar2_p1 = round(r(phtest)[2,4],0.001)
@@ -234,8 +230,6 @@ Log likelihood  =   -4364.3814                  Prob > chi2      =      0.0000
 
 .                           
 . graph export "$Tabfigdir/schoenplot3a.svg", as(svg) replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/schoenplot3a.
-> svg not found)
 (file E:\analyses\hydroxychloroquine-research/output/tabfig/schoenplot3a.svg wr
 > itten in SVG format)
 
@@ -246,8 +240,8 @@ Log likelihood  =   -4364.3814                  Prob > chi2      =      0.0000
 . 
 . stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaid
 > s i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_li
-> ver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions, stra
-> ta(stp)
+> ver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu
+> _vaccine, strata(stp population)
 
          failure _d:  onscoviddeath
    analysis time _t:  (stime_onscoviddeath-origin)
@@ -255,56 +249,56 @@ Log likelihood  =   -4364.3814                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -4767.5032
-Iteration 1:   log likelihood = -4398.0989
-Iteration 2:   log likelihood = -4323.3289
-Iteration 3:   log likelihood = -4318.0179
-Iteration 4:   log likelihood =  -4317.319
-Iteration 5:   log likelihood = -4317.2714
-Iteration 6:   log likelihood =  -4317.271
-Iteration 7:   log likelihood =  -4317.271
+Iteration 0:   log likelihood = -4672.2087
+Iteration 1:   log likelihood = -4307.1697
+Iteration 2:   log likelihood = -4234.0232
+Iteration 3:   log likelihood = -4229.0639
+Iteration 4:   log likelihood = -4228.5363
+Iteration 5:   log likelihood = -4228.5102
+Iteration 6:   log likelihood = -4228.5102
 Refining estimates:
-Iteration 0:   log likelihood =  -4317.271
+Iteration 0:   log likelihood = -4228.5102
 
 Stratified Cox regr. -- Breslow method for ties
 
-No. of subjects =      194,236                  Number of obs    =     194,236
-No. of failures =          532
-Time at risk    =     21616600
-                                                LR chi2(19)      =      900.46
-Log likelihood  =    -4317.271                  Prob > chi2      =      0.0000
+No. of subjects =      194,286                  Number of obs    =     194,286
+No. of failures =          538
+Time at risk    =     22946851
+                                                LR chi2(20)      =      887.40
+Log likelihood  =   -4228.5102                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9896701   .1313419    -0.08   0.938      .763001    1.283677
-      1.male |    1.32183   .1210206     3.05   0.002     1.104698     1.58164
-        age1 |   1.063654   .0418947     1.57   0.117     .9846318    1.149019
-        age2 |   1.043812   .0589192     0.76   0.447     .9344911    1.165922
-        age3 |   .8379337   .1783274    -0.83   0.406      .552152     1.27163
-  1.dmard_pc |    1.03278   .0958299     0.35   0.728     .8610457    1.238766
-1.oral_pr~ne |   2.207865   .2048592     8.54   0.000     1.840742    2.648209
-    1.nsaids |   .8718487    .143645    -0.83   0.405     .6312449     1.20416
-1.~c_disease |   1.454514   .1369858     3.98   0.000      1.20935    1.749379
-1.resp_exc~a |   1.415494   .1401678     3.51   0.000     1.165786     1.71869
+        HCQ  |     1.0171   .1344505     0.13   0.898     .7849525    1.317905
+      1.male |   1.342269   .1224031     3.23   0.001     1.122581    1.604951
+        age1 |    1.05343   .0385577     1.42   0.155      .980505    1.131778
+        age2 |   1.058423   .0565489     1.06   0.288     .9531946    1.175268
+        age3 |   .7973381   .1627466    -1.11   0.267     .5344435    1.189552
+  1.dmard_pc |   1.015156   .0953461     0.16   0.873     .8444731    1.220337
+1.oral_pr~ne |   2.199805   .2031874     8.54   0.000     1.835532     2.63637
+    1.nsaids |    .853411   .1406532    -0.96   0.336     .6178303    1.178819
+1.~c_disease |   1.467131   .1374535     4.09   0.000     1.221015    1.762856
+1.resp_exc~a |    1.44016   .1418048     3.70   0.000     1.187401    1.746723
              |
 egfr_cat_n~s |
-      30-59  |    1.17655   .1200905     1.59   0.111     .9632259    1.437118
-        <30  |   2.291975   .4526981     4.20   0.000     1.556272    3.375472
+      30-59  |   1.169191   .1188152     1.54   0.124     .9580428    1.426876
+        <30  |   2.297541   .4534586     4.21   0.000     1.560501     3.38269
              |
-1.~r_disease |   1.304933   .4178441     0.83   0.406     .6966751    2.444251
+1.~r_disease |   1.320136    .423181     0.87   0.386      .704302     2.47445
              |
    obese4cat |
-Obese I ..)  |    1.12525   .1316854     1.01   0.313     .8946119    1.415347
-Obese II..)  |   1.368894   .2347722     1.83   0.067     .9781026    1.915822
-Obese II..)  |   1.561376   .3942258     1.76   0.078     .9518991    2.561086
+Obese I ..)  |   1.120542   .1304625     0.98   0.328      .891917    1.407771
+Obese II..)  |   1.351797   .2317004     1.76   0.079     .9660823    1.891512
+Obese II..)  |   1.537224   .3880167     1.70   0.088     .9373075    2.521113
              |
-1.hyperten~n |   1.033215   .1012557     0.33   0.739     .8526532    1.252014
-1.cancer_e~r |   1.270228   .1386234     2.19   0.028     1.025623     1.57317
-1.neuro_co~s |   1.740554   .1932188     4.99   0.000     1.400218    2.163612
+1.hyperten~n |   1.052361   .1029463     0.52   0.602     .8687538    1.274773
+1.cancer_e~r |   1.264379   .1374029     2.16   0.031     1.021822    1.564513
+1.neuro_co~s |   1.712979   .1901146     4.85   0.000     1.378103    2.129229
+1.flu_vacc~e |   .8176035   .0872025    -1.89   0.059     .6633714    1.007694
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
 . estat phtest, detail
 
@@ -315,39 +309,41 @@ Obese II..)  |   1.561376   .3942258     1.76   0.078     .9518991    2.561086
                   |       rho            chi2       df       Prob>chi2
       ------------+---------------------------------------------------
       0b.exposure |            .            .        1             .
-      1.exposure  |     -0.00886         0.04        1         0.8366
+      1.exposure  |     -0.00345         0.01        1         0.9359
       0b.male     |            .            .        1             .
-      1.male      |     -0.08322         3.77        1         0.0522
-      age1        |     -0.00167         0.00        1         0.9777
-      age2        |     -0.01066         0.04        1         0.8487
-      age3        |      0.02524         0.23        1         0.6322
+      1.male      |     -0.06058         2.03        1         0.1538
+      age1        |     -0.04143         0.47        1         0.4948
+      age2        |      0.01795         0.10        1         0.7495
+      age3        |      0.00493         0.01        1         0.9254
       0b.dmard_pc |            .            .        1             .
-      1.dmard_pc  |     -0.04153         0.92        1         0.3379
+      1.dmard_pc  |     -0.04008         0.87        1         0.3515
       0b.oral_p~ne|            .            .        1             .
-      1.oral_pr~ne|     -0.04355         1.03        1         0.3111
+      1.oral_pr~ne|     -0.05396         1.59        1         0.2069
       0b.nsaids   |            .            .        1             .
-      1.nsaids    |     -0.00972         0.05        1         0.8249
+      1.nsaids    |     -0.01654         0.14        1         0.7051
       0b.chronic..|            .            .        1             .
-      1.~c_disease|     -0.03722         0.77        1         0.3808
+      1.~c_disease|     -0.03141         0.55        1         0.4575
       0b.resp_ex~a|            .            .        1             .
-      1.resp_exc~a|     -0.00362         0.01        1         0.9328
+      1.resp_exc~a|      0.01122         0.07        1         0.7928
       1b.egfr_ca~s|            .            .        1             .
-      2.egfr_cat~s|      0.06192         2.18        1         0.1399
-      3.egfr_cat~s|      0.04115         0.94        1         0.3331
+      2.egfr_cat~s|      0.04890         1.37        1         0.2411
+      3.egfr_cat~s|      0.02734         0.42        1         0.5186
       0b.chronic..|            .            .        1             .
-      1.~r_disease|      0.06138         2.01        1         0.1563
+      1.~r_disease|      0.05390         1.58        1         0.2089
       1b.obese4cat|            .            .        1             .
-      2.obese4cat |     -0.00160         0.00        1         0.9708
-      3.obese4cat |      0.04757         1.22        1         0.2696
-      4.obese4cat |     -0.02488         0.32        1         0.5701
+      2.obese4cat |     -0.01033         0.06        1         0.8122
+      3.obese4cat |      0.03539         0.68        1         0.4093
+      4.obese4cat |     -0.02997         0.47        1         0.4914
       0b.hyperte~n|            .            .        1             .
-      1.hyperten~n|     -0.05028         1.34        1         0.2466
+      1.hyperten~n|     -0.03399         0.62        1         0.4308
       0b.cancer_~r|            .            .        1             .
-      1.cancer_e~r|      0.00043         0.00        1         0.9920
+      1.cancer_e~r|     -0.00212         0.00        1         0.9603
       0b.neuro_c~s|            .            .        1             .
-      1.neuro_co~s|      0.05275         1.48        1         0.2239
+      1.neuro_co~s|      0.03369         0.61        1         0.4342
+      0b.flu_vac~e|            .            .        1             .
+      1.flu_vacc~e|     -0.01845         0.19        1         0.6643
       ------------+---------------------------------------------------
-      global test |                     24.79       19         0.1675
+      global test |                     22.30       20         0.3245
       ----------------------------------------------------------------
 
 . local multivar3_p1 = round(r(phtest)[2,4],0.001)
@@ -369,8 +365,6 @@ Obese II..)  |   1.561376   .3942258     1.76   0.078     .9518991    2.561086
 
 .                           
 . graph export "$Tabfigdir/schoenplot4a.svg", as(svg) replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/schoenplot4a.
-> svg not found)
 (file E:\analyses\hydroxychloroquine-research/output/tabfig/schoenplot4a.svg wr
 > itten in SVG format)
 
@@ -386,8 +380,6 @@ Obese II..)  |   1.561376   .3942258     1.76   0.078     .9518991    2.561086
 . cap file close tablecontent
 
 . file open tablecontent using $Tabfigdir/table4.txt, write text replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/table4.txt no
-> t found)
 
 . 
 . * Column headings 
@@ -423,5 +415,5 @@ Obese II..)  |   1.561376   .3942258     1.76   0.078     .9518991    2.561086
        log:  E:\analyses\hydroxychloroquine-research/output/log\08_an_model_che
 > cks.log
   log type:  text
- closed on:  15 Jul 2020, 09:42:45
+ closed on:  21 Jul 2020, 13:20:50
 -------------------------------------------------------------------------------

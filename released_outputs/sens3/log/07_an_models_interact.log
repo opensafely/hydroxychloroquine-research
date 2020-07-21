@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens3/log\07_an_mod
 > els_interact.log
   log type:  text
- opened on:  15 Jul 2020, 10:08:48
+ opened on:  19 Jul 2020, 18:42:06
 
 . 
 . * Open Stata dataset
@@ -62,10 +62,10 @@
 . bysort `intvar': tab exposure $outcome, row
   3. 
 . /* Univariable model */ 
-. stcox i.exposure i.agegroup2
+. stcox i.exposure
   4. estimates store A
   5. 
-. stcox i.exposure##i.`intvar' i.agegroup2
+. stcox i.exposure##i.`intvar'
   6. estimates store B
   7. estimates save $Tempdir/univar_int_`intvar', replace 
   8. 
@@ -87,13 +87,13 @@
  17. 
 . * DAG Adjusted 
 . stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone, strata(st
-> p)                                 
+> p population)                                      
  18.                                                                           
 >       
 . estimates store A
  19. 
 . stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolon
-> e, strata(stp)                     
+> e, strata(stp population)                  
  20. estimates store B
  21. estimates save $Tempdir/multivar2_int_`intvar', replace 
  22. 
@@ -103,14 +103,14 @@
 . * Fully Adjusted 
 . stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i.nsaids i
 > .chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver
-> _disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions, strata(
-> stp)
+> _disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_va
+> ccine, strata(stp population)
  25. estimates store A
  26. 
 . stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolon
 > e i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.c
 > hronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditi
-> ons, strata(stp)
+> ons i.flu_vaccine, strata(stp population)
  27. estimates store B
  28. estimates save $Tempdir/multivar3_int_`intvar', replace 
  29. 
@@ -226,32 +226,26 @@
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16094.784
-Iteration 2:   log likelihood = -16084.067
-Iteration 3:   log likelihood = -16084.047
-Iteration 4:   log likelihood = -16084.047
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16192.088
+Iteration 2:   log likelihood = -16192.082
+Iteration 3:   log likelihood = -16192.082
 Refining estimates:
-Iteration 0:   log likelihood = -16084.047
+Iteration 0:   log likelihood = -16192.082
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(4)       =      220.25
-Log likelihood  =   -16084.047                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(1)       =        4.13
+Log likelihood  =   -16192.082                  Prob > chi2      =      0.0420
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9382141   .0746477    -0.80   0.423     .8027444    1.096545
-             |
-   agegroup2 |
-     60-<70  |   1.033828   .0878811     0.39   0.696     .8751685    1.221252
-     70-<80  |   1.494966   .1127946     5.33   0.000     1.289461    1.733221
-        80+  |   2.770568   .2050701    13.77   0.000     2.396432    3.203115
+        HCQ  |   .8537861   .0676447    -2.00   0.046     .7309861    .9972155
 ------------------------------------------------------------------------------
 
          failure _d:  firstpos_primcare
@@ -260,46 +254,44 @@ Log likelihood  =   -16084.047                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16094.584
-Iteration 2:   log likelihood = -16081.429
-Iteration 3:   log likelihood = -16081.392
-Iteration 4:   log likelihood = -16081.392
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16094.553
+Iteration 2:   log likelihood = -16081.396
+Iteration 3:   log likelihood =  -16081.36
+Iteration 4:   log likelihood =  -16081.36
 Refining estimates:
-Iteration 0:   log likelihood = -16081.392
+Iteration 0:   log likelihood =  -16081.36
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(7)       =      225.56
-Log likelihood  =   -16081.392                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(7)       =      225.58
+Log likelihood  =    -16081.36                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   1.118698   .1515094     0.83   0.408     .8578902    1.458795
+        HCQ  |   1.118689   .1515081     0.83   0.408     .8578832    1.458783
              |
    agegroup2 |
-     60-<70  |   1.055658   .0994336     0.58   0.565     .8777027    1.269693
-     70-<80  |   1.548863   .1281116     5.29   0.000     1.317065    1.821456
-        80+  |   2.945203   .2346282    13.56   0.000     2.519444    3.442911
+     60-<70  |   1.055652    .099433     0.57   0.565     .8776979    1.269686
+     70-<80  |   1.548903   .1281149     5.29   0.000     1.317099    1.821503
+        80+  |   2.945322   .2346377    13.56   0.000     2.519546     3.44305
              |
     exposure#|
    agegroup2 |
- HCQ#60-<70  |   .8972841   .1965197    -0.49   0.621     .5841213    1.378342
- HCQ#70-<80  |   .8210336   .1681727    -0.96   0.336     .5495521    1.226628
-    HCQ#80+  |   .5882085   .1417684    -2.20   0.028     .3667559    .9433776
+ HCQ#60-<70  |   .8972908   .1965212    -0.49   0.621     .5841257    1.378352
+ HCQ#70-<80  |   .8210235   .1681707    -0.96   0.336     .5495453    1.226613
+    HCQ#80+  |   .5882123   .1417693    -2.20   0.028     .3667582    .9433837
 ------------------------------------------------------------------------------
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/univa
-> r_int_agegroup2.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/univar_int_a
 > gegroup2.ster saved
 
-Likelihood-ratio test                                 LR chi2(3)  =      5.31
-(Assumption: A nested in B)                           Prob > chi2 =    0.1505
+Likelihood-ratio test                                 LR chi2(6)  =    221.45
+(Assumption: A nested in B)                           Prob > chi2 =    0.0000
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -307,34 +299,34 @@ Likelihood-ratio test                                 LR chi2(3)  =      5.31
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16092.589
-Iteration 2:   log likelihood = -16081.872
-Iteration 3:   log likelihood = -16081.852
-Iteration 4:   log likelihood = -16081.852
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16092.557
+Iteration 2:   log likelihood = -16081.838
+Iteration 3:   log likelihood = -16081.818
+Iteration 4:   log likelihood = -16081.818
 Refining estimates:
-Iteration 0:   log likelihood = -16081.852
+Iteration 0:   log likelihood = -16081.818
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(5)       =      224.64
-Log likelihood  =   -16081.852                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(5)       =      224.66
+Log likelihood  =   -16081.818                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9441456   .0751649    -0.72   0.470     .8077435    1.103582
+        HCQ  |   .9441386   .0751643    -0.72   0.470     .8077376    1.103573
              |
    agegroup2 |
-     60-<70  |    1.02891   .0874952     0.34   0.738     .8709517    1.215517
-     70-<80  |   1.484575    .112117     5.23   0.000      1.28032    1.721417
-        80+  |   2.761257   .2043993    13.72   0.000     2.388347    3.192392
+     60-<70  |   1.028904   .0874947     0.34   0.738     .8709465    1.215509
+     70-<80  |   1.484609   .1121195     5.23   0.000     1.280349    1.721456
+        80+  |   2.761371   .2044077    13.72   0.000     2.388446    3.192523
              |
-      1.male |   1.132413   .0666892     2.11   0.035     1.008966    1.270963
+      1.male |   1.132448   .0666913     2.11   0.035     1.008997    1.271003
 ------------------------------------------------------------------------------
 
          failure _d:  firstpos_primcare
@@ -343,43 +335,41 @@ Log likelihood  =   -16081.852                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16092.239
-Iteration 2:   log likelihood = -16079.081
-Iteration 3:   log likelihood = -16079.045
-Iteration 4:   log likelihood = -16079.045
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16092.208
+Iteration 2:   log likelihood = -16079.047
+Iteration 3:   log likelihood = -16079.011
+Iteration 4:   log likelihood = -16079.011
 Refining estimates:
-Iteration 0:   log likelihood = -16079.045
+Iteration 0:   log likelihood = -16079.011
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(8)       =      230.26
-Log likelihood  =   -16079.045                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(8)       =      230.28
+Log likelihood  =   -16079.011                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   1.135806   .1540427     0.94   0.348     .8706847    1.481657
+        HCQ  |   1.135801   .1540419     0.94   0.348     .8706805     1.48165
              |
    agegroup2 |
-     60-<70  |   1.052191   .0991203     0.54   0.589     .8747985    1.265554
-     70-<80  |   1.540738   .1274961     5.22   0.000     1.310062    1.812032
-        80+  |   2.941227   .2343189    13.54   0.000      2.51603     3.43828
+     60-<70  |   1.052183   .0991196     0.54   0.589     .8747924    1.265545
+     70-<80  |   1.540777   .1274993     5.22   0.000     1.310095    1.812077
+        80+  |   2.941348   .2343285    13.54   0.000     2.516133    3.438421
              |
     exposure#|
    agegroup2 |
- HCQ#60-<70  |   .8886444   .1946705    -0.54   0.590     .5784422    1.365199
- HCQ#70-<80  |   .8111045    .166205    -1.02   0.307     .5428195    1.211988
-    HCQ#80+  |   .5791103    .139641    -2.27   0.023     .3610031    .9289913
+ HCQ#60-<70  |   .8886496   .1946716    -0.54   0.590     .5784456    1.365207
+ HCQ#70-<80  |   .8110918   .1662024    -1.02   0.307      .542811    1.211969
+    HCQ#80+  |   .5791117   .1396413    -2.27   0.023      .361004    .9289935
              |
-      1.male |   1.137387   .0670462     2.18   0.029     1.013286    1.276687
+      1.male |   1.137422   .0670483     2.18   0.029     1.013317    1.276727
 ------------------------------------------------------------------------------
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var1_int_agegroup2.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar1_in
 > t_agegroup2.ster saved
 
@@ -392,38 +382,38 @@ Likelihood-ratio test                                 LR chi2(3)  =      5.61
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11784.978
-Iteration 2:   log likelihood = -11769.994
-Iteration 3:   log likelihood = -11769.965
-Iteration 4:   log likelihood = -11769.965
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11323.222
+Iteration 2:   log likelihood = -11309.525
+Iteration 3:   log likelihood = -11309.503
+Iteration 4:   log likelihood = -11309.503
 Refining estimates:
-Iteration 0:   log likelihood = -11769.965
+Iteration 0:   log likelihood = -11309.503
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(7)       =      324.97
-Log likelihood  =   -11769.965                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(7)       =      316.47
+Log likelihood  =   -11309.503                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .8942576    .072075    -1.39   0.166     .7635859    1.047291
+        HCQ  |   .9004949   .0730923    -1.29   0.197      .768051    1.055778
              |
    agegroup2 |
-     60-<70  |   1.010111   .0862127     0.12   0.906     .8545139     1.19404
-     70-<80  |   1.438629   .1097533     4.77   0.000     1.238827    1.670657
-        80+  |   2.647514   .1980804    13.01   0.000     2.286406    3.065653
+     60-<70  |   1.007047   .0861723     0.08   0.935     .8515555    1.190931
+     70-<80  |   1.431541   .1098217     4.68   0.000     1.231695    1.663812
+        80+  |    2.63086   .1986981    12.81   0.000     2.268872    3.050602
              |
-      1.male |   1.144442   .0674977     2.29   0.022     1.019509    1.284685
-  1.dmard_pc |   1.115016   .0634649     1.91   0.056     .9973146    1.246609
-1.oral_pr~ne |   1.809317   .1109845     9.67   0.000     1.604359    2.040459
+      1.male |   1.141247   .0675184     2.23   0.026     1.016297    1.281558
+  1.dmard_pc |   1.102219   .0640209     1.68   0.094     .9836195    1.235119
+1.oral_pr~ne |   1.810176    .111061     9.67   0.000      1.60508    2.041481
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -431,51 +421,49 @@ Log likelihood  =   -11769.965                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11784.785
-Iteration 2:   log likelihood = -11767.472
-Iteration 3:   log likelihood = -11767.426
-Iteration 4:   log likelihood = -11767.426
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11322.696
+Iteration 2:   log likelihood = -11306.947
+Iteration 3:   log likelihood =  -11306.91
+Iteration 4:   log likelihood =  -11306.91
 Refining estimates:
-Iteration 0:   log likelihood = -11767.426
+Iteration 0:   log likelihood =  -11306.91
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(10)      =      330.05
-Log likelihood  =   -11767.426                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(10)      =      321.65
+Log likelihood  =    -11306.91                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   1.040341   .1420989     0.29   0.772     .7959966    1.359691
+        HCQ  |   1.054513   .1453979     0.38   0.700     .8047978     1.38171
              |
    agegroup2 |
-     60-<70  |   1.023766   .0967938     0.25   0.804     .8505936    1.232193
-     70-<80  |   1.480271    .123679     4.69   0.000     1.256673    1.743655
-        80+  |   2.804096   .2255993    12.82   0.000     2.395029    3.283031
+     60-<70  |    1.02093   .0966221     0.22   0.827     .8480803    1.229008
+     70-<80  |   1.473701   .1234366     4.63   0.000     1.250585    1.736624
+        80+  |   2.785863   .2252886    12.67   0.000     2.377521    3.264339
              |
     exposure#|
    agegroup2 |
- HCQ#60-<70  |   .9383017   .2056433    -0.29   0.771     .6106445    1.441772
- HCQ#70-<80  |    .858617   .1760799    -0.74   0.457     .5744343     1.28339
-    HCQ#80+  |   .5995801   .1446761    -2.12   0.034     .3736422    .9621405
+ HCQ#60-<70  |   .9327796   .2047396    -0.32   0.751       .60666     1.43421
+ HCQ#70-<80  |   .8503588   .1747934    -0.79   0.430     .5683759    1.272239
+    HCQ#80+  |   .5952513   .1439249    -2.15   0.032     .3705866    .9561169
              |
-      1.male |   1.149007    .067835     2.35   0.019     1.023456    1.289959
-  1.dmard_pc |   1.112407   .0633455     1.87   0.061     .9949303    1.243756
-1.oral_pr~ne |    1.80782   .1108748     9.65   0.000     1.603062    2.038731
+      1.male |   1.145283    .067809     2.29   0.022     1.019801    1.286204
+  1.dmard_pc |   1.098102   .0638354     1.61   0.107     .9798516    1.230623
+1.oral_pr~ne |   1.809045    .110972     9.66   0.000     1.604111    2.040162
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var2_int_agegroup2.ster not found)
+                                                  Stratified by stp population
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar2_in
 > t_agegroup2.ster saved
 
-Likelihood-ratio test                                 LR chi2(3)  =      5.08
-(Assumption: A nested in B)                           Prob > chi2 =    0.1661
+Likelihood-ratio test                                 LR chi2(3)  =      5.18
+(Assumption: A nested in B)                           Prob > chi2 =    0.1588
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -483,57 +471,58 @@ Likelihood-ratio test                                 LR chi2(3)  =      5.08
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11783.282
-Iteration 2:   log likelihood = -11706.288
-Iteration 3:   log likelihood = -11699.504
-Iteration 4:   log likelihood = -11699.257
-Iteration 5:   log likelihood = -11699.256
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11322.099
+Iteration 2:   log likelihood = -11245.279
+Iteration 3:   log likelihood =  -11238.31
+Iteration 4:   log likelihood = -11238.051
+Iteration 5:   log likelihood = -11238.051
 Refining estimates:
-Iteration 0:   log likelihood = -11699.256
+Iteration 0:   log likelihood = -11238.051
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(19)      =      466.39
-Log likelihood  =   -11699.256                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(20)      =      459.37
+Log likelihood  =   -11238.051                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |    .884307   .0713147    -1.52   0.127     .7550196    1.035733
+        HCQ  |   .8872289   .0721513    -1.47   0.141     .7565092    1.040536
              |
    agegroup2 |
-     60-<70  |   .8814954   .0772101    -1.44   0.150     .7424434     1.04659
-     70-<80  |   1.134629   .0955517     1.50   0.134     .9619904    1.338249
-        80+  |   1.895049   .1720889     7.04   0.000     1.586073    2.264216
+     60-<70  |   .8636813    .076833    -1.65   0.099     .7254888    1.028197
+     70-<80  |   1.098979   .0960782     1.08   0.280     .9259191    1.304384
+        80+  |   1.829361   .1727872     6.39   0.000     1.520202    2.201391
              |
-      1.male |   1.088503   .0651523     1.42   0.157      .968013    1.223992
-  1.dmard_pc |   1.166562   .0668285     2.69   0.007     1.042666     1.30518
-1.oral_pr~ne |   1.620655   .1031152     7.59   0.000     1.430647    1.835899
-    1.nsaids |   1.016048   .0820252     0.20   0.844     .8673554    1.190232
-1.~c_disease |   1.361186   .0920947     4.56   0.000      1.19214    1.554204
-1.resp_exc~a |    1.28273   .0906232     3.52   0.000     1.116861    1.473233
+      1.male |   1.084727     .06515     1.35   0.176     .9642647    1.220238
+  1.dmard_pc |   1.142635   .0672548     2.27   0.023     1.018138    1.282357
+1.oral_pr~ne |   1.617516   .1029917     7.55   0.000     1.427744    1.832513
+    1.nsaids |   1.010012   .0817859     0.12   0.902     .8617875     1.18373
+1.~c_disease |   1.356594   .0918374     4.51   0.000     1.188027     1.54908
+1.resp_exc~a |   1.276198   .0903129     3.45   0.001     1.110915    1.466071
              |
 egfr_cat_n~s |
-      30-59  |   1.143147   .0878976     1.74   0.082     .9832238    1.329082
-        <30  |   2.310941    .367165     5.27   0.000     1.692579    3.155214
+      30-59  |   1.141789   .0877808     1.72   0.085     .9820766    1.327475
+        <30  |   2.312937   .3675995     5.28   0.000     1.693873    3.158253
              |
-1.~r_disease |   1.173737   .2475325     0.76   0.447     .7763522    1.774528
+1.~r_disease |   1.180223   .2491514     0.78   0.432     .7803164    1.785078
              |
    obese4cat |
-Obese I ..)  |   1.178325   .0836081     2.31   0.021      1.02534    1.354135
-Obese II..)  |   1.232514   .1255495     2.05   0.040      1.00945    1.504871
-Obese II..)  |   1.579671   .2016854     3.58   0.000     1.229954    2.028823
+Obese I ..)  |   1.172747   .0832671     2.24   0.025     1.020393    1.347849
+Obese II..)  |   1.225976   .1249957     2.00   0.046     1.003914    1.497156
+Obese II..)  |   1.566766   .2002956     3.51   0.000     1.219513    2.012899
              |
-1.hyperten~n |   1.127712   .0699875     1.94   0.053      .998554    1.273577
-1.cancer_e~r |   1.274756   .0995031     3.11   0.002     1.093919    1.485487
-1.neuro_co~s |   1.559474   .1318213     5.26   0.000     1.321376    1.840474
+1.hyperten~n |   1.124126   .0698291     1.88   0.060     .9952669    1.269669
+1.cancer_e~r |   1.274679   .0995198     3.11   0.002     1.093814    1.485449
+1.neuro_co~s |   1.560772   .1320104     5.26   0.000     1.322344    1.842189
+1.flu_vacc~e |   1.080531   .0722895     1.16   0.247     .9477423    1.231925
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -541,70 +530,69 @@ Obese II..)  |   1.579671   .2016854     3.58   0.000     1.229954    2.028823
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11783.909
-Iteration 2:   log likelihood =  -11704.22
-Iteration 3:   log likelihood = -11697.321
-Iteration 4:   log likelihood = -11697.068
-Iteration 5:   log likelihood = -11697.067
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11322.424
+Iteration 2:   log likelihood =  -11243.21
+Iteration 3:   log likelihood = -11236.142
+Iteration 4:   log likelihood = -11235.878
+Iteration 5:   log likelihood = -11235.877
 Refining estimates:
-Iteration 0:   log likelihood = -11697.067
+Iteration 0:   log likelihood = -11235.877
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(22)      =      470.76
-Log likelihood  =   -11697.067                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(23)      =      463.72
+Log likelihood  =   -11235.877                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   1.010582   .1380716     0.08   0.939     .7731706    1.320893
+        HCQ  |   1.016017   .1403321     0.12   0.908     .7750562    1.331891
              |
    agegroup2 |
-     60-<70  |   .8910827   .0860835    -1.19   0.233     .7373731    1.076834
-     70-<80  |    1.16285   .1057213     1.66   0.097     .9730523    1.389669
-        80+  |   1.997135   .1907883     7.24   0.000     1.656118    2.408372
+     60-<70  |   .8734079   .0854791    -1.38   0.167     .7209603    1.058091
+     70-<80  |   1.126998    .105895     1.27   0.203     .9374385     1.35489
+        80+  |   1.927974   .1908942     6.63   0.000     1.587893     2.34089
              |
     exposure#|
    agegroup2 |
- HCQ#60-<70  |   .9528545   .2088562    -0.22   0.826     .6200856    1.464204
- HCQ#70-<80  |   .8794991   .1804157    -0.63   0.531     .5883347    1.314759
-    HCQ#80+  |   .6230402   .1503959    -1.96   0.050       .38819    .9999721
+ HCQ#60-<70  |   .9515032   .2088923    -0.23   0.821     .6187826    1.463128
+ HCQ#70-<80  |   .8775324   .1805081    -0.64   0.525     .5863695    1.313273
+    HCQ#80+  |   .6232567   .1508029    -1.95   0.051     .3878919    1.001436
              |
-      1.male |   1.092322   .0654397     1.47   0.140     .9713067    1.228415
-  1.dmard_pc |   1.164112   .0667188     2.65   0.008     1.040422    1.302506
-1.oral_pr~ne |   1.619965   .1030552     7.58   0.000     1.430066    1.835082
-    1.nsaids |   1.013674   .0818637     0.17   0.866     .8652779    1.187519
-1.~c_disease |   1.360276   .0920185     4.55   0.000     1.191367    1.553131
-1.resp_exc~a |   1.284713   .0907571     3.55   0.000     1.118598    1.475497
+      1.male |    1.08799    .065388     1.40   0.161     .9670924    1.224002
+  1.dmard_pc |   1.139588   .0671152     2.22   0.027     1.015353    1.279025
+1.oral_pr~ne |   1.617411   .1029689     7.55   0.000     1.427679    1.832358
+    1.nsaids |    1.00718   .0815964     0.09   0.930      .859305    1.180503
+1.~c_disease |   1.355885   .0917773     4.50   0.000     1.187426    1.548243
+1.resp_exc~a |   1.278469   .0904693     3.47   0.001       1.1129    1.468671
              |
 egfr_cat_n~s |
-      30-59  |   1.144434   .0879767     1.75   0.079     .9843647    1.330533
-        <30  |   2.306578   .3665054     5.26   0.000     1.689335    3.149346
+      30-59  |   1.143109   .0878654     1.74   0.082     .9832406    1.328971
+        <30  |   2.309758   .3671296     5.27   0.000     1.691494    3.154007
              |
-1.~r_disease |   1.170982   .2469543     0.75   0.454     .7745264    1.770372
+1.~r_disease |   1.178716   .2488342     0.78   0.436     .7793189    1.782802
              |
    obese4cat |
-Obese I ..)  |   1.177555   .0835505     2.30   0.021     1.024675    1.353244
-Obese II..)  |   1.232034   .1255085     2.05   0.041     1.009044    1.504303
-Obese II..)  |   1.577305   .2014029     3.57   0.000     1.228082    2.025834
+Obese I ..)  |   1.171933   .0832067     2.23   0.025     1.019689    1.346908
+Obese II..)  |   1.225213   .1249285     1.99   0.046     1.003272    1.496249
+Obese II..)  |   1.564026   .1999664     3.50   0.000     1.217348    2.009431
              |
-1.hyperten~n |   1.126671   .0699222     1.92   0.055     .9976335      1.2724
-1.cancer_e~r |   1.273972    .099443     3.10   0.002     1.093244    1.484576
-1.neuro_co~s |   1.554622   .1314333     5.22   0.000     1.317229    1.834799
+1.hyperten~n |    1.12336   .0697824     1.87   0.061     .9945872    1.268806
+1.cancer_e~r |   1.274098   .0994757     3.10   0.002     1.093314    1.484776
+1.neuro_co~s |   1.556203   .1316459     5.23   0.000     1.318438    1.836848
+1.flu_vacc~e |    1.07624   .0719786     1.10   0.272     .9440193    1.226979
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var3_int_agegroup2.ster not found)
+                                                  Stratified by stp population
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar3_in
 > t_agegroup2.ster saved
 
-Likelihood-ratio test                                 LR chi2(3)  =      4.38
-(Assumption: A nested in B)                           Prob > chi2 =    0.2234
+Likelihood-ratio test                                 LR chi2(3)  =      4.35
+(Assumption: A nested in B)                           Prob > chi2 =    0.2264
 
 -------------------------------------------------------------------------------
 -> dmard_pc = 0
@@ -663,32 +651,26 @@ Likelihood-ratio test                                 LR chi2(3)  =      4.38
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16094.784
-Iteration 2:   log likelihood = -16084.067
-Iteration 3:   log likelihood = -16084.047
-Iteration 4:   log likelihood = -16084.047
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16192.088
+Iteration 2:   log likelihood = -16192.082
+Iteration 3:   log likelihood = -16192.082
 Refining estimates:
-Iteration 0:   log likelihood = -16084.047
+Iteration 0:   log likelihood = -16192.082
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(4)       =      220.25
-Log likelihood  =   -16084.047                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(1)       =        4.13
+Log likelihood  =   -16192.082                  Prob > chi2      =      0.0420
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9382141   .0746477    -0.80   0.423     .8027444    1.096545
-             |
-   agegroup2 |
-     60-<70  |   1.033828   .0878811     0.39   0.696     .8751685    1.221252
-     70-<80  |   1.494966   .1127946     5.33   0.000     1.289461    1.733221
-        80+  |   2.770568   .2050701    13.77   0.000     2.396432    3.203115
+        HCQ  |   .8537861   .0676447    -2.00   0.046     .7309861    .9972155
 ------------------------------------------------------------------------------
 
          failure _d:  firstpos_primcare
@@ -697,45 +679,37 @@ Log likelihood  =   -16084.047                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16090.551
-Iteration 2:   log likelihood = -16079.816
-Iteration 3:   log likelihood = -16079.796
-Iteration 4:   log likelihood = -16079.796
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16186.915
+Iteration 2:   log likelihood = -16186.892
+Iteration 3:   log likelihood = -16186.892
 Refining estimates:
-Iteration 0:   log likelihood = -16079.796
+Iteration 0:   log likelihood = -16186.892
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(6)       =      228.76
-Log likelihood  =   -16079.796                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(3)       =       14.51
+Log likelihood  =   -16186.892                  Prob > chi2      =      0.0023
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |    1.06351   .1158961     0.57   0.572     .8589776    1.316744
-  1.dmard_pc |   1.186244   .0723095     2.80   0.005     1.052659    1.336781
+        HCQ  |    .979086   .1065051    -0.19   0.846     .7910921    1.211754
+  1.dmard_pc |   1.207573   .0732949     3.11   0.002     1.072134    1.360122
              |
     exposure#|
     dmard_pc |
-      HCQ#1  |   .7419172   .1181228    -1.87   0.061     .5430417    1.013626
-             |
-   agegroup2 |
-     60-<70  |    1.01984   .0868812     0.23   0.818      .863013    1.205166
-     70-<80  |   1.469329   .1113121     5.08   0.000     1.266585    1.704526
-        80+  |    2.74739   .2035647    13.64   0.000     2.376028    3.176794
+      HCQ#1  |   .7216494   .1148684    -2.05   0.040     .5282462     .985862
 ------------------------------------------------------------------------------
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/univa
-> r_int_dmard_pc.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/univar_int_d
 > mard_pc.ster saved
 
-Likelihood-ratio test                                 LR chi2(2)  =      8.50
-(Assumption: A nested in B)                           Prob > chi2 =    0.0142
+Likelihood-ratio test                                 LR chi2(2)  =     10.38
+(Assumption: A nested in B)                           Prob > chi2 =    0.0056
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -743,34 +717,34 @@ Likelihood-ratio test                                 LR chi2(2)  =      8.50
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16092.589
-Iteration 2:   log likelihood = -16081.872
-Iteration 3:   log likelihood = -16081.852
-Iteration 4:   log likelihood = -16081.852
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16092.557
+Iteration 2:   log likelihood = -16081.838
+Iteration 3:   log likelihood = -16081.818
+Iteration 4:   log likelihood = -16081.818
 Refining estimates:
-Iteration 0:   log likelihood = -16081.852
+Iteration 0:   log likelihood = -16081.818
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(5)       =      224.64
-Log likelihood  =   -16081.852                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(5)       =      224.66
+Log likelihood  =   -16081.818                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9441456   .0751649    -0.72   0.470     .8077435    1.103582
+        HCQ  |   .9441386   .0751643    -0.72   0.470     .8077376    1.103573
              |
    agegroup2 |
-     60-<70  |    1.02891   .0874952     0.34   0.738     .8709517    1.215517
-     70-<80  |   1.484575    .112117     5.23   0.000      1.28032    1.721417
-        80+  |   2.761257   .2043993    13.72   0.000     2.388347    3.192392
+     60-<70  |   1.028904   .0874947     0.34   0.738     .8709465    1.215509
+     70-<80  |   1.484609   .1121195     5.23   0.000     1.280349    1.721456
+        80+  |   2.761371   .2044077    13.72   0.000     2.388446    3.192523
              |
-      1.male |   1.132413   .0666892     2.11   0.035     1.008966    1.270963
+      1.male |   1.132448   .0666913     2.11   0.035     1.008997    1.271003
 ------------------------------------------------------------------------------
 
          failure _d:  firstpos_primcare
@@ -779,42 +753,40 @@ Log likelihood  =   -16081.852                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16088.462
-Iteration 2:   log likelihood = -16077.713
-Iteration 3:   log likelihood = -16077.693
-Iteration 4:   log likelihood = -16077.693
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood =  -16088.43
+Iteration 2:   log likelihood = -16077.679
+Iteration 3:   log likelihood = -16077.659
+Iteration 4:   log likelihood = -16077.659
 Refining estimates:
-Iteration 0:   log likelihood = -16077.693
+Iteration 0:   log likelihood = -16077.659
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(7)       =      232.96
-Log likelihood  =   -16077.693                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(7)       =      232.98
+Log likelihood  =   -16077.659                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   1.074187   .1171722     0.66   0.512     .8674234    1.330237
-  1.dmard_pc |   1.182254   .0720983     2.75   0.006     1.049062    1.332356
+        HCQ  |   1.074177    .117171     0.66   0.512     .8674149    1.330224
+  1.dmard_pc |    1.18225    .072098     2.75   0.006     1.049059    1.332352
              |
     exposure#|
     dmard_pc |
-      HCQ#1  |   .7372612   .1174053    -1.91   0.056     .5395995    1.007329
+      HCQ#1  |   .7372652    .117406    -1.91   0.056     .5396025    1.007334
              |
    agegroup2 |
-     60-<70  |   1.015368   .0865322     0.18   0.858     .8591755    1.199955
-     70-<80  |   1.459694   .1106863     4.99   0.000     1.258104    1.693586
-        80+  |   2.738196   .2029134    13.59   0.000     2.368026    3.166231
+     60-<70  |   1.015362   .0865317     0.18   0.858     .8591707    1.199948
+     70-<80  |    1.45973   .1106889     4.99   0.000     1.258136    1.693627
+        80+  |   2.738307   .2029216    13.59   0.000     2.368121    3.166359
              |
-      1.male |   1.129554   .0665932     2.07   0.039     1.006292    1.267914
+      1.male |   1.129589   .0665952     2.07   0.039     1.006323    1.267953
 ------------------------------------------------------------------------------
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var1_int_dmard_pc.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar1_in
 > t_dmard_pc.ster saved
 
@@ -827,38 +799,38 @@ Likelihood-ratio test                                 LR chi2(2)  =      8.32
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11784.978
-Iteration 2:   log likelihood = -11769.994
-Iteration 3:   log likelihood = -11769.965
-Iteration 4:   log likelihood = -11769.965
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11323.222
+Iteration 2:   log likelihood = -11309.525
+Iteration 3:   log likelihood = -11309.503
+Iteration 4:   log likelihood = -11309.503
 Refining estimates:
-Iteration 0:   log likelihood = -11769.965
+Iteration 0:   log likelihood = -11309.503
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(7)       =      324.97
-Log likelihood  =   -11769.965                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(7)       =      316.47
+Log likelihood  =   -11309.503                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .8942576    .072075    -1.39   0.166     .7635859    1.047291
+        HCQ  |   .9004949   .0730923    -1.29   0.197      .768051    1.055778
              |
    agegroup2 |
-     60-<70  |   1.010111   .0862127     0.12   0.906     .8545139     1.19404
-     70-<80  |   1.438629   .1097533     4.77   0.000     1.238827    1.670657
-        80+  |   2.647514   .1980804    13.01   0.000     2.286406    3.065653
+     60-<70  |   1.007047   .0861723     0.08   0.935     .8515555    1.190931
+     70-<80  |   1.431541   .1098217     4.68   0.000     1.231695    1.663812
+        80+  |    2.63086   .1986981    12.81   0.000     2.268872    3.050602
              |
-      1.male |   1.144442   .0674977     2.29   0.022     1.019509    1.284685
-  1.dmard_pc |   1.115016   .0634649     1.91   0.056     .9973146    1.246609
-1.oral_pr~ne |   1.809317   .1109845     9.67   0.000     1.604359    2.040459
+      1.male |   1.141247   .0675184     2.23   0.026     1.016297    1.281558
+  1.dmard_pc |   1.102219   .0640209     1.68   0.094     .9836195    1.235119
+1.oral_pr~ne |   1.810176    .111061     9.67   0.000      1.60508    2.041481
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -866,49 +838,47 @@ Log likelihood  =   -11769.965                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11783.462
-Iteration 2:   log likelihood = -11768.458
-Iteration 3:   log likelihood = -11768.429
-Iteration 4:   log likelihood = -11768.429
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11321.625
+Iteration 2:   log likelihood = -11307.936
+Iteration 3:   log likelihood = -11307.913
+Iteration 4:   log likelihood = -11307.913
 Refining estimates:
-Iteration 0:   log likelihood = -11768.429
+Iteration 0:   log likelihood = -11307.913
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(8)       =      328.04
-Log likelihood  =   -11768.429                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(8)       =      319.64
+Log likelihood  =   -11307.913                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   1.026038   .1123568     0.23   0.814     .8278507     1.27167
-  1.dmard_pc |   1.161821   .0712148     2.45   0.014     1.030301    1.310129
+        HCQ  |   1.036864   .1144344     0.33   0.743     .8351768    1.287258
+  1.dmard_pc |   1.148277   .0713997     2.22   0.026     1.016528    1.297103
              |
     exposure#|
     dmard_pc |
-      HCQ#1  |   .7562158   .1205582    -1.75   0.080     .5532796    1.033586
+      HCQ#1  |   .7522951   .1200997    -1.78   0.075     .5501723    1.028674
              |
    agegroup2 |
-     60-<70  |   1.008649   .0860955     0.10   0.920     .8532646    1.192329
-     70-<80  |   1.434704   .1094866     4.73   0.000     1.235391    1.666173
-        80+  |   2.642687   .1977424    12.99   0.000     2.282198    3.060116
+     60-<70  |   1.005153   .0860191     0.06   0.952     .8499391    1.188711
+     70-<80  |   1.426777   .1094967     4.63   0.000     1.227528    1.658368
+        80+  |   2.624077   .1982276    12.77   0.000     2.262952    3.042832
              |
-      1.male |   1.146329   .0676272     2.31   0.021     1.021158    1.286843
-1.oral_pr~ne |   1.803567   .1106922     9.61   0.000     1.599155    2.034107
+      1.male |   1.142631   .0676157     2.25   0.024     1.017503    1.283146
+1.oral_pr~ne |   1.804256   .1107591     9.61   0.000     1.599723    2.034939
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var2_int_dmard_pc.ster not found)
+                                                  Stratified by stp population
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar2_in
 > t_dmard_pc.ster saved
 
-Likelihood-ratio test                                 LR chi2(1)  =      3.07
-(Assumption: A nested in B)                           Prob > chi2 =    0.0796
+Likelihood-ratio test                                 LR chi2(1)  =      3.18
+(Assumption: A nested in B)                           Prob > chi2 =    0.0746
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -916,57 +886,58 @@ Likelihood-ratio test                                 LR chi2(1)  =      3.07
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11783.282
-Iteration 2:   log likelihood = -11706.288
-Iteration 3:   log likelihood = -11699.504
-Iteration 4:   log likelihood = -11699.257
-Iteration 5:   log likelihood = -11699.256
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11322.099
+Iteration 2:   log likelihood = -11245.279
+Iteration 3:   log likelihood =  -11238.31
+Iteration 4:   log likelihood = -11238.051
+Iteration 5:   log likelihood = -11238.051
 Refining estimates:
-Iteration 0:   log likelihood = -11699.256
+Iteration 0:   log likelihood = -11238.051
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(19)      =      466.39
-Log likelihood  =   -11699.256                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(20)      =      459.37
+Log likelihood  =   -11238.051                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |    .884307   .0713147    -1.52   0.127     .7550196    1.035733
+        HCQ  |   .8872289   .0721513    -1.47   0.141     .7565092    1.040536
              |
    agegroup2 |
-     60-<70  |   .8814954   .0772101    -1.44   0.150     .7424434     1.04659
-     70-<80  |   1.134629   .0955517     1.50   0.134     .9619904    1.338249
-        80+  |   1.895049   .1720889     7.04   0.000     1.586073    2.264216
+     60-<70  |   .8636813    .076833    -1.65   0.099     .7254888    1.028197
+     70-<80  |   1.098979   .0960782     1.08   0.280     .9259191    1.304384
+        80+  |   1.829361   .1727872     6.39   0.000     1.520202    2.201391
              |
-      1.male |   1.088503   .0651523     1.42   0.157      .968013    1.223992
-  1.dmard_pc |   1.166562   .0668285     2.69   0.007     1.042666     1.30518
-1.oral_pr~ne |   1.620655   .1031152     7.59   0.000     1.430647    1.835899
-    1.nsaids |   1.016048   .0820252     0.20   0.844     .8673554    1.190232
-1.~c_disease |   1.361186   .0920947     4.56   0.000      1.19214    1.554204
-1.resp_exc~a |    1.28273   .0906232     3.52   0.000     1.116861    1.473233
+      1.male |   1.084727     .06515     1.35   0.176     .9642647    1.220238
+  1.dmard_pc |   1.142635   .0672548     2.27   0.023     1.018138    1.282357
+1.oral_pr~ne |   1.617516   .1029917     7.55   0.000     1.427744    1.832513
+    1.nsaids |   1.010012   .0817859     0.12   0.902     .8617875     1.18373
+1.~c_disease |   1.356594   .0918374     4.51   0.000     1.188027     1.54908
+1.resp_exc~a |   1.276198   .0903129     3.45   0.001     1.110915    1.466071
              |
 egfr_cat_n~s |
-      30-59  |   1.143147   .0878976     1.74   0.082     .9832238    1.329082
-        <30  |   2.310941    .367165     5.27   0.000     1.692579    3.155214
+      30-59  |   1.141789   .0877808     1.72   0.085     .9820766    1.327475
+        <30  |   2.312937   .3675995     5.28   0.000     1.693873    3.158253
              |
-1.~r_disease |   1.173737   .2475325     0.76   0.447     .7763522    1.774528
+1.~r_disease |   1.180223   .2491514     0.78   0.432     .7803164    1.785078
              |
    obese4cat |
-Obese I ..)  |   1.178325   .0836081     2.31   0.021      1.02534    1.354135
-Obese II..)  |   1.232514   .1255495     2.05   0.040      1.00945    1.504871
-Obese II..)  |   1.579671   .2016854     3.58   0.000     1.229954    2.028823
+Obese I ..)  |   1.172747   .0832671     2.24   0.025     1.020393    1.347849
+Obese II..)  |   1.225976   .1249957     2.00   0.046     1.003914    1.497156
+Obese II..)  |   1.566766   .2002956     3.51   0.000     1.219513    2.012899
              |
-1.hyperten~n |   1.127712   .0699875     1.94   0.053      .998554    1.273577
-1.cancer_e~r |   1.274756   .0995031     3.11   0.002     1.093919    1.485487
-1.neuro_co~s |   1.559474   .1318213     5.26   0.000     1.321376    1.840474
+1.hyperten~n |   1.124126   .0698291     1.88   0.060     .9952669    1.269669
+1.cancer_e~r |   1.274679   .0995198     3.11   0.002     1.093814    1.485449
+1.neuro_co~s |   1.560772   .1320104     5.26   0.000     1.322344    1.842189
+1.flu_vacc~e |   1.080531   .0722895     1.16   0.247     .9477423    1.231925
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -974,68 +945,67 @@ Obese II..)  |   1.579671   .2016854     3.58   0.000     1.229954    2.028823
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11781.602
-Iteration 2:   log likelihood = -11704.719
-Iteration 3:   log likelihood = -11697.946
-Iteration 4:   log likelihood = -11697.699
-Iteration 5:   log likelihood = -11697.699
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11320.481
+Iteration 2:   log likelihood = -11243.711
+Iteration 3:   log likelihood = -11236.743
+Iteration 4:   log likelihood = -11236.484
+Iteration 5:   log likelihood = -11236.483
 Refining estimates:
-Iteration 0:   log likelihood = -11697.699
+Iteration 0:   log likelihood = -11236.483
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(20)      =      469.50
-Log likelihood  =   -11697.699                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(21)      =      462.50
+Log likelihood  =   -11236.483                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   1.015642   .1112477     0.14   0.887      .819417    1.258858
-  1.dmard_pc |   1.215985   .0749708     3.17   0.002     1.077576    1.372172
+        HCQ  |   1.020794   .1128902     0.19   0.852     .8218702    1.267865
+  1.dmard_pc |   1.190588   .0750133     2.77   0.006      1.05228    1.347075
              |
     exposure#|
     dmard_pc |
-      HCQ#1  |   .7547268   .1203235    -1.77   0.078     .5521863    1.031559
+      HCQ#1  |   .7537046   .1203771    -1.77   0.077     .5511279    1.030742
              |
    agegroup2 |
-     60-<70  |   .8804122   .0771192    -1.45   0.146     .7415247    1.045313
-     70-<80  |   1.131867   .0953301     1.47   0.141     .9596306    1.335017
-        80+  |   1.892386   .1718517     7.02   0.000     1.583836    2.261045
+     60-<70  |   .8627339   .0767517    -1.66   0.097     .7246881    1.027076
+     70-<80  |   1.096596   .0958772     1.05   0.292     .9238992    1.301573
+        80+  |   1.826868   .1725553     6.38   0.000     1.518125      2.1984
              |
-      1.male |   1.090123   .0652686     1.44   0.150     .9694199    1.225856
-1.oral_pr~ne |   1.615673    .102828     7.54   0.000     1.426197    1.830321
-    1.nsaids |   1.014469   .0819019     0.18   0.859     .8660006    1.188392
-1.~c_disease |   1.361673   .0921225     4.56   0.000     1.192575    1.554747
-1.resp_exc~a |   1.282609   .0905967     3.52   0.000     1.116786    1.473054
+      1.male |   1.085764   .0652289     1.37   0.171     .9651573    1.221441
+1.oral_pr~ne |   1.612674   .1027115     7.50   0.000     1.423421    1.827089
+    1.nsaids |   1.007968   .0816268     0.10   0.922     .8600331    1.181349
+1.~c_disease |   1.357352   .0918876     4.51   0.000     1.188692    1.549943
+1.resp_exc~a |   1.276263   .0903011     3.45   0.001        1.111     1.46611
              |
 egfr_cat_n~s |
-      30-59  |   1.142501   .0878536     1.73   0.083     .9826583    1.328343
-        <30  |   2.313955   .3676394     5.28   0.000     1.694793    3.159316
+      30-59  |   1.141211    .087743     1.72   0.086     .9815686    1.326818
+        <30  |   2.316253   .3681344     5.28   0.000     1.696289    3.162802
              |
-1.~r_disease |   1.172053   .2471812     0.75   0.452     .7752333    1.771994
+1.~r_disease |   1.179099   .2489188     0.78   0.435      .779567    1.783392
              |
    obese4cat |
-Obese I ..)  |   1.178416   .0836155     2.31   0.021     1.025418    1.354242
-Obese II..)  |    1.23324   .1256277     2.06   0.040     1.010038    1.505767
-Obese II..)  |   1.581072   .2018655     3.59   0.000     1.231043    2.030626
+Obese I ..)  |   1.172738   .0832671     2.24   0.025     1.020384     1.34784
+Obese II..)  |   1.226548   .1250585     2.00   0.045     1.004376    1.497866
+Obese II..)  |   1.567659   .2004123     3.52   0.000     1.220204    2.014052
              |
-1.hyperten~n |   1.126557   .0699026     1.92   0.055     .9975536    1.272243
-1.cancer_e~r |   1.275106   .0995301     3.11   0.002      1.09422    1.485895
-1.neuro_co~s |   1.559752   .1318329     5.26   0.000     1.321632    1.840774
+1.hyperten~n |   1.123271   .0697642     1.87   0.061       .99453    1.268676
+1.cancer_e~r |   1.275128   .0995547     3.11   0.002       1.0942    1.485972
+1.neuro_co~s |   1.561344   .1320495     5.27   0.000     1.322845    1.842843
+1.flu_vacc~e |   1.077288   .0720886     1.11   0.266     .9448703    1.228263
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var3_int_dmard_pc.ster not found)
+                                                  Stratified by stp population
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar3_in
 > t_dmard_pc.ster saved
 
-Likelihood-ratio test                                 LR chi2(1)  =      3.12
-(Assumption: A nested in B)                           Prob > chi2 =    0.0775
+Likelihood-ratio test                                 LR chi2(1)  =      3.13
+(Assumption: A nested in B)                           Prob > chi2 =    0.0767
 
 -------------------------------------------------------------------------------
 -> oral_prednisolone = 0
@@ -1094,32 +1064,26 @@ Likelihood-ratio test                                 LR chi2(1)  =      3.12
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16094.784
-Iteration 2:   log likelihood = -16084.067
-Iteration 3:   log likelihood = -16084.047
-Iteration 4:   log likelihood = -16084.047
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16192.088
+Iteration 2:   log likelihood = -16192.082
+Iteration 3:   log likelihood = -16192.082
 Refining estimates:
-Iteration 0:   log likelihood = -16084.047
+Iteration 0:   log likelihood = -16192.082
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(4)       =      220.25
-Log likelihood  =   -16084.047                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(1)       =        4.13
+Log likelihood  =   -16192.082                  Prob > chi2      =      0.0420
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9382141   .0746477    -0.80   0.423     .8027444    1.096545
-             |
-   agegroup2 |
-     60-<70  |   1.033828   .0878811     0.39   0.696     .8751685    1.221252
-     70-<80  |   1.494966   .1127946     5.33   0.000     1.289461    1.733221
-        80+  |   2.770568   .2050701    13.77   0.000     2.396432    3.203115
+        HCQ  |   .8537861   .0676447    -2.00   0.046     .7309861    .9972155
 ------------------------------------------------------------------------------
 
          failure _d:  firstpos_primcare
@@ -1128,44 +1092,37 @@ Log likelihood  =   -16084.047                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16056.425
-Iteration 2:   log likelihood = -16041.119
-Iteration 3:   log likelihood = -16041.085
-Iteration 4:   log likelihood = -16041.085
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16140.188
+Iteration 2:   log likelihood = -16136.175
+Iteration 3:   log likelihood = -16136.169
+Iteration 4:   log likelihood = -16136.169
 Refining estimates:
-Iteration 0:   log likelihood = -16041.085
+Iteration 0:   log likelihood = -16136.169
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(6)       =      306.18
-Log likelihood  =   -16041.085                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(3)       =      115.96
+Log likelihood  =   -16136.169                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .8993738   .0880659    -1.08   0.279     .7423202    1.089655
-1.oral_pr~ne |   1.812981    .120564     8.95   0.000     1.591432    2.065373
+        HCQ  |    .826675    .080736    -1.95   0.051     .6826584    1.001074
+1.oral_pr~ne |    1.98446   .1310257    10.38   0.000     1.743576    2.258622
              |
     exposure#|
 oral_pred~ne |
-      HCQ#1  |   .9853622   .1651603    -0.09   0.930     .7094517    1.368576
-             |
-   agegroup2 |
-     60-<70  |    1.00279   .0853421     0.03   0.974     .8487285    1.184817
-     70-<80  |   1.412415   .1070468     4.56   0.000     1.217447    1.638607
-        80+  |   2.583401    .192546    12.73   0.000     2.232287    2.989741
+      HCQ#1  |   .9475667   .1587771    -0.32   0.748     .6823072    1.315951
 ------------------------------------------------------------------------------
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/univa
-> r_int_oral_prednisolone.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/univar_int_o
 > ral_prednisolone.ster saved
 
-Likelihood-ratio test                                 LR chi2(2)  =     85.92
+Likelihood-ratio test                                 LR chi2(2)  =    111.83
 (Assumption: A nested in B)                           Prob > chi2 =    0.0000
 
          failure _d:  firstpos_primcare
@@ -1174,34 +1131,34 @@ Likelihood-ratio test                                 LR chi2(2)  =     85.92
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16092.589
-Iteration 2:   log likelihood = -16081.872
-Iteration 3:   log likelihood = -16081.852
-Iteration 4:   log likelihood = -16081.852
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16092.557
+Iteration 2:   log likelihood = -16081.838
+Iteration 3:   log likelihood = -16081.818
+Iteration 4:   log likelihood = -16081.818
 Refining estimates:
-Iteration 0:   log likelihood = -16081.852
+Iteration 0:   log likelihood = -16081.818
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(5)       =      224.64
-Log likelihood  =   -16081.852                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(5)       =      224.66
+Log likelihood  =   -16081.818                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9441456   .0751649    -0.72   0.470     .8077435    1.103582
+        HCQ  |   .9441386   .0751643    -0.72   0.470     .8077376    1.103573
              |
    agegroup2 |
-     60-<70  |    1.02891   .0874952     0.34   0.738     .8709517    1.215517
-     70-<80  |   1.484575    .112117     5.23   0.000      1.28032    1.721417
-        80+  |   2.761257   .2043993    13.72   0.000     2.388347    3.192392
+     60-<70  |   1.028904   .0874947     0.34   0.738     .8709465    1.215509
+     70-<80  |   1.484609   .1121195     5.23   0.000     1.280349    1.721456
+        80+  |   2.761371   .2044077    13.72   0.000     2.388446    3.192523
              |
-      1.male |   1.132413   .0666892     2.11   0.035     1.008966    1.270963
+      1.male |   1.132448   .0666913     2.11   0.035     1.008997    1.271003
 ------------------------------------------------------------------------------
 
          failure _d:  firstpos_primcare
@@ -1210,46 +1167,44 @@ Log likelihood  =   -16081.852                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16054.208
-Iteration 2:   log likelihood = -16038.786
-Iteration 3:   log likelihood = -16038.751
-Iteration 4:   log likelihood = -16038.751
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16054.172
+Iteration 2:   log likelihood = -16038.748
+Iteration 3:   log likelihood = -16038.713
+Iteration 4:   log likelihood = -16038.713
 Refining estimates:
-Iteration 0:   log likelihood = -16038.751
+Iteration 0:   log likelihood = -16038.713
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(7)       =      310.84
-Log likelihood  =   -16038.751                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(7)       =      310.87
+Log likelihood  =   -16038.713                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9058144   .0887416    -1.01   0.313     .7475633    1.097566
-1.oral_pr~ne |   1.815816   .1207816     8.97   0.000      1.59387    2.068668
+        HCQ  |   .9058052   .0887407    -1.01   0.313     .7475557    1.097554
+1.oral_pr~ne |   1.815862   .1207845     8.97   0.000      1.59391    2.068719
              |
     exposure#|
 oral_pred~ne |
-      HCQ#1  |   .9825882   .1647004    -0.10   0.917     .7074472    1.364737
+      HCQ#1  |   .9825984   .1647021    -0.10   0.917     .7074546    1.364751
              |
    agegroup2 |
-     60-<70  |   .9974575   .0849263    -0.03   0.976     .8441522    1.178604
-     70-<80  |   1.401173   .1063294     4.44   0.000     1.207529    1.625871
-        80+  |   2.571703   .1917551    12.67   0.000     2.222042    2.976386
+     60-<70  |   .9974503   .0849257    -0.03   0.976     .8441461    1.178596
+     70-<80  |     1.4012   .1063314     4.45   0.000     1.207552    1.625902
+        80+  |   2.571824   .1917638    12.67   0.000     2.222147    2.976526
              |
-      1.male |   1.136858   .0669665     2.18   0.029     1.012899    1.275987
+      1.male |     1.1369    .066969     2.18   0.029     1.012937    1.276034
 ------------------------------------------------------------------------------
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var1_int_oral_prednisolone.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar1_in
 > t_oral_prednisolone.ster saved
 
-Likelihood-ratio test                                 LR chi2(2)  =     86.20
+Likelihood-ratio test                                 LR chi2(2)  =     86.21
 (Assumption: A nested in B)                           Prob > chi2 =    0.0000
 
          failure _d:  firstpos_primcare
@@ -1258,38 +1213,38 @@ Likelihood-ratio test                                 LR chi2(2)  =     86.20
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11784.978
-Iteration 2:   log likelihood = -11769.994
-Iteration 3:   log likelihood = -11769.965
-Iteration 4:   log likelihood = -11769.965
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11323.222
+Iteration 2:   log likelihood = -11309.525
+Iteration 3:   log likelihood = -11309.503
+Iteration 4:   log likelihood = -11309.503
 Refining estimates:
-Iteration 0:   log likelihood = -11769.965
+Iteration 0:   log likelihood = -11309.503
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(7)       =      324.97
-Log likelihood  =   -11769.965                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(7)       =      316.47
+Log likelihood  =   -11309.503                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .8942576    .072075    -1.39   0.166     .7635859    1.047291
+        HCQ  |   .9004949   .0730923    -1.29   0.197      .768051    1.055778
              |
    agegroup2 |
-     60-<70  |   1.010111   .0862127     0.12   0.906     .8545139     1.19404
-     70-<80  |   1.438629   .1097533     4.77   0.000     1.238827    1.670657
-        80+  |   2.647514   .1980804    13.01   0.000     2.286406    3.065653
+     60-<70  |   1.007047   .0861723     0.08   0.935     .8515555    1.190931
+     70-<80  |   1.431541   .1098217     4.68   0.000     1.231695    1.663812
+        80+  |    2.63086   .1986981    12.81   0.000     2.268872    3.050602
              |
-      1.male |   1.144442   .0674977     2.29   0.022     1.019509    1.284685
-  1.dmard_pc |   1.115016   .0634649     1.91   0.056     .9973146    1.246609
-1.oral_pr~ne |   1.809317   .1109845     9.67   0.000     1.604359    2.040459
+      1.male |   1.141247   .0675184     2.23   0.026     1.016297    1.281558
+  1.dmard_pc |   1.102219   .0640209     1.68   0.094     .9836195    1.235119
+1.oral_pr~ne |   1.810176    .111061     9.67   0.000      1.60508    2.041481
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -1297,49 +1252,47 @@ Log likelihood  =   -11769.965                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11786.001
-Iteration 2:   log likelihood = -11769.983
-Iteration 3:   log likelihood = -11769.946
-Iteration 4:   log likelihood = -11769.946
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11323.963
+Iteration 2:   log likelihood = -11309.516
+Iteration 3:   log likelihood = -11309.487
+Iteration 4:   log likelihood = -11309.487
 Refining estimates:
-Iteration 0:   log likelihood = -11769.946
+Iteration 0:   log likelihood = -11309.487
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(8)       =      325.01
-Log likelihood  =   -11769.946                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(8)       =      316.50
+Log likelihood  =   -11309.487                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9044316     .08937    -1.02   0.309     .7451875    1.097706
-1.oral_pr~ne |   1.818713    .121328     8.97   0.000     1.595804    2.072758
+        HCQ  |   .9096344   .0901627    -0.96   0.339     .7490246    1.104683
+1.oral_pr~ne |   1.818601   .1213285     8.96   0.000     1.595693    2.072648
              |
     exposure#|
 oral_pred~ne |
-      HCQ#1  |   .9676029   .1623305    -0.20   0.844     .6964578     1.34431
+      HCQ#1  |   .9708412   .1630284    -0.18   0.860     .6985706     1.34923
              |
    agegroup2 |
-     60-<70  |   1.009837   .0862009     0.11   0.909     .8542634    1.193743
-     70-<80  |   1.438267   .1097431     4.76   0.000     1.238485    1.670275
-        80+  |   2.646786   .1980699    13.01   0.000     2.285704     3.06491
+     60-<70  |   1.006849   .0861624     0.08   0.936     .8513766    1.190713
+     70-<80  |   1.431313   .1098126     4.67   0.000     1.231485    1.663566
+        80+  |   2.630423   .1986862    12.80   0.000      2.26846    3.050143
              |
-      1.male |   1.144568   .0675084     2.29   0.022     1.019615    1.284833
-  1.dmard_pc |   1.114639   .0634736     1.91   0.057     .9969244    1.246253
+      1.male |   1.141387   .0675315     2.24   0.025     1.016414    1.281726
+  1.dmard_pc |   1.101954   .0640267     1.67   0.095     .9833458    1.234869
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var2_int_oral_prednisolone.ster not found)
+                                                  Stratified by stp population
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar2_in
 > t_oral_prednisolone.ster saved
 
-Likelihood-ratio test                                 LR chi2(1)  =      0.04
-(Assumption: A nested in B)                           Prob > chi2 =    0.8442
+Likelihood-ratio test                                 LR chi2(1)  =      0.03
+(Assumption: A nested in B)                           Prob > chi2 =    0.8600
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -1347,57 +1300,58 @@ Likelihood-ratio test                                 LR chi2(1)  =      0.04
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11783.282
-Iteration 2:   log likelihood = -11706.288
-Iteration 3:   log likelihood = -11699.504
-Iteration 4:   log likelihood = -11699.257
-Iteration 5:   log likelihood = -11699.256
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11322.099
+Iteration 2:   log likelihood = -11245.279
+Iteration 3:   log likelihood =  -11238.31
+Iteration 4:   log likelihood = -11238.051
+Iteration 5:   log likelihood = -11238.051
 Refining estimates:
-Iteration 0:   log likelihood = -11699.256
+Iteration 0:   log likelihood = -11238.051
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(19)      =      466.39
-Log likelihood  =   -11699.256                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(20)      =      459.37
+Log likelihood  =   -11238.051                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |    .884307   .0713147    -1.52   0.127     .7550196    1.035733
+        HCQ  |   .8872289   .0721513    -1.47   0.141     .7565092    1.040536
              |
    agegroup2 |
-     60-<70  |   .8814954   .0772101    -1.44   0.150     .7424434     1.04659
-     70-<80  |   1.134629   .0955517     1.50   0.134     .9619904    1.338249
-        80+  |   1.895049   .1720889     7.04   0.000     1.586073    2.264216
+     60-<70  |   .8636813    .076833    -1.65   0.099     .7254888    1.028197
+     70-<80  |   1.098979   .0960782     1.08   0.280     .9259191    1.304384
+        80+  |   1.829361   .1727872     6.39   0.000     1.520202    2.201391
              |
-      1.male |   1.088503   .0651523     1.42   0.157      .968013    1.223992
-  1.dmard_pc |   1.166562   .0668285     2.69   0.007     1.042666     1.30518
-1.oral_pr~ne |   1.620655   .1031152     7.59   0.000     1.430647    1.835899
-    1.nsaids |   1.016048   .0820252     0.20   0.844     .8673554    1.190232
-1.~c_disease |   1.361186   .0920947     4.56   0.000      1.19214    1.554204
-1.resp_exc~a |    1.28273   .0906232     3.52   0.000     1.116861    1.473233
+      1.male |   1.084727     .06515     1.35   0.176     .9642647    1.220238
+  1.dmard_pc |   1.142635   .0672548     2.27   0.023     1.018138    1.282357
+1.oral_pr~ne |   1.617516   .1029917     7.55   0.000     1.427744    1.832513
+    1.nsaids |   1.010012   .0817859     0.12   0.902     .8617875     1.18373
+1.~c_disease |   1.356594   .0918374     4.51   0.000     1.188027     1.54908
+1.resp_exc~a |   1.276198   .0903129     3.45   0.001     1.110915    1.466071
              |
 egfr_cat_n~s |
-      30-59  |   1.143147   .0878976     1.74   0.082     .9832238    1.329082
-        <30  |   2.310941    .367165     5.27   0.000     1.692579    3.155214
+      30-59  |   1.141789   .0877808     1.72   0.085     .9820766    1.327475
+        <30  |   2.312937   .3675995     5.28   0.000     1.693873    3.158253
              |
-1.~r_disease |   1.173737   .2475325     0.76   0.447     .7763522    1.774528
+1.~r_disease |   1.180223   .2491514     0.78   0.432     .7803164    1.785078
              |
    obese4cat |
-Obese I ..)  |   1.178325   .0836081     2.31   0.021      1.02534    1.354135
-Obese II..)  |   1.232514   .1255495     2.05   0.040      1.00945    1.504871
-Obese II..)  |   1.579671   .2016854     3.58   0.000     1.229954    2.028823
+Obese I ..)  |   1.172747   .0832671     2.24   0.025     1.020393    1.347849
+Obese II..)  |   1.225976   .1249957     2.00   0.046     1.003914    1.497156
+Obese II..)  |   1.566766   .2002956     3.51   0.000     1.219513    2.012899
              |
-1.hyperten~n |   1.127712   .0699875     1.94   0.053      .998554    1.273577
-1.cancer_e~r |   1.274756   .0995031     3.11   0.002     1.093919    1.485487
-1.neuro_co~s |   1.559474   .1318213     5.26   0.000     1.321376    1.840474
+1.hyperten~n |   1.124126   .0698291     1.88   0.060     .9952669    1.269669
+1.cancer_e~r |   1.274679   .0995198     3.11   0.002     1.093814    1.485449
+1.neuro_co~s |   1.560772   .1320104     5.26   0.000     1.322344    1.842189
+1.flu_vacc~e |   1.080531   .0722895     1.16   0.247     .9477423    1.231925
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -1405,68 +1359,67 @@ Obese II..)  |   1.579671   .2016854     3.58   0.000     1.229954    2.028823
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11784.261
-Iteration 2:   log likelihood = -11706.308
-Iteration 3:   log likelihood = -11699.503
-Iteration 4:   log likelihood = -11699.255
-Iteration 5:   log likelihood = -11699.254
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11322.813
+Iteration 2:   log likelihood = -11245.294
+Iteration 3:   log likelihood = -11238.311
+Iteration 4:   log likelihood = -11238.051
+Iteration 5:   log likelihood =  -11238.05
 Refining estimates:
-Iteration 0:   log likelihood = -11699.254
+Iteration 0:   log likelihood =  -11238.05
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(20)      =      466.39
-Log likelihood  =   -11699.254                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(21)      =      459.37
+Log likelihood  =    -11238.05                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .8875752   .0877846    -1.21   0.228     .7311694    1.077438
-1.oral_pr~ne |   1.623427   .1119177     7.03   0.000     1.418246    1.858291
+        HCQ  |   .8890864   .0883172    -1.18   0.237     .7317961    1.080184
+1.oral_pr~ne |   1.619088   .1116666     6.99   0.000     1.414374    1.853433
              |
     exposure#|
 oral_pred~ne |
-      HCQ#1  |   .9892762    .165986    -0.06   0.949     .7120303    1.374474
+      HCQ#1  |   .9938712   .1669004    -0.04   0.971     .7151353    1.381249
              |
    agegroup2 |
-     60-<70  |   .8814317   .0772109    -1.44   0.150     .7423792     1.04653
-     70-<80  |   1.134554    .095553     1.50   0.134     .9619139    1.338178
-        80+  |   1.894918   .1720896     7.04   0.000     1.585943    2.264089
+     60-<70  |    .863659   .0768333    -1.65   0.099     .7254662    1.028176
+     70-<80  |   1.098964   .0960777     1.08   0.280      .925905    1.304368
+        80+  |   1.829339    .172786     6.39   0.000     1.520183    2.201367
              |
-      1.male |   1.088548   .0651586     1.42   0.156     .9680458    1.224049
-  1.dmard_pc |   1.166436   .0668501     2.69   0.007     1.042503    1.305102
-    1.nsaids |   1.015995   .0820254     0.20   0.844     .8673024     1.19018
-1.~c_disease |   1.361176   .0920943     4.56   0.000      1.19213    1.554192
-1.resp_exc~a |    1.28263   .0906297     3.52   0.000     1.116751    1.473149
+      1.male |   1.084757   .0651568     1.35   0.176     .9642822    1.220283
+  1.dmard_pc |   1.142582   .0672681     2.26   0.024     1.018061    1.282333
+    1.nsaids |   1.009991   .0817864     0.12   0.902     .8617661     1.18371
+1.~c_disease |    1.35659   .0918372     4.50   0.000     1.188022    1.549075
+1.resp_exc~a |   1.276149   .0903195     3.45   0.001     1.110855    1.466038
              |
 egfr_cat_n~s |
-      30-59  |   1.143166   .0878992     1.74   0.082     .9832399    1.329104
-        <30  |   2.310908   .3671604     5.27   0.000     1.692554     3.15517
+      30-59  |   1.141801   .0877822     1.72   0.085     .9820866     1.32749
+        <30  |   2.312922   .3675973     5.28   0.000     1.693862    3.158233
              |
-1.~r_disease |   1.173697   .2475247     0.76   0.448     .7763243    1.774469
+1.~r_disease |   1.180198   .2491472     0.78   0.433     .7802989    1.785044
              |
    obese4cat |
-Obese I ..)  |   1.178299    .083607     2.31   0.021     1.025317    1.354108
-Obese II..)  |   1.232456   .1255469     2.05   0.040     1.009397    1.504808
-Obese II..)  |   1.579631   .2016811     3.58   0.000     1.229922    2.028774
+Obese I ..)  |   1.172737   .0832668     2.24   0.025     1.020384    1.347838
+Obese II..)  |   1.225952   .1249949     2.00   0.046     1.003892    1.497131
+Obese II..)  |   1.566753   .2002941     3.51   0.000     1.219502    2.012882
              |
-1.hyperten~n |   1.127701   .0699868     1.94   0.053     .9985438    1.273564
-1.cancer_e~r |   1.274756   .0995033     3.11   0.002     1.093918    1.485487
-1.neuro_co~s |    1.55946   .1318201     5.26   0.000     1.321365    1.840457
+1.hyperten~n |    1.12412   .0698289     1.88   0.060     .9952614    1.269662
+1.cancer_e~r |   1.274679     .09952     3.11   0.002     1.093815     1.48545
+1.neuro_co~s |   1.560761   .1320096     5.26   0.000     1.322335    1.842177
+1.flu_vacc~e |     1.0805   .0722923     1.16   0.247     .9477062      1.2319
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var3_int_oral_prednisolone.ster not found)
+                                                  Stratified by stp population
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar3_in
 > t_oral_prednisolone.ster saved
 
 Likelihood-ratio test                                 LR chi2(1)  =      0.00
-(Assumption: A nested in B)                           Prob > chi2 =    0.9487
+(Assumption: A nested in B)                           Prob > chi2 =    0.9708
 
 -------------------------------------------------------------------------------
 -> nsaids = 0
@@ -1525,32 +1478,26 @@ Likelihood-ratio test                                 LR chi2(1)  =      0.00
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16094.784
-Iteration 2:   log likelihood = -16084.067
-Iteration 3:   log likelihood = -16084.047
-Iteration 4:   log likelihood = -16084.047
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16192.088
+Iteration 2:   log likelihood = -16192.082
+Iteration 3:   log likelihood = -16192.082
 Refining estimates:
-Iteration 0:   log likelihood = -16084.047
+Iteration 0:   log likelihood = -16192.082
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(4)       =      220.25
-Log likelihood  =   -16084.047                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(1)       =        4.13
+Log likelihood  =   -16192.082                  Prob > chi2      =      0.0420
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9382141   .0746477    -0.80   0.423     .8027444    1.096545
-             |
-   agegroup2 |
-     60-<70  |   1.033828   .0878811     0.39   0.696     .8751685    1.221252
-     70-<80  |   1.494966   .1127946     5.33   0.000     1.289461    1.733221
-        80+  |   2.770568   .2050701    13.77   0.000     2.396432    3.203115
+        HCQ  |   .8537861   .0676447    -2.00   0.046     .7309861    .9972155
 ------------------------------------------------------------------------------
 
          failure _d:  firstpos_primcare
@@ -1559,45 +1506,37 @@ Log likelihood  =   -16084.047                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood =   -16094.6
-Iteration 2:   log likelihood = -16083.876
-Iteration 3:   log likelihood = -16083.856
-Iteration 4:   log likelihood = -16083.856
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16188.271
+Iteration 2:   log likelihood = -16188.228
+Iteration 3:   log likelihood = -16188.228
 Refining estimates:
-Iteration 0:   log likelihood = -16083.856
+Iteration 0:   log likelihood = -16188.228
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(6)       =      220.63
-Log likelihood  =   -16083.856                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(3)       =       11.84
+Log likelihood  =   -16188.228                  Prob > chi2      =      0.0079
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9531913   .0833079    -0.55   0.583     .8031302    1.131291
-    1.nsaids |   .9764075     .08504    -0.27   0.784     .8231821    1.158154
+        HCQ  |   .8706485   .0758467    -1.59   0.112     .7339902    1.032751
+    1.nsaids |   .8159698   .0700952    -2.37   0.018     .6895286    .9655968
              |
     exposure#|
       nsaids |
-      HCQ#1  |   .9212142   .1938564    -0.39   0.697     .6098702    1.391502
-             |
-   agegroup2 |
-     60-<70  |   1.032673   .0878023     0.38   0.705     .8741581    1.219932
-     70-<80  |   1.489737   .1128139     5.26   0.000     1.284252      1.7281
-        80+  |   2.754555     .20657    13.51   0.000     2.378034    3.190692
+      HCQ#1  |   .9520911   .2003049    -0.23   0.815     .6303753    1.437997
 ------------------------------------------------------------------------------
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/univa
-> r_int_nsaids.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/univar_int_n
 > saids.ster saved
 
-Likelihood-ratio test                                 LR chi2(2)  =      0.38
-(Assumption: A nested in B)                           Prob > chi2 =    0.8262
+Likelihood-ratio test                                 LR chi2(2)  =      7.71
+(Assumption: A nested in B)                           Prob > chi2 =    0.0212
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -1605,34 +1544,34 @@ Likelihood-ratio test                                 LR chi2(2)  =      0.38
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16092.589
-Iteration 2:   log likelihood = -16081.872
-Iteration 3:   log likelihood = -16081.852
-Iteration 4:   log likelihood = -16081.852
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16092.557
+Iteration 2:   log likelihood = -16081.838
+Iteration 3:   log likelihood = -16081.818
+Iteration 4:   log likelihood = -16081.818
 Refining estimates:
-Iteration 0:   log likelihood = -16081.852
+Iteration 0:   log likelihood = -16081.818
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(5)       =      224.64
-Log likelihood  =   -16081.852                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(5)       =      224.66
+Log likelihood  =   -16081.818                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9441456   .0751649    -0.72   0.470     .8077435    1.103582
+        HCQ  |   .9441386   .0751643    -0.72   0.470     .8077376    1.103573
              |
    agegroup2 |
-     60-<70  |    1.02891   .0874952     0.34   0.738     .8709517    1.215517
-     70-<80  |   1.484575    .112117     5.23   0.000      1.28032    1.721417
-        80+  |   2.761257   .2043993    13.72   0.000     2.388347    3.192392
+     60-<70  |   1.028904   .0874947     0.34   0.738     .8709465    1.215509
+     70-<80  |   1.484609   .1121195     5.23   0.000     1.280349    1.721456
+        80+  |   2.761371   .2044077    13.72   0.000     2.388446    3.192523
              |
-      1.male |   1.132413   .0666892     2.11   0.035     1.008966    1.270963
+      1.male |   1.132448   .0666913     2.11   0.035     1.008997    1.271003
 ------------------------------------------------------------------------------
 
          failure _d:  firstpos_primcare
@@ -1641,47 +1580,45 @@ Log likelihood  =   -16081.852                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -16194.173
-Iteration 1:   log likelihood = -16092.414
-Iteration 2:   log likelihood =  -16081.69
-Iteration 3:   log likelihood =  -16081.67
-Iteration 4:   log likelihood =  -16081.67
+Iteration 0:   log likelihood =  -16194.15
+Iteration 1:   log likelihood = -16092.382
+Iteration 2:   log likelihood = -16081.656
+Iteration 3:   log likelihood = -16081.636
+Iteration 4:   log likelihood = -16081.636
 Refining estimates:
-Iteration 0:   log likelihood =  -16081.67
+Iteration 0:   log likelihood = -16081.636
 
 Cox regression -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(7)       =      225.01
-Log likelihood  =    -16081.67                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(7)       =      225.03
+Log likelihood  =   -16081.636                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9589538   .0838492    -0.48   0.632     .8079234    1.138217
-    1.nsaids |   .9773823   .0851215    -0.26   0.793     .8240095    1.159302
+        HCQ  |   .9589423   .0838481    -0.48   0.632     .8079137    1.138204
+    1.nsaids |   .9773675   .0851202    -0.26   0.793     .8239971    1.159285
              |
     exposure#|
       nsaids |
-      HCQ#1  |   .9223376   .1940924    -0.38   0.701     .6106143    1.393198
+      HCQ#1  |   .9223626   .1940977    -0.38   0.701     .6106309    1.393236
              |
    agegroup2 |
-     60-<70  |   1.027808   .0874201     0.32   0.747     .8699873    1.214257
-     70-<80  |   1.479569   .1121448     5.17   0.000     1.275316    1.716534
-        80+  |   2.745824   .2059207    13.47   0.000     2.370487    3.180591
+     60-<70  |   1.027801   .0874196     0.32   0.747     .8699821     1.21425
+     70-<80  |   1.479601   .1121473     5.17   0.000     1.275344    1.716572
+        80+  |   2.745932   .2059288    13.47   0.000      2.37058    3.180716
              |
-      1.male |   1.132108   .0666727     2.11   0.035     1.008692    1.270625
+      1.male |   1.132144   .0666747     2.11   0.035     1.008723    1.270664
 ------------------------------------------------------------------------------
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var1_int_nsaids.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar1_in
 > t_nsaids.ster saved
 
 Likelihood-ratio test                                 LR chi2(2)  =      0.36
-(Assumption: A nested in B)                           Prob > chi2 =    0.8341
+(Assumption: A nested in B)                           Prob > chi2 =    0.8340
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -1689,38 +1626,38 @@ Likelihood-ratio test                                 LR chi2(2)  =      0.36
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11784.978
-Iteration 2:   log likelihood = -11769.994
-Iteration 3:   log likelihood = -11769.965
-Iteration 4:   log likelihood = -11769.965
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11323.222
+Iteration 2:   log likelihood = -11309.525
+Iteration 3:   log likelihood = -11309.503
+Iteration 4:   log likelihood = -11309.503
 Refining estimates:
-Iteration 0:   log likelihood = -11769.965
+Iteration 0:   log likelihood = -11309.503
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(7)       =      324.97
-Log likelihood  =   -11769.965                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(7)       =      316.47
+Log likelihood  =   -11309.503                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .8942576    .072075    -1.39   0.166     .7635859    1.047291
+        HCQ  |   .9004949   .0730923    -1.29   0.197      .768051    1.055778
              |
    agegroup2 |
-     60-<70  |   1.010111   .0862127     0.12   0.906     .8545139     1.19404
-     70-<80  |   1.438629   .1097533     4.77   0.000     1.238827    1.670657
-        80+  |   2.647514   .1980804    13.01   0.000     2.286406    3.065653
+     60-<70  |   1.007047   .0861723     0.08   0.935     .8515555    1.190931
+     70-<80  |   1.431541   .1098217     4.68   0.000     1.231695    1.663812
+        80+  |    2.63086   .1986981    12.81   0.000     2.268872    3.050602
              |
-      1.male |   1.144442   .0674977     2.29   0.022     1.019509    1.284685
-  1.dmard_pc |   1.115016   .0634649     1.91   0.056     .9973146    1.246609
-1.oral_pr~ne |   1.809317   .1109845     9.67   0.000     1.604359    2.040459
+      1.male |   1.141247   .0675184     2.23   0.026     1.016297    1.281558
+  1.dmard_pc |   1.102219   .0640209     1.68   0.094     .9836195    1.235119
+1.oral_pr~ne |   1.810176    .111061     9.67   0.000      1.60508    2.041481
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -1728,50 +1665,48 @@ Log likelihood  =   -11769.965                  Prob > chi2      =      0.0000
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11784.864
-Iteration 2:   log likelihood = -11769.861
-Iteration 3:   log likelihood = -11769.833
-Iteration 4:   log likelihood = -11769.833
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11323.083
+Iteration 2:   log likelihood = -11309.369
+Iteration 3:   log likelihood = -11309.347
+Iteration 4:   log likelihood = -11309.347
 Refining estimates:
-Iteration 0:   log likelihood = -11769.833
+Iteration 0:   log likelihood = -11309.347
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(9)       =      325.23
-Log likelihood  =   -11769.833                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(9)       =      316.78
+Log likelihood  =   -11309.347                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .9057696   .0800604    -1.12   0.263     .7616942    1.077097
-    1.nsaids |   .9799914   .0857623    -0.23   0.817     .8255261    1.163359
+        HCQ  |   .9123536   .0811583    -1.03   0.302     .7663808     1.08613
+    1.nsaids |   .9752579   .0855514    -0.29   0.775     .8212031    1.158213
              |
     exposure#|
       nsaids |
-      HCQ#1  |   .9339598   .1965789    -0.32   0.745     .6182558    1.410874
+      HCQ#1  |   .9348103    .196775    -0.32   0.749     .6187966    1.412209
              |
    agegroup2 |
-     60-<70  |      1.009   .0861464     0.10   0.916     .8535273    1.192793
-     70-<80  |   1.434062   .1099184     4.70   0.000     1.234027    1.666522
-        80+  |   2.634298   .1999645    12.76   0.000     2.270136    3.056877
+     60-<70  |   1.005625   .0860917     0.07   0.948      .850285    1.189344
+     70-<80  |   1.425963   .1099963     4.60   0.000      1.22588    1.658702
+        80+  |   2.614726   .2006981    12.52   0.000     2.249524    3.039217
              |
-      1.male |   1.144138    .067482     2.28   0.022     1.019234    1.284348
-  1.dmard_pc |   1.116442   .0636868     1.93   0.053     .9983437    1.248512
-1.oral_pr~ne |   1.809357   .1110051     9.67   0.000     1.604362    2.040544
+      1.male |   1.140724   .0674939     2.23   0.026     1.015821    1.280985
+  1.dmard_pc |   1.103408   .0641708     1.69   0.091     .9845384    1.236629
+1.oral_pr~ne |    1.81033   .1110906     9.67   0.000     1.605181    2.041699
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var2_int_nsaids.ster not found)
+                                                  Stratified by stp population
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar2_in
 > t_nsaids.ster saved
 
-Likelihood-ratio test                                 LR chi2(2)  =      0.27
-(Assumption: A nested in B)                           Prob > chi2 =    0.8755
+Likelihood-ratio test                                 LR chi2(2)  =      0.31
+(Assumption: A nested in B)                           Prob > chi2 =    0.8555
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -1779,57 +1714,58 @@ Likelihood-ratio test                                 LR chi2(2)  =      0.27
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11783.282
-Iteration 2:   log likelihood = -11706.288
-Iteration 3:   log likelihood = -11699.504
-Iteration 4:   log likelihood = -11699.257
-Iteration 5:   log likelihood = -11699.256
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11322.099
+Iteration 2:   log likelihood = -11245.279
+Iteration 3:   log likelihood =  -11238.31
+Iteration 4:   log likelihood = -11238.051
+Iteration 5:   log likelihood = -11238.051
 Refining estimates:
-Iteration 0:   log likelihood = -11699.256
+Iteration 0:   log likelihood = -11238.051
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(19)      =      466.39
-Log likelihood  =   -11699.256                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(20)      =      459.37
+Log likelihood  =   -11238.051                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |    .884307   .0713147    -1.52   0.127     .7550196    1.035733
+        HCQ  |   .8872289   .0721513    -1.47   0.141     .7565092    1.040536
              |
    agegroup2 |
-     60-<70  |   .8814954   .0772101    -1.44   0.150     .7424434     1.04659
-     70-<80  |   1.134629   .0955517     1.50   0.134     .9619904    1.338249
-        80+  |   1.895049   .1720889     7.04   0.000     1.586073    2.264216
+     60-<70  |   .8636813    .076833    -1.65   0.099     .7254888    1.028197
+     70-<80  |   1.098979   .0960782     1.08   0.280     .9259191    1.304384
+        80+  |   1.829361   .1727872     6.39   0.000     1.520202    2.201391
              |
-      1.male |   1.088503   .0651523     1.42   0.157      .968013    1.223992
-  1.dmard_pc |   1.166562   .0668285     2.69   0.007     1.042666     1.30518
-1.oral_pr~ne |   1.620655   .1031152     7.59   0.000     1.430647    1.835899
-    1.nsaids |   1.016048   .0820252     0.20   0.844     .8673554    1.190232
-1.~c_disease |   1.361186   .0920947     4.56   0.000      1.19214    1.554204
-1.resp_exc~a |    1.28273   .0906232     3.52   0.000     1.116861    1.473233
+      1.male |   1.084727     .06515     1.35   0.176     .9642647    1.220238
+  1.dmard_pc |   1.142635   .0672548     2.27   0.023     1.018138    1.282357
+1.oral_pr~ne |   1.617516   .1029917     7.55   0.000     1.427744    1.832513
+    1.nsaids |   1.010012   .0817859     0.12   0.902     .8617875     1.18373
+1.~c_disease |   1.356594   .0918374     4.51   0.000     1.188027     1.54908
+1.resp_exc~a |   1.276198   .0903129     3.45   0.001     1.110915    1.466071
              |
 egfr_cat_n~s |
-      30-59  |   1.143147   .0878976     1.74   0.082     .9832238    1.329082
-        <30  |   2.310941    .367165     5.27   0.000     1.692579    3.155214
+      30-59  |   1.141789   .0877808     1.72   0.085     .9820766    1.327475
+        <30  |   2.312937   .3675995     5.28   0.000     1.693873    3.158253
              |
-1.~r_disease |   1.173737   .2475325     0.76   0.447     .7763522    1.774528
+1.~r_disease |   1.180223   .2491514     0.78   0.432     .7803164    1.785078
              |
    obese4cat |
-Obese I ..)  |   1.178325   .0836081     2.31   0.021      1.02534    1.354135
-Obese II..)  |   1.232514   .1255495     2.05   0.040      1.00945    1.504871
-Obese II..)  |   1.579671   .2016854     3.58   0.000     1.229954    2.028823
+Obese I ..)  |   1.172747   .0832671     2.24   0.025     1.020393    1.347849
+Obese II..)  |   1.225976   .1249957     2.00   0.046     1.003914    1.497156
+Obese II..)  |   1.566766   .2002956     3.51   0.000     1.219513    2.012899
              |
-1.hyperten~n |   1.127712   .0699875     1.94   0.053      .998554    1.273577
-1.cancer_e~r |   1.274756   .0995031     3.11   0.002     1.093919    1.485487
-1.neuro_co~s |   1.559474   .1318213     5.26   0.000     1.321376    1.840474
+1.hyperten~n |   1.124126   .0698291     1.88   0.060     .9952669    1.269669
+1.cancer_e~r |   1.274679   .0995198     3.11   0.002     1.093814    1.485449
+1.neuro_co~s |   1.560772   .1320104     5.26   0.000     1.322344    1.842189
+1.flu_vacc~e |   1.080531   .0722895     1.16   0.247     .9477423    1.231925
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
+                                                  Stratified by stp population
 
          failure _d:  firstpos_primcare
    analysis time _t:  (stime_firstpos_primcare-origin)
@@ -1837,68 +1773,67 @@ Obese II..)  |   1.579671   .2016854     3.58   0.000     1.229954    2.028823
   enter on or after:  time enter_date
                  id:  patient_id
 
-Iteration 0:   log likelihood = -11932.449
-Iteration 1:   log likelihood = -11783.192
-Iteration 2:   log likelihood = -11706.207
-Iteration 3:   log likelihood = -11699.425
-Iteration 4:   log likelihood = -11699.178
-Iteration 5:   log likelihood = -11699.178
+Iteration 0:   log likelihood = -11467.735
+Iteration 1:   log likelihood = -11322.018
+Iteration 2:   log likelihood = -11245.203
+Iteration 3:   log likelihood = -11238.236
+Iteration 4:   log likelihood = -11237.977
+Iteration 5:   log likelihood = -11237.976
 Refining estimates:
-Iteration 0:   log likelihood = -11699.178
+Iteration 0:   log likelihood = -11237.976
 
 Stratified Cox regr. -- Breslow method for ties
 
 No. of subjects =      194,226                  Number of obs    =     194,226
 No. of failures =        1,332
-Time at risk    =     24565206
-                                                LR chi2(20)      =      466.54
-Log likelihood  =   -11699.178                  Prob > chi2      =      0.0000
+Time at risk    =     24563948
+                                                LR chi2(21)      =      459.52
+Log likelihood  =   -11237.976                  Prob > chi2      =      0.0000
 
 ------------------------------------------------------------------------------
           _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
     exposure |
-        HCQ  |   .8973554   .0793218    -1.23   0.220     .7546098    1.067103
-    1.nsaids |   1.030644   .0907909     0.34   0.732      .867212    1.224877
+        HCQ  |   .8999552   .0801413    -1.18   0.237     .7558248     1.07157
+    1.nsaids |   1.024083   .0904439     0.27   0.788     .8613105    1.217617
              |
     exposure#|
       nsaids |
-      HCQ#1  |   .9202878   .1937152    -0.39   0.693     .6091872    1.390262
+      HCQ#1  |   .9225203   .1942076    -0.38   0.702     .6106357    1.393701
              |
    agegroup2 |
-     60-<70  |   .8811341   .0771819    -1.44   0.149     .7421335    1.046169
-     70-<80  |   1.134335   .0955218     1.50   0.134     .9617502    1.337891
-        80+  |   1.895482   .1721119     7.04   0.000     1.586462    2.264695
+     60-<70  |   .8633698   .0768087    -1.65   0.099     .7252216    1.027834
+     70-<80  |   1.098761    .096055     1.08   0.281     .9257424    1.304116
+        80+  |   1.829871   .1728258     6.40   0.000     1.520642    2.201982
              |
-      1.male |   1.088422   .0651474     1.42   0.157     .9679402    1.223899
-  1.dmard_pc |   1.166301   .0668134     2.69   0.007     1.042434    1.304888
-1.oral_pr~ne |   1.620264   .1030943     7.58   0.000     1.430294    1.835465
-1.~c_disease |   1.361263    .092101     4.56   0.000     1.192205    1.554293
-1.resp_exc~a |    1.28281   .0906297     3.53   0.000     1.116929    1.473327
+      1.male |   1.084641   .0651447     1.35   0.176     .9641882    1.220141
+  1.dmard_pc |   1.142384   .0672399     2.26   0.024     1.017913    1.282074
+1.oral_pr~ne |   1.617157   .1029723     7.55   0.000     1.427421    1.832114
+1.~c_disease |   1.356686   .0918448     4.51   0.000     1.188105    1.549188
+1.resp_exc~a |   1.276278   .0903198     3.45   0.001     1.110983    1.466166
              |
 egfr_cat_n~s |
-      30-59  |    1.14312   .0878956     1.74   0.082     .9832007    1.329051
-        <30  |   2.311688   .3672879     5.27   0.000      1.69312    3.156245
+      30-59  |   1.141771   .0877796     1.72   0.085      .982061    1.327454
+        <30  |   2.313682   .3677224     5.28   0.000     1.694412    3.159282
              |
-1.~r_disease |   1.173707   .2475253     0.76   0.448     .7763337    1.774481
+1.~r_disease |   1.180254   .2491569     0.79   0.432     .7803389    1.785123
              |
    obese4cat |
-Obese I ..)  |   1.178356   .0836111     2.31   0.021     1.025366    1.354173
-Obese II..)  |   1.232449   .1255422     2.05   0.040     1.009397    1.504789
-Obese II..)  |   1.580181   .2017505     3.58   0.000     1.230351    2.029478
+Obese I ..)  |   1.172785   .0832707     2.24   0.025     1.020424    1.347894
+Obese II..)  |   1.225903   .1249877     2.00   0.046     1.003856    1.497065
+Obese II..)  |   1.567251   .2003582     3.51   0.000     1.219889    2.013523
              |
-1.hyperten~n |    1.12764   .0699799     1.94   0.053      .998495    1.273488
-1.cancer_e~r |   1.274939   .0995196     3.11   0.002     1.094072    1.485706
-1.neuro_co~s |   1.559575    .131828     5.26   0.000     1.321465    1.840588
+1.hyperten~n |   1.124063   .0698226     1.88   0.060     .9952157    1.269592
+1.cancer_e~r |   1.274856   .0995358     3.11   0.002     1.093963     1.48566
+1.neuro_co~s |   1.560912   .1320208     5.26   0.000     1.322466    1.842351
+1.flu_vacc~e |   1.080321   .0722798     1.15   0.248     .9475511    1.231695
 ------------------------------------------------------------------------------
-                                                             Stratified by stp
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multi
-> var3_int_nsaids.ster not found)
+                                                  Stratified by stp population
 file E:\analyses\hydroxychloroquine-research/output/sens3/tempdata/multivar3_in
 > t_nsaids.ster saved
 
-Likelihood-ratio test                                 LR chi2(1)  =      0.16
-(Assumption: A nested in B)                           Prob > chi2 =    0.6914
+Likelihood-ratio test                                 LR chi2(1)  =      0.15
+(Assumption: A nested in B)                           Prob > chi2 =    0.7000
 
 . 
 . 
@@ -1911,8 +1846,6 @@ Likelihood-ratio test                                 LR chi2(1)  =      0.16
 . cap file close tablecontent
 
 . file open tablecontent using $Tabfigdir/table3.txt, write text replace
-(note: file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/table3.
-> txt not found)
 
 . 
 . * Column headings 
@@ -1993,26 +1926,26 @@ Likelihood-ratio test                                 LR chi2(1)  =      0.16
 .                 estimates use $Tempdir/univar_int_`variable' 
  21.                 qui lincom 1.exposure + 1.exposure#`varlevel'.`variable', 
 > eform
- 22.                 file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(
-> lb)) (" - ") %4.2f (r(ub)) _tab _tab
+ 22.                 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.
+> 2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab _tab
  23. 
 .                 estimates use $Tempdir/multivar1_int_`variable'
  24.                 qui lincom 1.exposure + 1.exposure#`varlevel'.`variable', 
 > eform
- 25.                 file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(
-> lb)) (" - ") %4.2f (r(ub)) _tab _tab
+ 25.                 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.
+> 2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab _tab
  26. 
 .                 estimates use $Tempdir/multivar2_int_`variable'
  27.                 qui lincom 1.exposure + 1.exposure#`varlevel'.`variable', 
 > eform
- 28.                 file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(
-> lb)) (" - ") %4.2f (r(ub)) _tab _tab 
+ 28.                 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.
+> 2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab _tab 
  29.         
 .                 estimates use $Tempdir/multivar3_int_`variable'
  30.                 qui lincom 1.exposure + 1.exposure#`varlevel'.`variable', 
 > eform
- 31.                 file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(
-> lb)) (" - ") %4.2f (r(ub)) _tab _n
+ 31.                 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.
+> 2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab _n
  32.         } 
  33.                 
 . end
@@ -2089,5 +2022,5 @@ Likelihood-ratio test                                 LR chi2(1)  =      0.16
        log:  E:\analyses\hydroxychloroquine-research/output/sens3/log\07_an_mod
 > els_interact.log
   log type:  text
- closed on:  15 Jul 2020, 10:12:34
+ closed on:  19 Jul 2020, 18:46:01
 -------------------------------------------------------------------------------

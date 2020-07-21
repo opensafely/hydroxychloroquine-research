@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\02_cr_cre
 > ate_exposure.log
   log type:  text
- opened on:  15 Jul 2020, 09:59:09
+ opened on:  19 Jul 2020, 18:30:33
 
 . 
 . /* TREATMENT EXPOSURE========================================================
@@ -35,8 +35,6 @@
 . sort patient_id
 
 . save $Tempdir\analysis_dataset, replace
-(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analy
-> sis_dataset.dta not found)
 file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analysis_dat
 > aset.dta saved
 
@@ -60,14 +58,12 @@ obs. time interval:  (stime_firstpos_sgss[_n-1], stime_firstpos_sgss]
     194,236  observations remaining, representing
     194,236  subjects
       1,338  failures in single-failure-per-subject data
-   24574010  total analysis time at risk and under observation
+   24572831  total analysis time at risk and under observation
                                                 at risk from t =         0
                                      earliest observed entry t =         0
                                           last observed exit t =       129
 
 . save $Tempdir\analysis_dataset_STSET_$outcome, replace
-(note: file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analy
-> sis_dataset_STSET_firstpos_sgss.dta not found)
 file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analysis_dat
 > aset_STSET_firstpos_sgss.dta saved
 
@@ -78,5 +74,5 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analysis_dat
        log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\02_cr_cre
 > ate_exposure.log
   log type:  text
- closed on:  15 Jul 2020, 09:59:11
+ closed on:  19 Jul 2020, 18:30:35
 -------------------------------------------------------------------------------

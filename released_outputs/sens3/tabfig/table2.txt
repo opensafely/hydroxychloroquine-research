@@ -3,5 +3,5 @@ Table 2: Association between HCQ use and Primary care positive COVID-19 test
 		HR	95% CI	HR	95% CI	HR	95% CI	HR	95% CI
 Main Analysis
 No HCQ	1147 (0.7)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
-HCQ	185 (0.6)	0.85	0.73 - 1.00	0.96	0.82 - 1.12	0.91	0.77 - 1.06	0.89	0.76 - 1.05
+HCQ	185 (0.6)	0.85	(0.73-1.00)	0.96	(0.82-1.12)	0.91	(0.78-1.07)	0.90	(0.76-1.05)
 

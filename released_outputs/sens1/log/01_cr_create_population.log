@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\01_cr_cre
 > ate_population.log
   log type:  text
- opened on:  15 Jul 2020, 09:49:39
+ opened on:  21 Jul 2020, 13:24:49
 
 . 
 . 
@@ -77,22 +77,24 @@ Duplicates in terms of patient_id
 . 
 . * INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 
 > 2019 
-. gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(11,1,2019)
-(194,236 missing values generated)
+. gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(9,1,2019)
+(194,286 missing values generated)
 
 . recode excl_ra .=0
-(excl_ra: 194236 changes made)
+(excl_ra: 194286 changes made)
 
-. gen excl_sle = 1 if sle_date != . & sle_date >= mdy(11,1,2019)
-(194,236 missing values generated)
+. gen excl_sle = 1 if sle_date != . & sle_date >= mdy(9,1,2019)
+(194,286 missing values generated)
 
 . recode excl_sle .=0
-(excl_sle: 194236 changes made)
+(excl_sle: 194286 changes made)
 
 . 
 . datacheck excl_ra==0, nol
 
 . datacheck excl_sle==0, nol
+
+. datacheck population != ., nol
 
 . 
 . 
@@ -107,7 +109,7 @@ Duplicates in terms of patient_id
 .  
 . * EXCLUSION 1: No chloroquine phosphate/sulfate exposure window
 . gen chlor_check = 1 if chloroquine_not_hcq == 1 
-(194,236 missing values generated)
+(194,286 missing values generated)
 
 . datacheck chlor_check >=., nol
 
@@ -136,5 +138,5 @@ Duplicates in terms of patient_id
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\01_cr_cre
 > ate_population.log
   log type:  text
- closed on:  15 Jul 2020, 09:49:41
+ closed on:  21 Jul 2020, 13:24:50
 -------------------------------------------------------------------------------

@@ -11,11 +11,9 @@ __pycache__
 !*.py
 !*.sthlp
 output/*
+tempdata/*
 .idea/
 .cache
 *.exe
-*.log
-*.txt
 *.dta
-*.svg
 *.gph

@@ -61,7 +61,7 @@ do "12_an_models_sa_exposure.do"
 
 
 
-
+/* DON'T NEED TO RUN AGAIN
 * =====        PREVALENCE OF HCQ TPP-WIDE     =============================================;
 cd ..
 import delimited `c(pwd)'/output/input_hcq_pop.csv, clear
@@ -70,7 +70,7 @@ set more off
 pwd
 cd  "$Dodir"
 do "x2_hcq_pop.do"
-
+*/
 
 
 
@@ -124,10 +124,10 @@ do "00_cr_create_analysis_dataset.do"
 do "01_cr_create_population.do"
 do "02_cr_create_exposure.do"
 /*  Checks  */
-do "03_an_checks.do"
+*do "03_an_checks.do"
 /* Run analysis */ 
 * Analyses 
-do "04_an_descriptive_table.do"
+*do "04_an_descriptive_table.do"
 do "05_an_descriptive_plots.do"
 do "06_an_models.do"
 do "07_an_models_interact.do"
@@ -140,11 +140,13 @@ do "12_an_models_sa_exposure.do"
 
 
 
+* =====        SENSITIVITY 2: SGSS positive test      =================================================;
+do "f1_forest_plots.do"
 
 
 
 
-
+/* DON'T NEED TO RUN AGAIN
 * =====        SENSITIVITY 2: SGSS positive test      =================================================;
 clear 
 cd ..
@@ -191,10 +193,10 @@ do "00_cr_create_analysis_dataset.do"
 do "01_cr_create_population.do"
 do "02_cr_create_exposure.do"
 /*  Checks  */
-do "03_an_checks.do"
+*do "03_an_checks.do"
 /* Run analysis */ 
 * Analyses 
-do "04_an_descriptive_table.do"
+*do "04_an_descriptive_table.do"
 do "05_an_descriptive_plots.do"
 do "06_an_models.do"
 do "07_an_models_interact.do"
@@ -259,10 +261,10 @@ do "00_cr_create_analysis_dataset.do"
 do "01_cr_create_population.do"
 do "02_cr_create_exposure.do"
 /*  Checks  */
-do "03_an_checks.do"
+*do "03_an_checks.do"
 /* Run analysis */ 
 * Analyses 
-do "04_an_descriptive_table.do"
+*do "04_an_descriptive_table.do"
 do "05_an_descriptive_plots.do"
 do "06_an_models.do"
 do "07_an_models_interact.do"
@@ -271,3 +273,4 @@ do "09_an_model_explore.do"
 do "10_an_models_ethnicity.do"
 do "11_an_models_sep_pops.do"
 do "12_an_models_sa_exposure.do"
+*/

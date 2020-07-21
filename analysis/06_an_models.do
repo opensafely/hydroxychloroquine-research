@@ -16,7 +16,7 @@ DATASETS USED:			data in memory ($Tempdir/analysis_dataset_STSET_$outcome)
 DATASETS CREATED: 		none
 OTHER OUTPUT: 			logfiles, printed to folder $Logdir
 						table2, printed to $Tabfigdir
-USER-INSTALLED ADO: 	 
+USER-INSTALLED ADO: 	parmest 
   (place .ado file(s) in analysis folder)								
 ==============================================================================*/
 
@@ -39,6 +39,7 @@ tab exposure $outcome, missing row
 
 stcox i.exposure 
 estimates save $Tempdir/univar, replace 
+parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_univar_$outcome", replace) idstr("parmest_univar_$outcome") 
 
 /* Multivariable models */ 
 
@@ -47,20 +48,20 @@ estimates save $Tempdir/univar, replace
 
 stcox i.exposure i.male age1 age2 age3 
 estimates save $Tempdir/multivar1, replace 
+parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar1_$outcome", replace) idstr("parmest_multivar1_$outcome") 
 
 * DAG adjusted (age, sex, geographic region, other immunosuppressives (will include biologics when we have them))  
 	*Note: ethnicity missing for ~20-25%. will model ethnicity in several ways in separate do file
 
 stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(stp population)				
-										
 estimates save $Tempdir/multivar2, replace 
+parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar2_$outcome", replace) idstr("parmest_multivar2_$outcome") 
 
 * DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
 
 stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine, strata(stp population)	
-										
 estimates save $Tempdir/multivar3, replace 
-
+parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar3_$outcome", replace) idstr("parmest_multivar3_$outcome") 
 
 
 

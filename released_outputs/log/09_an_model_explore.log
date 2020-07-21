@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
        log:  E:\analyses\hydroxychloroquine-research/output/log\09_an_model_exp
-> lore_asthma.log
+> lore.log
   log type:  text
- opened on:  15 Jul 2020, 09:42:45
+ opened on:  21 Jul 2020, 13:20:50
 
 . 
 . * Open Stata dataset
@@ -17,8 +17,6 @@
 . cap file close tablecontent
 
 . file open tablecontent using $Tabfigdir/table5.txt, write text replace
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig/table5.txt no
-> t found)
 
 . 
 . * Column headings 
@@ -33,13 +31,13 @@
 . 
 . foreach var in i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_dise
 > ase i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat 
-> i.hypertension i.cancer_ever i.neuro_conditions { 
+> i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine { 
   2.         local var: subinstr local var "i." ""
   3.         local lab: variable label `var'
   4.         file write tablecontent ("`lab'") _n 
   5.         
-.         capture stcox i.exposure i.male age1 age2 age3 i.`var', strata(stp)  
->    
+.         capture stcox i.exposure i.male age1 age2 age3 i.`var', strata(stp po
+> pulation)  
   6.         if !_rc {
   7.                 local lab0: label exposure 0
   8.                 local lab1: label exposure 1
@@ -49,8 +47,8 @@
  11.                 file write tablecontent ("`lab1'") _tab  
  12.                 
 .                 qui lincom 1.exposure, eform
- 13.                 file write tablecontent %4.2f (r(estimate)) _tab %4.2f (r(
-> lb)) (" - ") %4.2f (r(ub)) _n
+ 13.                 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.
+> 2f (r(lb)) ("-") %4.2f (r(ub)) (")") _n
  14.                                                 
 .                                                                         
 .         }
@@ -67,7 +65,7 @@
 . log close
       name:  <unnamed>
        log:  E:\analyses\hydroxychloroquine-research/output/log\09_an_model_exp
-> lore_asthma.log
+> lore.log
   log type:  text
- closed on:  15 Jul 2020, 09:43:44
+ closed on:  21 Jul 2020, 13:22:08
 -------------------------------------------------------------------------------

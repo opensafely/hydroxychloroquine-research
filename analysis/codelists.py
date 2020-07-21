@@ -178,13 +178,13 @@ sickle_cell_codes = codelist_from_csv(
 )
 
 permanent_immune_codes = codelist_from_csv(
-    "codelists/opensafely-permanent-immunosuppression.csv",
+    "codelists/opensafely-permanent-immunosuppresion.csv",
     system="ctv3",
     column="CTV3ID",
 )
 
 temp_immune_codes = codelist_from_csv(
-    "codelists/opensafely-temporary-immunosuppression.csv",
+    "codelists/opensafely-temporary-immunosuppresion.csv",
     system="ctv3",
     column="CTV3ID",
 )

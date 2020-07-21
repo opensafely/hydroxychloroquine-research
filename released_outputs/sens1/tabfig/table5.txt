@@ -2,35 +2,38 @@ Table 5: 1 by 1 adjustments (after age/sex and strata adjustments)
 	HR	95% CI
 DMARD (PC)
 No HCQ	1.00 (ref)	
-HCQ	1.08	0.93 - 1.25
+HCQ	1.10	(0.95-1.27)
 OCS
 No HCQ	1.00 (ref)	
-HCQ	0.97	0.83 - 1.12
+HCQ	0.97	(0.84-1.13)
 NSAIDs
 No HCQ	1.00 (ref)	
-HCQ	1.02	0.88 - 1.19
+HCQ	1.03	(0.89-1.19)
 Chronic cardiac disease
 No HCQ	1.00 (ref)	
-HCQ	1.02	0.88 - 1.18
+HCQ	1.03	(0.89-1.18)
 Respiratory disease (excl asthma)
 No HCQ	1.00 (ref)	
-HCQ	0.99	0.85 - 1.15
+HCQ	1.00	(0.86-1.15)
 Calculated eGFR (missing set to norm)
 No HCQ	1.00 (ref)	
-HCQ	1.02	0.88 - 1.19
+HCQ	1.03	(0.89-1.19)
 Chronic liver disease
 No HCQ	1.00 (ref)	
-HCQ	1.02	0.88 - 1.19
+HCQ	1.03	(0.89-1.19)
 Evidence of obesity (4 categories)
 No HCQ	1.00 (ref)	
-HCQ	1.02	0.88 - 1.18
+HCQ	1.02	(0.89-1.18)
 Diagnosed hypertension
 No HCQ	1.00 (ref)	
-HCQ	1.02	0.88 - 1.19
+HCQ	1.03	(0.89-1.19)
 Cancer
 No HCQ	1.00 (ref)	
-HCQ	1.02	0.88 - 1.18
+HCQ	1.03	(0.89-1.19)
 Neurological conditions (stroke+dementia+other)
 No HCQ	1.00 (ref)	
-HCQ	1.03	0.89 - 1.20
+HCQ	1.04	(0.90-1.20)
+Flu vaccine
+No HCQ	1.00 (ref)	
+HCQ	1.04	(0.90-1.20)
 
