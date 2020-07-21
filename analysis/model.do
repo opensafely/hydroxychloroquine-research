@@ -61,7 +61,7 @@ do "12_an_models_sa_exposure.do"
 
 
 
-
+/* DON'T NEED TO RUN AGAIN
 * =====        PREVALENCE OF HCQ TPP-WIDE     =============================================;
 cd ..
 import delimited `c(pwd)'/output/input_hcq_pop.csv, clear
@@ -70,7 +70,7 @@ set more off
 pwd
 cd  "$Dodir"
 do "x2_hcq_pop.do"
-
+*/
 
 
 
@@ -144,7 +144,7 @@ do "12_an_models_sa_exposure.do"
 
 
 
-
+/* DON'T NEED TO RUN AGAIN
 * =====        SENSITIVITY 2: SGSS positive test      =================================================;
 clear 
 cd ..
@@ -271,3 +271,4 @@ do "09_an_model_explore.do"
 do "10_an_models_ethnicity.do"
 do "11_an_models_sep_pops.do"
 do "12_an_models_sa_exposure.do"
+*/

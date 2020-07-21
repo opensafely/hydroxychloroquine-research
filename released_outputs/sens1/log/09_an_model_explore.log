@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\09_an_mod
-> el_explore_asthma.log
+> el_explore.log
   log type:  text
- opened on:  19 Jul 2020, 18:26:55
+ opened on:  21 Jul 2020, 13:33:21
 
 . 
 . * Open Stata dataset
@@ -65,7 +65,7 @@
 . log close
       name:  <unnamed>
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\09_an_mod
-> el_explore_asthma.log
+> el_explore.log
   log type:  text
- closed on:  19 Jul 2020, 18:28:08
+ closed on:  21 Jul 2020, 13:34:41
 -------------------------------------------------------------------------------

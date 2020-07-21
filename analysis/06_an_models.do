@@ -39,6 +39,7 @@ tab exposure $outcome, missing row
 
 stcox i.exposure 
 estimates save $Tempdir/univar, replace 
+//parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_univar_$outcome", replace) idstr("parmest_univar_$outcome") 
 
 /* Multivariable models */ 
 

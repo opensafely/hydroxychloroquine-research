@@ -3,5 +3,5 @@ Table 8: Association between HCQ use and COVID-19 Death in ONS, 3 month window
 		HR	95% CI	HR	95% CI	HR	95% CI	HR	95% CI
 Main Analysis
 No HCQ	470 (0.3)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
-HCQ	68 (0.2)	0.77	(0.59-0.99)	1.07	(0.83-1.38)	1.02	(0.78-1.32)	1.02	(0.79-1.32)
+HCQ	68 (0.2)	0.77	(0.59-0.99)	1.07	(0.83-1.38)	1.02	(0.78-1.31)	1.02	(0.78-1.32)
 

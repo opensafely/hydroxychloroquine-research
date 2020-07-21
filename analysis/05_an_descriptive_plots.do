@@ -58,7 +58,11 @@ erase kmplot1.gph
 
 
 /* DAG Adjusted curves =======================================================*/ 
-stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone, df(4) scale(hazard) eform /*strata(stp population) ******************** TO DO: HOW TO HANDLE STRATA ***/	
+//stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone, df(4) scale(hazard) eform /*strata(stp population) ******************** TO DO: HOW TO HANDLE STRATA ***/	
+
+*NOTE: this model will not run with stp and population as stratification variables
+*Moved population to an indicator variable, and will compare model estimates from stcox
+stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone population, df(4) scale(hazard) eform stratify(stp)
 
 summ _t
 local tmax=r(max)
@@ -79,12 +83,12 @@ twoway  (rarea _at1_lci _at1_uci days, color(red%25)) ///
                  (line _at1 days, sort lcolor(red)) ///
                  (line _at2  days, sort lcolor(blue)) ///
                  , legend(order(1 "No HCQ" 2 "HCQ") ring(0) cols(1) pos(11) region(lwidth(none))) ///
-				 title("Time to $tableoutcome", justification(left) size(medsmall) )  	   ///
+				 title("Time to $tableoutcome", justification(left) size(med) )  	   ///
 				 yscale(range(0, 1)) 											///
 				 ylabel(0 (0.1) 1, angle(0) format(%4.1f) labsize(small))	///
 				 xlabel(0 (20) 160, labsize(small))				   				///			
-                 ytitle("Cumulative incidence (%)") ///
-                 xtitle("Days since 1 Mar 2020", size(small))      		///
+                 ytitle("Cumulative mortality (%)", size(medsmall)) ///
+                 xtitle("Days since 1 Mar 2020", size(medsmall))      		///
 				 graphregion(fcolor(white)) saving(adjcurv1, replace)
 
 graph export "$Tabfigdir/adjcurv1.svg", as(svg) replace
@@ -99,16 +103,6 @@ erase adjcurv1.gph
 * Close log file 
 log close
 
-
-
-
-/* test models
-stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone, df(4) scale(hazard) eform 
-stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone
-
-stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone, df(4) scale(hazard) eform tvc(stp population) dftvc(1)
-stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(stp population)	
-*/
 
 
 

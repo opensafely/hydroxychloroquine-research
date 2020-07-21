@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\02_cr_cre
 > ate_exposure.log
   log type:  text
- opened on:  19 Jul 2020, 18:19:41
+ opened on:  21 Jul 2020, 13:24:50
 
 . 
 . /* TREATMENT EXPOSURE========================================================
@@ -52,13 +52,13 @@ obs. time interval:  (stime_onsnoncoviddeath[_n-1], stime_onsnoncoviddeath]
             origin:  time enter_date
 
 ------------------------------------------------------------------------------
-    194,236  total observations
+    194,286  total observations
           0  exclusions
 ------------------------------------------------------------------------------
-    194,236  observations remaining, representing
-    194,236  subjects
-      1,790  failures in single-failure-per-subject data
-   22940752  total analysis time at risk and under observation
+    194,286  observations remaining, representing
+    194,286  subjects
+      1,789  failures in single-failure-per-subject data
+   22946851  total analysis time at risk and under observation
                                                 at risk from t =         0
                                      earliest observed entry t =         0
                                           last observed exit t =       120
@@ -74,5 +74,5 @@ file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata\analysis_dat
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\02_cr_cre
 > ate_exposure.log
   log type:  text
- closed on:  19 Jul 2020, 18:19:44
+ closed on:  21 Jul 2020, 13:24:53
 -------------------------------------------------------------------------------

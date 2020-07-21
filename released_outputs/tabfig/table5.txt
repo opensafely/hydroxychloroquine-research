@@ -23,10 +23,10 @@ No HCQ	1.00 (ref)
 HCQ	1.08	(0.84-1.40)
 Evidence of obesity (4 categories)
 No HCQ	1.00 (ref)	
-HCQ	1.08	(0.83-1.40)
+HCQ	1.08	(0.83-1.39)
 Diagnosed hypertension
 No HCQ	1.00 (ref)	
-HCQ	1.09	(0.84-1.40)
+HCQ	1.08	(0.84-1.40)
 Cancer
 No HCQ	1.00 (ref)	
 HCQ	1.08	(0.84-1.40)
