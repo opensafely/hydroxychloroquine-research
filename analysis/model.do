@@ -141,8 +141,8 @@ do "12_an_models_sa_exposure.do"
 
 * =====        FIGURES      =================================================;
 do "f1_forest_plots.do"
-cd
-
+pwd
+cd  "$Dodir"
 do "f2_flow_diagram.do"
 
 
