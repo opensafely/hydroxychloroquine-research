@@ -90,6 +90,6 @@ graph export "`c(pwd)'/output/tabfig\forestplot1.svg", replace
 graph close
 
 * Delete unneeded graphs
-erase `c(pwd)'/output/tabfig/forestplot1.gph
+*erase `c(pwd)'/output/tabfig/forestplot1.gph
 
 log close
