@@ -1,7 +1,6 @@
 import delimited `c(pwd)'/output/input.csv, clear
 set more off 
 
-
 * =====        MAIN ANALYSES       =================================================;
 *set filepaths
 global Projectdir `c(pwd)'
