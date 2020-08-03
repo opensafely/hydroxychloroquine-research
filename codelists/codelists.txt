@@ -10,7 +10,8 @@ opensafely/chronic-kidney-disease/2020-04-14
 opensafely/chronic-liver-disease/2020-06-02
 opensafely/chronic-respiratory-disease/2020-04-10
 opensafely/covid-identification/2020-06-03
-opensafely/covid-identification-in-primary-care-case/2020-06-23
+opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16
+opensafely/covid-identification-in-primary-care-probable-covid-positive-test/2020-07-16
 opensafely/current-asthma/2020-05-06
 opensafely/current-copd/2020-05-06
 opensafely/dementia/2020-04-22

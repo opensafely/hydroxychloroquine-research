@@ -11,12 +11,17 @@ covid_identification = codelist_from_csv(
     column="icd10_code",
 )
 
-covid_pos_primary_care = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-case.csv",
+covid_pos_primcare_code = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv",
     system="ctv3",
     column="CTV3ID",
 )
 
+covid_pos_primcare_test = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
 
 # INCLUSION CRITERIA
 rheumatoid_codes = codelist_from_csv(

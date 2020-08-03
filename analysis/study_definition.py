@@ -61,8 +61,18 @@ study = StudyDefinition(
         return_expectations={"date": {"earliest": "2020-01-01"}},
     ),
 
+    first_pos_code_primcare=patients.with_these_clinical_events(
+        covid_pos_primcare_code,
+        returning="date",
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2020-01-01", "latest": "today"}
+        },
+    ),
+
     first_pos_test_primcare=patients.with_these_clinical_events(
-        covid_pos_primary_care,
+        covid_pos_primcare_test,
         returning="date",
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
