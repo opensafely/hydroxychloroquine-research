@@ -17,6 +17,7 @@ USER-INSTALLED ADO:
 cap log close
 log using $Logdir\f2_flow_diagram, replace t
 
+cd  "$Dodir"
 cd ..
 import delimited `c(pwd)'/output/input_flow_chart.csv, clear
 
