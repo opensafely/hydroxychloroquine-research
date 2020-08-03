@@ -64,7 +64,7 @@ stcox i.exposure##i.`intvar' i.agegroup2 i.male
 estimates store B
 estimates save $Tempdir/multivar1_int_`intvar', replace 
 
-lrtest A B
+cap noi lrtest A B
 global multivar1_p_`intvar' = round(r(p),0.001)
 
 * DAG Adjusted 
@@ -76,7 +76,7 @@ stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolone, 
 estimates store B
 estimates save $Tempdir/multivar2_int_`intvar', replace 
 
-lrtest A B
+cap noi lrtest A B
 global multivar2_p_`intvar' = round(r(p),0.001)
 
 * Fully Adjusted 
@@ -87,7 +87,7 @@ stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i
 estimates store B
 estimates save $Tempdir/multivar3_int_`intvar', replace 
 
-lrtest A B
+cap noi lrtest A B
 global multivar3_p_`intvar' = round(r(p),0.001)
 
 }
