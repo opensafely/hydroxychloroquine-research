@@ -141,6 +141,8 @@ do "12_an_models_sa_exposure.do"
 
 * =====        FIGURES      =================================================;
 do "f1_forest_plots.do"
+cd
+
 do "f2_flow_diagram.do"
 
 
