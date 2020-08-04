@@ -269,7 +269,7 @@ study = StudyDefinition(
     #CLINICAL COVARIATES
     #BMI
     bmi=patients.most_recent_bmi(
-        on_or_after="2010-02-01",
+        between=["2010-03-01", "2020-02-29"],
         minimum_age_at_measurement=16,
         include_measurement_date=True,
         include_month=True,
