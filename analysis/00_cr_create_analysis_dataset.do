@@ -424,6 +424,14 @@ format ckd_date %td
 replace hba1c_percentage   = . if hba1c_percentage <= 0
 replace hba1c_mmol_per_mol = . if hba1c_mmol_per_mol <= 0
 
+* Set most recent values of >15 months prior to index to missing
+replace hba1c_percentage   = . if (date("$indexdate", "DMY") - hba1c_percentage_date) > 15*30 & hba1c_percentage_date != .
+replace hba1c_mmol_per_mol = . if (date("$indexdate", "DMY") - hba1c_mmol_per_mol_date) > 15*30 & hba1c_mmol_per_mol_date != .
+
+* Clean up dates
+replace hba1c_percentage_date = . if hba1c_percentage == .
+replace hba1c_mmol_per_mol_date = . if hba1c_mmol_per_mol == .
+
 /* Express  HbA1c as percentage  */ 
 
 * Express all values as perecentage 
@@ -563,6 +571,11 @@ foreach var of varlist 	died_date_ons 				///
 	drop `var'_dstr
 	format `var' %td 
 }
+
+* Add half-day buffer if outcome on indexdate
+replace died_date_ons=died_date_ons+0.5 if died_date_ons==enter_date
+replace first_pos_test_sgss=first_pos_test_sgss+0.5 if first_pos_test_sgss==enter_date
+replace first_pos_test_primcare=first_pos_test_primcare+0.5 if first_pos_test_primcare==enter_date
 
 * Date of Covid death in ONS
 gen died_date_onscovid = died_date_ons if died_ons_covid_flag_any == 1

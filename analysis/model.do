@@ -140,6 +140,16 @@ do "12_an_models_sa_exposure.do"
 
 
 * =====        FIGURES      =================================================;
+**set filepaths back to main output folders
+global Logdir "$Projectdir/output/log"
+di "$Logdir"
+global Tempdir "$Projectdir/output/tempdata" 
+di "$Tempdir"
+global Tabfigdir "$Projectdir/output/tabfig" 
+di "$Tabfigdir"
+
+pwd
+cd  "$Dodir"
 do "f1_forest_plots.do"
 pwd
 cd  "$Dodir"

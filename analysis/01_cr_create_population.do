@@ -26,6 +26,8 @@ log using $Logdir\01_cr_create_population, replace t
 
 /* APPLY INCLUSION/EXCLUIONS==================================================*/ 
 
+count
+
 noi di "DROP MISSING GENDER:"
 drop if inlist(sex,"I", "U")
 
@@ -42,7 +44,7 @@ noi di "DROP IMD MISSING"
 drop if imd == .u
 
 noi di "DROP IF DEAD BEFORE INDEX"
-drop if stime_$outcome  <= date("$indexdate", "DMY")
+drop if stime_$outcome  < date("$indexdate", "DMY")
 
 noi di "DROP EXPOSURE TO CHLOROQUINE"
 drop if chloroquine_not_hcq == 1 

@@ -31,17 +31,19 @@ chloroquine_not_hcq
 */
 
 *assess variables
-codebook has_follow_up age sex imd rheumatoid sle chloroquine_not_hcq ethnicity
+*codebook has_follow_up age sex imd rheumatoid sle chloroquine_not_hcq ethnicity
 count
 drop if has_follow_up!=1
 count
-drop if age < 18 | age > 110
+drop if age < 18 
+count
+drop if age > 110
 count
 drop if sex != "M" & sex != "F"
 count
-drop if imd==.
+keep if imd>0
 count
-drop if rheumatoid=="" & sle==""
+keep if rheumatoid!="" | sle!=""
 count
 drop if chloroquine_not_hcq != ""
 count
