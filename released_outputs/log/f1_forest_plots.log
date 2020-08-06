@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\f1_forest
-> _plots.log
+       log:  E:\analyses\hydroxychloroquine-research/output/log\f1_forest_plots
+> .log
   log type:  text
- opened on:  21 Jul 2020, 22:40:27
+ opened on:   6 Aug 2020, 12:46:48
 
 . 
 . 
@@ -57,7 +57,7 @@ Duplicates in terms of all variables
 . 
 . *only keep necessary info
 . keep if label=="HCQ Exposure"
-(92 observations deleted)
+(116 observations deleted)
 
 . drop if estimate == 1
 (8 observations deleted)
@@ -158,19 +158,17 @@ file E:\analyses\hydroxychloroquine-research/output/tempdata/HR_forestplot.dta
            Study     |     ES    [95% Conf. Interval]     
 ---------------------+---------------------------------------------------
      {bf:COVID-19 mortali
-Univariable          |    0.766     0.594     0.988        
-Age/Sex Adjusted     |    1.068     0.827     1.380        
-DAG-Informed Adjustm |    1.015     0.784     1.315        
-Extended Adjustment  |    1.017     0.785     1.318        
+Univariable          |    0.777     0.605     0.999        
+Age/Sex Adjusted     |    1.084     0.842     1.396        
+DAG-Informed Adjustm |    1.031     0.798     1.331        
+Extended Adjustment  |    1.034     0.801     1.335        
 ---------------------+---------------------------------------------------
      {bf:Non COVID-19 mor
-Univariable          |    0.716     0.621     0.827        
-Age/Sex Adjusted     |    1.024     0.887     1.183        
-DAG-Informed Adjustm |    1.033     0.893     1.195        
-Extended Adjustment  |    1.038     0.897     1.201        
+Univariable          |    0.701     0.611     0.803        
+Age/Sex Adjusted     |    0.999     0.871     1.147        
+DAG-Informed Adjustm |    1.001     0.871     1.150        
+Extended Adjustment  |    1.013     0.882     1.165        
 ---------------------+---------------------------------------------------
-(note: file E:\analyses\hydroxychloroquine-research/output/tabfig\forestplot1.g
-> ph not found)
 (file E:\analyses\hydroxychloroquine-research/output/tabfig\forestplot1.gph sav
 > ed)
 
@@ -185,13 +183,12 @@ Extended Adjustment  |    1.038     0.897     1.201
 
 . 
 . * Delete unneeded graphs
-. erase `c(pwd)'/output/tabfig/forestplot1.gph
-
+. *erase `c(pwd)'/output/tabfig/forestplot1.gph
 . 
 . log close
       name:  <unnamed>
-       log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\f1_forest
-> _plots.log
+       log:  E:\analyses\hydroxychloroquine-research/output/log\f1_forest_plots
+> .log
   log type:  text
- closed on:  21 Jul 2020, 22:40:31
+ closed on:   6 Aug 2020, 12:46:56
 -------------------------------------------------------------------------------

@@ -80,10 +80,10 @@ cap noi lrtest A B
 global multivar2_p_`intvar' = round(r(p),0.001)
 
 * Fully Adjusted 
-stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine, strata(stp population)
+stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)
 estimates store A
 
-stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine, strata(stp population)
+stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)
 estimates store B
 estimates save $Tempdir/multivar3_int_`intvar', replace 
 

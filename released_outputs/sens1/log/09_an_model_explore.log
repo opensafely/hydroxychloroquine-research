@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\09_an_mod
 > el_explore.log
   log type:  text
- opened on:  21 Jul 2020, 22:13:59
+ opened on:   6 Aug 2020, 12:42:37
 
 . 
 . * Open Stata dataset
@@ -31,7 +31,8 @@
 . 
 . foreach var in i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_dise
 > ase i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat 
-> i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine { 
+> i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat
+>  i.smoke_nomiss { 
   2.         local var: subinstr local var "i." ""
   3.         local lab: variable label `var'
   4.         file write tablecontent ("`lab'") _n 
@@ -67,5 +68,5 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\09_an_mod
 > el_explore.log
   log type:  text
- closed on:  21 Jul 2020, 22:15:13
+ closed on:   6 Aug 2020, 12:44:17
 -------------------------------------------------------------------------------

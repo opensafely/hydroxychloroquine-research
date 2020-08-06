@@ -1,0 +1,108 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\f2_flow_diagram
+> .log
+  log type:  text
+ opened on:   6 Aug 2020, 12:46:56
+
+. 
+. cd  "$Dodir"
+E:\analyses\hydroxychloroquine-research\analysis
+
+. cd ..
+E:\analyses\hydroxychloroquine-research
+
+. import delimited `c(pwd)'/output/input_flow_chart.csv, clear
+(12 vars, 33,409,652 obs)
+
+. 
+. /*
+> has_follow_up AND
+> (age >=18 AND age <= 110) AND
+> (sex = "M" OR sex = "F") AND
+> imd > 0 AND
+> (rheumatoid OR sle) AND NOT
+> chloroquine_not_hcq
+> */
+. 
+. *assess variables
+. *codebook has_follow_up age sex imd rheumatoid sle chloroquine_not_hcq ethnic
+> ity
+. count
+  33,409,652
+
+. drop if has_follow_up!=1
+(11,722,128 observations deleted)
+
+. count
+  21,687,524
+
+. drop if age < 18 
+(4,223,964 observations deleted)
+
+. count
+  17,463,560
+
+. drop if age > 110
+(17 observations deleted)
+
+. count
+  17,463,543
+
+. drop if sex != "M" & sex != "F"
+(265 observations deleted)
+
+. count
+  17,463,278
+
+. keep if imd>0
+(227,877 observations deleted)
+
+. count
+  17,235,401
+
+. keep if rheumatoid!="" | sle!=""
+(17,040,743 observations deleted)
+
+. count
+  194,658
+
+. drop if chloroquine_not_hcq != ""
+(21 observations deleted)
+
+. count
+  194,637
+
+. 
+. 
+. 
+. 
+. * For sensitivity analyses, missing ethnicity
+. tab ethnicity, m
+
+  ethnicity |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    132,696       68.18       68.18
+          2 |      1,282        0.66       68.83
+          3 |     10,493        5.39       74.23
+          4 |      2,994        1.54       75.76
+          5 |      1,844        0.95       76.71
+          . |     45,328       23.29      100.00
+------------+-----------------------------------
+      Total |    194,637      100.00
+
+. drop if ethnicity == .
+(45,328 observations deleted)
+
+. count
+  149,309
+
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\f2_flow_diagram
+> .log
+  log type:  text
+ closed on:   6 Aug 2020, 12:49:55
+-------------------------------------------------------------------------------

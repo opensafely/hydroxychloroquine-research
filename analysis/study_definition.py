@@ -461,7 +461,7 @@ study = StudyDefinition(
         include_month=True,
         return_expectations={
             "float": {"distribution": "normal", "mean": 150.0, "stddev": 200.0},
-            "date": {"earliest": "2019-02-28", "latest": "2020-02-29"},
+            "date": {"earliest": "2018-12-01", "latest": "2020-02-29"},
             "incidence": 0.95,
         },
     ),

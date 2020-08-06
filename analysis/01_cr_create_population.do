@@ -43,7 +43,7 @@ drop if age == .
 noi di "DROP IMD MISSING"
 drop if imd == .u
 
-noi di "DROP IF DEAD BEFORE INDEX"
+noi di "DROP IF EVENT BEFORE INDEX"
 drop if stime_$outcome  < date("$indexdate", "DMY")
 
 noi di "DROP EXPOSURE TO CHLOROQUINE"
