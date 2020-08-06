@@ -55,10 +55,13 @@ replace outcome = "{bf:Non COVID-19 mortality}" if idstr3 == "onsnoncoviddeath"
 drop idstr3
 
 *adjustments
-gen adjust = "Univariable" if idstr2 == "univar"
-replace adjust = "Age/Sex Adjusted" if idstr2 == "multivar1"
-replace adjust = "DAG-Informed Adjustment" if idstr2 == "multivar2"
-replace adjust = "Extended Adjustment" if idstr2 == "multivar3"
+gen adjust = 1 if idstr2 == "univar"
+replace adjust = 2 if idstr2 == "multivar1"
+replace adjust = 3 if idstr2 == "multivar2"
+replace adjust = 4 if idstr2 == "multivar3"
+
+label define adjust 1 "Univariable" 2 "Age/Sex Adjusted" 3 "DAG-Informed Adjustment" 4 "Extended Adjustment"
+label values adjust adjust
 drop idstr2
 drop idstr1
 
@@ -75,14 +78,18 @@ save "`c(pwd)'/output/tempdata/HR_forestplot.dta", replace
 
 
 use "`c(pwd)'/output/tempdata/HR_forestplot.dta", clear
-metan log_estimate log_min95 log_max95 , random eform  ///
+metan log_estimate log_min95 log_max95 , eform random ///
 	effect(Hazard Ratio) null(1) lcols(adjust) by(outcome)  dp(2) xlab (.25,.5,1,2,4) ///
-	nowt nosubgroup  nooverall nobox graphregion(color(white)) scheme(sj) texts(100) astext(65) ///
+	nowt nosubgroup nooverall nobox graphregion(color(white)) scheme(sj) texts(100) astext(65) ///
 	graphregion(margin(zero)) ///
 	saving("`c(pwd)'/output/tabfig\forestplot1.gph", replace)
 	
 graph export "`c(pwd)'/output/tabfig\forestplot1.svg", replace  
 
+* Close window 
 graph close
+
+* Delete unneeded graphs
+*erase `c(pwd)'/output/tabfig/forestplot1.gph
 
 log close

@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descripti
 > ve_plots.log
   log type:  text
- opened on:  21 Jul 2020, 14:33:16
+ opened on:   6 Aug 2020, 12:18:54
 
 . 
 . * Open Stata dataset
@@ -20,20 +20,20 @@
        HCQ |         death
   Exposure |         0          1 |     Total
 -----------+----------------------+----------
-    No HCQ |   163,304        470 |   163,774 
-       HCQ |    30,444         68 |    30,512 
+    No HCQ |   163,591        477 |   164,068 
+       HCQ |    30,499         70 |    30,569 
 -----------+----------------------+----------
-     Total |   193,748        538 |   194,286 
+     Total |   194,090        547 |   194,637 
 
 . 
 . /* Generate KM PLOT==========================================================
 > =*/ 
 . 
 . count if exposure != .u
-  194,286
+  194,637
 
 . noi display "RUNNING THE KM PLOT FOR `r(N)' PEOPLE WITH NON-MISSING EXPOSURE"
-RUNNING THE KM PLOT FOR 194286 PEOPLE WITH NON-MISSING EXPOSURE
+RUNNING THE KM PLOT FOR 194637 PEOPLE WITH NON-MISSING EXPOSURE
 
 . 
 . sts graph, by(exposure) failure ci                                           
@@ -99,35 +99,35 @@ RUNNING THE KM PLOT FOR 194286 PEOPLE WITH NON-MISSING EXPOSURE
 . stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone population, df(
 > 4) scale(hazard) eform stratify(stp)
 
-Iteration 0:   log likelihood = -3530.4631  
-Iteration 1:   log likelihood = -3523.2273  
-Iteration 2:   log likelihood =  -3522.357  
-Iteration 3:   log likelihood = -3522.3533  
-Iteration 4:   log likelihood = -3522.3533  
+Iteration 0:   log likelihood = -3598.6639  
+Iteration 1:   log likelihood =  -3592.151  
+Iteration 2:   log likelihood = -3590.9153  
+Iteration 3:   log likelihood = -3590.9042  
+Iteration 4:   log likelihood = -3590.9042  
 
-Log likelihood = -3522.3533                     Number of obs     =    194,286
+Log likelihood = -3590.9042                     Number of obs     =    194,637
 
 ------------------------------------------------------------------------------
              |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
 xb           |
-    exposure |   1.018407   .1340851     0.14   0.890     .7867753    1.318232
-        male |   1.438847   .1286817     4.07   0.000     1.207504    1.714514
-        age1 |   1.052077   .0379679     1.41   0.160     .9802324    1.129188
-        age2 |   1.075623   .0566544     1.38   0.166     .9701213    1.192597
-        age3 |   .7473308   .1503318    -1.45   0.148      .503833    1.108509
-    dmard_pc |   .9016363   .0835043    -1.12   0.264     .7519658    1.081097
-oral_pred~ne |    2.48283    .220377    10.25   0.000     2.086382    2.954608
-  population |   .7785545   .1354265    -1.44   0.150     .5536379    1.094844
-       _rcs1 |   2.142952   .3970636     4.11   0.000     1.490373    3.081272
-       _rcs2 |   1.261418   .1417006     2.07   0.039     1.012138    1.572093
-       _rcs3 |   1.019372   .0210734     0.93   0.353     .9788941    1.061523
-       _rcs4 |   .9987187   .0036022    -0.36   0.722     .9916834    1.005804
-   _rcs_stp1 |   1.017819   .0110843     1.62   0.105      .996324    1.039777
-   _rcs_stp2 |    1.01253   .0066416     1.90   0.058     .9995956    1.025631
-   _rcs_stp3 |   .9978035   .0011487    -1.91   0.056     .9955546    1.000057
-   _rcs_stp4 |   1.000213   .0001855     1.15   0.250     .9998497    1.000577
-       _cons |   .0000155   .0000284    -6.06   0.000     4.31e-07    .0005588
+    exposure |   1.033707   .1342879     0.26   0.799     .8013429    1.333448
+        male |   1.446215   .1282083     4.16   0.000     1.215551    1.720651
+        age1 |   1.052307   .0379845     1.41   0.158     .9804311    1.129452
+        age2 |   1.076516   .0566201     1.40   0.161     .9710707    1.193411
+        age3 |   .7445963   .1493789    -1.47   0.142     .5025221    1.103282
+    dmard_pc |   .9083917   .0833869    -1.05   0.295     .7588152    1.087452
+oral_pred~ne |   2.450511   .2159783    10.17   0.000     2.061746    2.912582
+  population |   .7897923   .1356502    -1.37   0.169     .5640472    1.105886
+       _rcs1 |   2.216147   .4224361     4.17   0.000     1.525263    3.219974
+       _rcs2 |   1.319012   .1599035     2.28   0.022     1.040059    1.672783
+       _rcs3 |   1.016495    .023586     0.71   0.481     .9713031    1.063791
+       _rcs4 |   .9999498   .0038833    -0.01   0.990     .9923675     1.00759
+   _rcs_stp1 |   1.016642   .0113149     1.48   0.138     .9947058    1.039063
+   _rcs_stp2 |   1.012146    .007126     1.71   0.086     .9982756     1.02621
+   _rcs_stp3 |    .997733   .0012947    -1.75   0.080     .9951986    1.000274
+   _rcs_stp4 |   1.000082   .0001995     0.41   0.682      .999691    1.000473
+       _cons |   .0000152   .0000278    -6.06   0.000     4.21e-07    .0005484
 ------------------------------------------------------------------------------
 Note: Estimates are transformed only in the first equation.
 
@@ -136,7 +136,7 @@ Note: Estimates are transformed only in the first equation.
 
     Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
-          _t |    194,286    118.1086    12.64545          1        120
+          _t |    194,637     131.715    14.76647         .5        134
 
 . local tmax=r(max)
 
@@ -144,14 +144,14 @@ Note: Estimates are transformed only in the first equation.
 
 . 
 . range days 0 `tmax' `tmaxplus1'
-(194,165 missing values generated)
+(194,502 missing values generated)
 
 . stpm2_standsurv if exposure == 1, at1(exposure 0) at2(exposure 1) timevar(day
 > s) ci contrast(difference) fail
 
 . 
 . gen date = d(1/3/2020)+ days
-(194,165 missing values generated)
+(194,502 missing values generated)
 
 . format date %tddd_Month
 
@@ -159,22 +159,22 @@ Note: Estimates are transformed only in the first equation.
 . for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci: replace X=100*X
 
 ->  replace _at1=100*_at1
-(120 real changes made)
+(134 real changes made)
 
 ->  replace _at2=100*_at2
-(120 real changes made)
+(134 real changes made)
 
 ->  replace _at1_lci=100*_at1_lci
-(120 real changes made)
+(134 real changes made)
 
 ->  replace _at1_uci=100*_at1_uci
-(120 real changes made)
+(134 real changes made)
 
 ->  replace _at2_lci=100*_at2_lci
-(120 real changes made)
+(134 real changes made)
 
 ->  replace _at2_uci=100*_at2_uci
-(120 real changes made)
+(134 real changes made)
 
 . 
 . *l date days _at1 _at1_lci _at1_uci _at2 _at2_lci _at2_uci if days<.
@@ -183,7 +183,7 @@ Note: Estimates are transformed only in the first equation.
 >                  (rarea _at2_lci _at2_uci days if _at2_uci<1, color(blue%25))
 >  ///
 >                  (line _at1 days, sort lcolor(red)) ///
->                  (line _at2  days, sort lcolor(blue)) ///
+>                  (line _at2 days, sort lcolor(blue) lpattern(dash)) ///
 >                  , legend(order(1 "No HCQ" 2 "HCQ") ring(0) cols(1) pos(11) r
 > egion(lwidth(none))) ///
 >                                  title("Time to $tableoutcome", justification
@@ -224,5 +224,5 @@ Note: Estimates are transformed only in the first equation.
        log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descripti
 > ve_plots.log
   log type:  text
- closed on:  21 Jul 2020, 14:34:32
+ closed on:   6 Aug 2020, 12:20:26
 -------------------------------------------------------------------------------

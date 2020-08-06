@@ -3,12 +3,16 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\01_cr_create_po
 > pulation.log
   log type:  text
- opened on:  21 Jul 2020, 14:32:53
+ opened on:   6 Aug 2020, 12:18:30
 
 . 
 . 
 . /* APPLY INCLUSION/EXCLUIONS=================================================
 > =*/ 
+. 
+. count
+  194,637
+
 . 
 . noi di "DROP MISSING GENDER:"
 DROP MISSING GENDER:
@@ -45,11 +49,11 @@ DROP IMD MISSING
 (0 observations deleted)
 
 . 
-. noi di "DROP IF DEAD BEFORE INDEX"
-DROP IF DEAD BEFORE INDEX
+. noi di "DROP IF EVENT BEFORE INDEX"
+DROP IF EVENT BEFORE INDEX
 
-. drop if stime_$outcome  <= date("$indexdate", "DMY")
-(15 observations deleted)
+. drop if stime_$outcome  < date("$indexdate", "DMY")
+(0 observations deleted)
 
 . 
 . noi di "DROP EXPOSURE TO CHLOROQUINE"
@@ -78,16 +82,16 @@ Duplicates in terms of patient_id
 . * INCLUSION 1: RA or SLE in before exposure window, which begins 1 September 
 > 2019 
 . gen excl_ra = 1 if rheumatoid_date != . & rheumatoid_date >= mdy(9,1,2019)
-(194,286 missing values generated)
+(194,637 missing values generated)
 
 . recode excl_ra .=0
-(excl_ra: 194286 changes made)
+(excl_ra: 194637 changes made)
 
 . gen excl_sle = 1 if sle_date != . & sle_date >= mdy(9,1,2019)
-(194,286 missing values generated)
+(194,637 missing values generated)
 
 . recode excl_sle .=0
-(excl_sle: 194286 changes made)
+(excl_sle: 194637 changes made)
 
 . 
 . datacheck excl_ra==0, nol
@@ -109,7 +113,7 @@ Duplicates in terms of patient_id
 .  
 . * EXCLUSION 1: No chloroquine phosphate/sulfate exposure window
 . gen chlor_check = 1 if chloroquine_not_hcq == 1 
-(194,286 missing values generated)
+(194,637 missing values generated)
 
 . datacheck chlor_check >=., nol
 
@@ -138,5 +142,5 @@ Duplicates in terms of patient_id
        log:  E:\analyses\hydroxychloroquine-research/output/log\01_cr_create_po
 > pulation.log
   log type:  text
- closed on:  21 Jul 2020, 14:32:54
+ closed on:   6 Aug 2020, 12:18:32
 -------------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 model.log
 */input.csv
 */input_hcq_pop.csv
+*/input_flow_chart.csv
 __pycache__
 .python-version
 

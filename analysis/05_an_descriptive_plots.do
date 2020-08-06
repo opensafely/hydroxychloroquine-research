@@ -81,7 +81,7 @@ for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci: replace X=100*X
 twoway  (rarea _at1_lci _at1_uci days, color(red%25)) ///
                  (rarea _at2_lci _at2_uci days if _at2_uci<1, color(blue%25)) ///
                  (line _at1 days, sort lcolor(red)) ///
-                 (line _at2  days, sort lcolor(blue)) ///
+                 (line _at2 days, sort lcolor(blue) lpattern(dash)) ///
                  , legend(order(1 "No HCQ" 2 "HCQ") ring(0) cols(1) pos(11) region(lwidth(none))) ///
 				 title("Time to $tableoutcome", justification(left) size(med) )  	   ///
 				 yscale(range(0, 1)) 											///

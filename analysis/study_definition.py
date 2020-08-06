@@ -61,8 +61,18 @@ study = StudyDefinition(
         return_expectations={"date": {"earliest": "2020-01-01"}},
     ),
 
+    first_pos_code_primcare=patients.with_these_clinical_events(
+        covid_pos_primcare_code,
+        returning="date",
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "2020-01-01", "latest": "today"}
+        },
+    ),
+
     first_pos_test_primcare=patients.with_these_clinical_events(
-        covid_pos_primary_care,
+        covid_pos_primcare_test,
         returning="date",
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
@@ -259,7 +269,7 @@ study = StudyDefinition(
     #CLINICAL COVARIATES
     #BMI
     bmi=patients.most_recent_bmi(
-        on_or_after="2010-02-01",
+        between=["2010-03-01", "2020-02-29"],
         minimum_age_at_measurement=16,
         include_measurement_date=True,
         include_month=True,
@@ -445,13 +455,13 @@ study = StudyDefinition(
     creatinine=patients.with_these_clinical_events(
         creatinine_codes,
         find_last_match_in_period=True,
-        between=["2019-02-28", "2020-02-29"],
+        between=["2018-12-01", "2020-02-29"],
         returning="numeric_value",
         include_date_of_match=True,
         include_month=True,
         return_expectations={
             "float": {"distribution": "normal", "mean": 150.0, "stddev": 200.0},
-            "date": {"earliest": "2019-02-28", "latest": "2020-02-29"},
+            "date": {"earliest": "2018-12-01", "latest": "2020-02-29"},
             "incidence": 0.95,
         },
     ),

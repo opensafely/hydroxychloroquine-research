@@ -2,6 +2,6 @@ Table 7b: RA and SLE populations as indicator variable
 	N	Univariable		Age/Sex Adjusted		DAG Adjusted		Fully Adjusted		
 		HR	95% CI	HR	95% CI	HR	95% CI	HR	95% CI
 Indicator in DAG and Fully Adjusted only
-No HCQ	1576 (1.0)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
-HCQ	213 (0.7)	0.72	(0.62-0.83)	1.02	(0.89-1.18)	1.00	(0.84-1.18)	1.01	(0.85-1.19)
+No HCQ	1769 (1.1)	1.00 (ref)		1.00 (ref)		1.00 (ref)		1.00 (ref)
+HCQ	234 (0.8)	0.70	(0.61-0.80)	1.00	(0.87-1.15)	0.96	(0.82-1.13)	0.98	(0.83-1.15)
 

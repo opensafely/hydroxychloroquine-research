@@ -1,7 +1,6 @@
 import delimited `c(pwd)'/output/input.csv, clear
 set more off 
 
-
 * =====        MAIN ANALYSES       =================================================;
 *set filepaths
 global Projectdir `c(pwd)'
@@ -31,7 +30,7 @@ global tableoutcome "COVID-19 Death in ONS"
 global ymax 0.005
 
 * all variables included in fully adjusted models
-global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardiac_disease resp_excl_asthma egfr_cat_nomiss chronic_liver_disease obese4cat hypertension cancer_ever neuro_conditions flu_vaccine"
+global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardiac_disease resp_excl_asthma egfr_cat_nomiss chronic_liver_disease obese4cat hypertension cancer_ever neuro_conditions flu_vaccine imd diabcat smoke_nomiss"
 
 pwd
 cd  "$Dodir"
@@ -112,7 +111,7 @@ global tableoutcome "Non COVID-19 Death in ONS"
 global ymax 0.01
 
 * all variables included in fully adjusted models
-global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardiac_disease resp_excl_asthma egfr_cat_nomiss chronic_liver_disease obese4cat hypertension cancer_ever neuro_conditions flu_vaccine"
+global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardiac_disease resp_excl_asthma egfr_cat_nomiss chronic_liver_disease obese4cat hypertension cancer_ever neuro_conditions flu_vaccine imd diabcat smoke_nomiss"
 
 pwd
 cd  "$Dodir"
@@ -140,9 +139,21 @@ do "12_an_models_sa_exposure.do"
 
 
 
-* =====        SENSITIVITY 2: SGSS positive test      =================================================;
-do "f1_forest_plots.do"
+* =====        FIGURES      =================================================;
+**set filepaths back to main output folders
+global Logdir "$Projectdir/output/log"
+di "$Logdir"
+global Tempdir "$Projectdir/output/tempdata" 
+di "$Tempdir"
+global Tabfigdir "$Projectdir/output/tabfig" 
+di "$Tabfigdir"
 
+pwd
+cd  "$Dodir"
+do "f1_forest_plots.do"
+pwd
+cd  "$Dodir"
+do "f2_flow_diagram.do"
 
 
 
@@ -181,7 +192,7 @@ global tableoutcome "SGSS positive COVID-19 test"
 global ymax 0.01
 
 * all variables included in fully adjusted models
-global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardiac_disease resp_excl_asthma egfr_cat_nomiss chronic_liver_disease obese4cat hypertension cancer_ever neuro_conditions flu_vaccine"
+global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardiac_disease resp_excl_asthma egfr_cat_nomiss chronic_liver_disease obese4cat hypertension cancer_ever neuro_conditions flu_vaccine imd diabcat smoke_nomiss"
 
 pwd
 cd  "$Dodir"
@@ -249,7 +260,7 @@ global tableoutcome "Primary care positive COVID-19 test"
 global ymax 0.01
 
 * all variables included in fully adjusted models
-global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardiac_disease resp_excl_asthma egfr_cat_nomiss chronic_liver_disease obese4cat hypertension cancer_ever neuro_conditions flu_vaccine"
+global varlist "exposure male agegroup dmard_pc oral_prednisolone chronic_cardiac_disease resp_excl_asthma egfr_cat_nomiss chronic_liver_disease obese4cat hypertension cancer_ever neuro_conditions flu_vaccine imd diabcat smoke_nomiss"
 
 pwd
 cd  "$Dodir"
