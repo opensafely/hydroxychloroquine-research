@@ -1,5 +1,6 @@
 import delimited `c(pwd)'/output/input.csv, clear
 set more off 
+*test
 
 * =====        MAIN ANALYSES       =================================================;
 *set filepaths
