@@ -154,7 +154,9 @@ do "f1_forest_plots.do"
 pwd
 cd  "$Dodir"
 do "f2_flow_diagram.do"
-
+pwd
+cd  "$Dodir"
+do "f3_qba.do"
 
 
 /* DON'T NEED TO RUN AGAIN
