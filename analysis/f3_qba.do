@@ -79,7 +79,7 @@ capture file close textfile
 file open textfile using "$Tabfigdir/bias_adjusted_hr.csv", write text replace
 file write textfile "sep=;" _n
 file write textfile "Biologics prevalence HCQ exposed;Biologics prevalence HCQ unexposed;Biologics/COVID-19 HR" _n
-file write textfile ";;HR 0.8;HR 0.9;HR 1.1;HR 1.2" _n
+file write textfile ";;HR 0.80;HR 0.90;HR 1.10;HR 1.20" _n
 
 capture program drop write_bias_adjusted
 program define write_bias_adjusted
@@ -89,7 +89,7 @@ syntax, prev_exp(real) prev_unexp(real)
 		bias_adjusted_hr, prev_exp(`prev_exp') prev_unexp(`prev_unexp') hr_outcome(`hr') obshr($hr)
 		file write textfile %3.2f (r(adj_hr)) 
 		bias_adjusted_hr, prev_exp(`prev_exp') prev_unexp(`prev_unexp') hr_outcome(`hr') obshr($lci)
-		file write textfile " (" %3.2f (r(adj_hr)) ", "
+		file write textfile " (" %3.2f (r(adj_hr)) "-"
 		bias_adjusted_hr, prev_exp(`prev_exp') prev_unexp(`prev_unexp') hr_outcome(`hr') obshr($uci)
 		file write textfile %3.2f (r(adj_hr)) ");" 
 	}
@@ -97,7 +97,10 @@ syntax, prev_exp(real) prev_unexp(real)
 end 
 
 write_bias_adjusted, prev_exp(0.18) prev_unexp(0.21)
+write_bias_adjusted, prev_exp(0.3) prev_unexp(0.3)
+write_bias_adjusted, prev_exp(0.1) prev_unexp(0.1)
 write_bias_adjusted, prev_exp(0.1) prev_unexp(0.3)
+write_bias_adjusted, prev_exp(0.3) prev_unexp(0.1)
 file close textfile
 
 

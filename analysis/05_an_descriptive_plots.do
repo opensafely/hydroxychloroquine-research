@@ -76,6 +76,11 @@ format date %tddd_Month
 
 for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci: replace X=100*X
 
+*cumulative mortality at last day of follow-up
+list _at1* if days==`tmax', noobs
+list _at2* if days==`tmax', noobs
+list _contrast* if days==`tmax', noobs
+
 *l date days _at1 _at1_lci _at1_uci _at2 _at2_lci _at2_uci if days<.
 
 twoway  (rarea _at1_lci _at1_uci days, color(red%25)) ///
