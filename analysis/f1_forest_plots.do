@@ -60,7 +60,7 @@ replace adjust = 2 if idstr2 == "multivar1"
 replace adjust = 3 if idstr2 == "multivar2"
 replace adjust = 4 if idstr2 == "multivar3"
 
-label define adjust 1 "Univariable" 2 "Age/Sex Adjusted" 3 "DAG-Informed Adjustment" 4 "Extended Adjustment"
+label define adjust 1 "Unadjusted" 2 "Age/Sex Adjusted" 3 "DAG-Informed Adjustment" 4 "Extended Adjustment"
 label values adjust adjust
 drop idstr2
 drop idstr1

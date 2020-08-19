@@ -505,7 +505,7 @@ recode hcq_sa .=0
 tab1 hcq hcq_sa, m
 tab hcq hcq_sa, m
 
-
+tab  hcq_count hcq, m
 
 /* OTHER DRUGS =============================================================*/
 
