@@ -22,12 +22,12 @@
 	<line x1="4257.75" y1="4654.95" x2="4533.39" y2="4654.95" style="stroke:#000000;stroke-width:19.65"/>
 	<line x1="4271.13" y1="5005.46" x2="4547.51" y2="5005.46" style="stroke:#000000;stroke-width:19.65"/>
 	<text x="163.60" y="1566.06" style="font-family:'Helvetica';font-weight:bold;font-size:191.61px;fill:#000000">COVID-19 mortality</text>
-	<text x="163.60" y="1916.56" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">Univariable</text>
+	<text x="163.60" y="1916.56" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">Unadjusted</text>
 	<text x="163.60" y="2267.32" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">Age/Sex Adjusted</text>
 	<text x="163.60" y="2618.07" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">DAG-Informed Adjustment</text>
 	<text x="163.60" y="2968.57" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">Extended Adjustment</text>
 	<text x="163.60" y="3670.07" style="font-family:'Helvetica';font-weight:bold;font-size:191.61px;fill:#000000">Non COVID-19 mortality</text>
-	<text x="163.60" y="4020.58" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">Univariable</text>
+	<text x="163.60" y="4020.58" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">Unadjusted</text>
 	<text x="163.60" y="4371.33" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">Age/Sex Adjusted</text>
 	<text x="163.60" y="4722.08" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">DAG-Informed Adjustment</text>
 	<text x="163.60" y="5072.58" style="font-family:'Helvetica';font-size:191.61px;fill:#000000">Extended Adjustment</text>
