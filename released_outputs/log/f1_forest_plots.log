@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\f1_forest_plots
 > .log
   log type:  text
- opened on:   6 Aug 2020, 12:46:48
+ opened on:  19 Aug 2020, 18:11:11
 
 . 
 . 
@@ -25,11 +25,11 @@ E:\analyses\hydroxychloroquine-research
 . if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar1_onscov
 > iddeath.dta" "
 
-. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar2_onscov
-> iddeath.dta" "
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar2_mi_ons
+> coviddeath.dta" "
 
-. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar3_onscov
-> iddeath.dta" "
+. if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar3_mi_ons
+> coviddeath.dta" "
 
 . *non covid death
 . if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_univar_ons
@@ -39,10 +39,10 @@ E:\analyses\hydroxychloroquine-research
 > onsnoncoviddeath.dta" "
 
 . if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar2_
-> onsnoncoviddeath.dta" "
+> mi_onsnoncoviddeath.dta" "
 
 . if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar3_
-> onsnoncoviddeath.dta" "
+> mi_onsnoncoviddeath.dta" "
 
 . 
 . *concatenate dataets
@@ -57,7 +57,7 @@ Duplicates in terms of all variables
 . 
 . *only keep necessary info
 . keep if label=="HCQ Exposure"
-(116 observations deleted)
+(136 observations deleted)
 
 . drop if estimate == 1
 (8 observations deleted)
@@ -68,21 +68,22 @@ Duplicates in terms of all variables
 . *create labels
 . split idstr, p(_)
 variables created as string: 
-idstr1  idstr2  idstr3
+idstr1  idstr2  idstr3  idstr4
 
 . drop idstr
 
 . 
 . *outcomes
-. gen outcome = "{bf:COVID-19 mortality}" if idstr3 == "onscoviddeath"
+. gen outcome = "{bf:COVID-19 mortality}" if idstr3 == "onscoviddeath" || idstr
+> 4 == "onscoviddeath"
 (4 missing values generated)
 
 . replace outcome = "{bf:Non COVID-19 mortality}" if idstr3 == "onsnoncoviddeat
-> h"
+> h" || idstr4 == "onsnoncoviddeath"
 variable outcome was str23 now str27
 (4 real changes made)
 
-. drop idstr3
+. drop idstr3 idstr4
 
 . 
 . *adjustments
@@ -160,14 +161,14 @@ file E:\analyses\hydroxychloroquine-research/output/tempdata/HR_forestplot.dta
      {bf:COVID-19 mortali
 Univariable          |    0.777     0.605     0.999        
 Age/Sex Adjusted     |    1.084     0.842     1.396        
-DAG-Informed Adjustm |    1.031     0.798     1.331        
-Extended Adjustment  |    1.034     0.801     1.335        
+DAG-Informed Adjustm |    1.029     0.797     1.328        
+Extended Adjustment  |    1.032     0.799     1.333        
 ---------------------+---------------------------------------------------
      {bf:Non COVID-19 mor
 Univariable          |    0.701     0.611     0.803        
 Age/Sex Adjusted     |    0.999     0.871     1.147        
-DAG-Informed Adjustm |    1.001     0.871     1.150        
-Extended Adjustment  |    1.013     0.882     1.165        
+DAG-Informed Adjustm |    1.003     0.873     1.152        
+Extended Adjustment  |    1.017     0.885     1.169        
 ---------------------+---------------------------------------------------
 (file E:\analyses\hydroxychloroquine-research/output/tabfig\forestplot1.gph sav
 > ed)
@@ -190,5 +191,5 @@ Extended Adjustment  |    1.013     0.882     1.165
        log:  E:\analyses\hydroxychloroquine-research/output/log\f1_forest_plots
 > .log
   log type:  text
- closed on:   6 Aug 2020, 12:46:56
+ closed on:  19 Aug 2020, 18:11:15
 -------------------------------------------------------------------------------

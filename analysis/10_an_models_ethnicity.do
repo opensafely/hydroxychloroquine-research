@@ -21,32 +21,55 @@ log using $Logdir\10_an_models_ethnicity, replace t
 * Open Stata dataset
 use $Tempdir\analysis_dataset_STSET_$outcome, clear
 
-/* Restrict population========================================================*/ 
 
+
+
+
+
+****************************************************************************************************************************************************************************************
+****************************************************************************************************************************************************************************************
+/* Main Model (without adjusting for ethnicity) ======*/
+/* Univariable model */ 
+stcox i.exposure 
+estimates save $Tempdir/univar_eth1, replace 
+/* Multivariable models */ 
+* Age and Sex 
+* Age fit as spline 
+stcox i.exposure i.male age1 age2 age3 
+estimates save $Tempdir/multivar1_eth1, replace 
+* DAG adjusted (age, sex, geographic region, other immunosuppressives (will include biologics when we have them))  
+stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(stp population)				
+estimates save $Tempdir/multivar2_eth1, replace 
+* DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
+stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)	
+estimates save $Tempdir/multivar3_eth1, replace 
+****************************************************************************************************************************************************************************************
+****************************************************************************************************************************************************************************************
+
+
+/* Restrict population========================================================*/ 
 drop if ethnicity == .u
 
 /* Sense check outcomes=======================================================*/ 
-
 tab exposure $outcome, missing row
-
 
 ****************************************************************************************************************************************************************************************
 ****************************************************************************************************************************************************************************************
 /* Main Model (same adjustments, removing those with missing ethnicity) ======*/
 /* Univariable model */ 
 stcox i.exposure 
-estimates save $Tempdir/univar, replace 
+estimates save $Tempdir/univar_eth2, replace 
 /* Multivariable models */ 
 * Age and Sex 
 * Age fit as spline 
 stcox i.exposure i.male age1 age2 age3 
-estimates save $Tempdir/multivar1, replace 
+estimates save $Tempdir/multivar1_eth2, replace 
 * DAG adjusted (age, sex, geographic region, other immunosuppressives (will include biologics when we have them))  
 stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(stp population)				
-estimates save $Tempdir/multivar2, replace 
+estimates save $Tempdir/multivar2_eth2, replace 
 * DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
 stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)	
-estimates save $Tempdir/multivar3, replace 
+estimates save $Tempdir/multivar3_eth2, replace 
 ****************************************************************************************************************************************************************************************
 ****************************************************************************************************************************************************************************************
 
@@ -54,18 +77,18 @@ estimates save $Tempdir/multivar3, replace
 /* Main Model (additionally adjusted for ethnicity) ==========================*/
 /* Univariable model */ 
 stcox i.exposure 
-estimates save $Tempdir/univar_eth, replace 
+estimates save $Tempdir/univar_eth3, replace 
 /* Multivariable models */ 
 * Age and Sex 
 * Age fit as spline 
 stcox i.exposure i.male age1 age2 age3 
-estimates save $Tempdir/multivar1_eth, replace 
+estimates save $Tempdir/multivar1_eth3, replace 
 * DAG adjusted (age, sex, geographic region, other immunosuppressives (will include biologics when we have them))  
 stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone, strata(stp population)				
-estimates save $Tempdir/multivar2_eth, replace 
+estimates save $Tempdir/multivar2_eth3, replace 
 * DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
 stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)	
-estimates save $Tempdir/multivar3_eth, replace 
+estimates save $Tempdir/multivar3_eth3, replace 
 ****************************************************************************************************************************************************************************************
 ****************************************************************************************************************************************************************************************
 
@@ -83,15 +106,17 @@ file write tablecontent _tab ("N") _tab ("Univariable") _tab _tab ("Age/Sex Adju
 						("DAG Adjusted") _tab _tab ("Fully Adjusted") _tab _tab  _n
 file write tablecontent _tab _tab ("HR") _tab ("95% CI") _tab ("HR") _tab ///
 						("95% CI") _tab ("HR") _tab ("95% CI") _tab ("HR") _tab ("95% CI") _n
-						
-/* Main Model (same adjustments, removing those with missing ethnicity) ======*/
-file write tablecontent ("Main Analysis, dropping individuals with missing ethnicity") _n 					
+	
+/* Main Model (without adjusting for ethnicity) ======*/
+file write tablecontent ("Main Analysis, without adjusting for ethnicity") _n 					
 
 * Row headings 
 local lab0: label exposure 0
 local lab1: label exposure 1
  
 /* Counts */
+* Refresh Stata dataset (bring back those with missing ethnicity for row totals)
+use $Tempdir\analysis_dataset_STSET_$outcome, clear
  
 * First row, exposure = 0 (reference)
 
@@ -115,19 +140,72 @@ file write tablecontent ("`lab1'") _tab
 	file write tablecontent (r(N)) (" (") %3.1f (`pct') (")") _tab
 
 /* Main Model */ 
-estimates use $Tempdir/univar 
+estimates use $Tempdir/univar_eth1 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
-estimates use $Tempdir/multivar1 
+estimates use $Tempdir/multivar1_eth1 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
-estimates use $Tempdir/multivar2 
+estimates use $Tempdir/multivar2_eth1 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
-estimates use $Tempdir/multivar3 
+estimates use $Tempdir/multivar3_eth1 
+lincom 1.exposure, eform
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _n 
+
+file write tablecontent _n _n
+
+
+
+/* Main Model (same adjustments, removing those with missing ethnicity) ======*/
+file write tablecontent ("Main Analysis, dropping individuals with missing ethnicity") _n 					
+
+* Row headings 
+local lab0: label exposure 0
+local lab1: label exposure 1
+ 
+/* Counts */
+/* Restrict population========================================================*/ 
+drop if ethnicity == .u
+ 
+* First row, exposure = 0 (reference)
+
+	cou if exposure == 0 
+	local rowdenom = r(N)
+	cou if exposure == 0 & $outcome == 1
+	local pct = 100*(r(N)/`rowdenom') 
+	
+	file write tablecontent ("`lab0'") _tab
+	file write tablecontent (r(N)) (" (") %3.1f (`pct') (")") _tab
+	file write tablecontent ("1.00 (ref)") _tab _tab ("1.00 (ref)") _tab _tab ("1.00 (ref)")  _tab _tab ("1.00 (ref)") _n
+	
+* Second row, exposure = 1 (comparator)
+
+file write tablecontent ("`lab1'") _tab  
+
+	cou if exposure == 1 
+	local rowdenom = r(N)
+	cou if exposure == 1 & $outcome == 1
+	local pct = 100*(r(N)/`rowdenom') 
+	file write tablecontent (r(N)) (" (") %3.1f (`pct') (")") _tab
+
+/* Main Model */ 
+estimates use $Tempdir/univar_eth2 
+lincom 1.exposure, eform
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
+
+estimates use $Tempdir/multivar1_eth2 
+lincom 1.exposure, eform
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
+
+estimates use $Tempdir/multivar2_eth2 
+lincom 1.exposure, eform
+file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
+
+estimates use $Tempdir/multivar3_eth2 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _n 
 
@@ -165,19 +243,19 @@ file write tablecontent ("`lab1'") _tab
 	file write tablecontent (r(N)) (" (") %3.1f (`pct') (")") _tab
 
 /* Main Model */ 
-estimates use $Tempdir/univar_eth 
+estimates use $Tempdir/univar_eth3 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
-estimates use $Tempdir/multivar1_eth 
+estimates use $Tempdir/multivar1_eth3 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
-estimates use $Tempdir/multivar2_eth 
+estimates use $Tempdir/multivar2_eth3 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
-estimates use $Tempdir/multivar3_eth 
+estimates use $Tempdir/multivar3_eth3
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _n 
 
