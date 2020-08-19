@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
        log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\09_an_mod
-> el_explore_asthma.log
+> el_explore.log
   log type:  text
- opened on:  19 Jul 2020, 18:37:35
+ opened on:  17 Aug 2020, 10:27:58
 
 . 
 . * Open Stata dataset
@@ -31,7 +31,8 @@
 . 
 . foreach var in i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_dise
 > ase i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat 
-> i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine { 
+> i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat
+>  i.smoke_nomiss { 
   2.         local var: subinstr local var "i." ""
   3.         local lab: variable label `var'
   4.         file write tablecontent ("`lab'") _n 
@@ -65,7 +66,7 @@
 . log close
       name:  <unnamed>
        log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\09_an_mod
-> el_explore_asthma.log
+> el_explore.log
   log type:  text
- closed on:  19 Jul 2020, 18:38:40
+ closed on:  17 Aug 2020, 10:29:21
 -------------------------------------------------------------------------------

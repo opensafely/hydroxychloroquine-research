@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens3/log\05_an_des
 > criptive_plots.log
   log type:  text
- opened on:  19 Jul 2020, 18:40:52
+ opened on:  17 Aug 2020, 10:31:56
 
 . 
 . * Open Stata dataset
@@ -17,23 +17,23 @@
            |   Failure/censoring
            |     indicator for
            | outcome: primary care
-       HCQ |     positive test
+       HCQ | positive test or code
   Exposure |         0          1 |     Total
 -----------+----------------------+----------
-    No HCQ |   162,580      1,147 |   163,727 
-       HCQ |    30,314        185 |    30,499 
+    No HCQ |   163,195      1,210 |   164,405 
+       HCQ |    30,405        204 |    30,609 
 -----------+----------------------+----------
-     Total |   192,894      1,332 |   194,226 
+     Total |   193,600      1,414 |   195,014 
 
 . 
 . /* Generate KM PLOT==========================================================
 > =*/ 
 . 
 . count if exposure != .u
-  194,226
+  195,014
 
 . noi display "RUNNING THE KM PLOT FOR `r(N)' PEOPLE WITH NON-MISSING EXPOSURE"
-RUNNING THE KM PLOT FOR 194226 PEOPLE WITH NON-MISSING EXPOSURE
+RUNNING THE KM PLOT FOR 195014 PEOPLE WITH NON-MISSING EXPOSURE
 
 . 
 . sts graph, by(exposure) failure ci                                           
@@ -88,44 +88,45 @@ RUNNING THE KM PLOT FOR 194226 PEOPLE WITH NON-MISSING EXPOSURE
 . 
 . /* DAG Adjusted curves ======================================================
 > =*/ 
-. stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone, df(4) scale(ha
-> zard) eform /*strata(stp population) ******************** TO DO: HOW TO HANDL
-> E STRATA ***/ 
+. //stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone, df(4) scale(
+> hazard) eform /*strata(stp population) ******************** TO DO: HOW TO HAN
+> DLE STRATA ***/       
+. 
+. *NOTE: this model will not run with stp and population as stratification vari
+> ables
+. *Moved population to an indicator variable, and will compare model estimates 
+> from stcox
+. stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone population, df(
+> 4) scale(hazard) eform stratify(stp)
 
-Iteration 0:   log likelihood = -8680.7474  
-Iteration 1:   log likelihood = -8591.5229  
-Iteration 2:   log likelihood = -8562.5781  
-Iteration 3:   log likelihood = -8561.3839  
-Iteration 4:   log likelihood = -8561.3797  
-Iteration 5:   log likelihood = -8561.3797  
+initial values not feasible
+r(1400);
 
-Log likelihood = -8561.3797                     Number of obs     =    194,226
+end of do-file
+r(1400);
 
-------------------------------------------------------------------------------
-             |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-xb           |
-    exposure |   .8970635     .07217    -1.35   0.177     .7662013    1.050276
-        male |   1.143396   .0674588     2.27   0.023     1.018538    1.283561
-        age1 |   1.007161   .0074964     0.96   0.338     .9925746    1.021961
-        age2 |   .9959713   .0147597    -0.27   0.785     .9674588    1.025324
-        age3 |   1.173298   .0825303     2.27   0.023     1.022197    1.346735
-    dmard_pc |   1.129791   .0642756     2.15   0.032     1.010583    1.263061
-oral_pred~ne |   1.805655   .1104316     9.66   0.000     1.601682    2.035603
-       _rcs1 |   1.962255   .1044397    12.67   0.000     1.767872    2.178011
-       _rcs2 |   1.283445   .0613057     5.22   0.000     1.168741    1.409407
-       _rcs3 |   1.040647   .0088595     4.68   0.000     1.023427    1.058157
-       _rcs4 |   .9984056    .001334    -1.19   0.232     .9957944    1.001024
-       _cons |   .0027306   .0009455   -17.05   0.000     .0013852    .0053827
-------------------------------------------------------------------------------
-Note: Estimates are transformed only in the first equation.
+end of do-file
+
+r(1400);
+
+. do "E:\STATATMP\STD4ba8_000000.tmp"
+
+. cap noi stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone populat
+> ion, df(4) scale(hazard) eform stratify(stp)
+
+initial values not feasible
+
+. 
+end of do-file
+
+. do "E:\STATATMP\STD4ba8_000000.tmp"
 
 . 
 . summ _t
 
     Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
-          _t |    194,226     126.471    15.00373          1        129
+          _t |    195,014    154.4361     19.9374         .5        158
 
 . local tmax=r(max)
 
@@ -133,84 +134,70 @@ Note: Estimates are transformed only in the first equation.
 
 . 
 . range days 0 `tmax' `tmaxplus1'
-(194,096 missing values generated)
+(194,855 missing values generated)
 
 . stpm2_standsurv if exposure == 1, at1(exposure 0) at2(exposure 1) timevar(day
 > s) ci contrast(difference) fail
+You need to fit an stpm2 model to use stpm2_standsurv
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "E:\STATATMP\STD4ba8_000000.tmp"
+
+. cap noi stpm2_standsurv if exposure == 1, at1(exposure 0) at2(exposure 1) tim
+> evar(days) ci contrast(difference) fail
+You need to fit an stpm2 model to use stpm2_standsurv
 
 . 
 . gen date = d(1/3/2020)+ days
-(194,096 missing values generated)
+(194,855 missing values generated)
 
 . format date %tddd_Month
 
 . 
 . for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci: replace X=100*X
+variable _at1 not found
+r(111);
 
-->  replace _at1=100*_at1
-(129 real changes made)
+end of do-file
 
-->  replace _at2=100*_at2
-(129 real changes made)
+r(111);
 
-->  replace _at1_lci=100*_at1_lci
-(129 real changes made)
+. do "E:\STATATMP\STD4ba8_000000.tmp"
 
-->  replace _at1_uci=100*_at1_uci
-(129 real changes made)
+. do "06_an_models.do"
 
-->  replace _at2_lci=100*_at2_lci
-(129 real changes made)
-
-->  replace _at2_uci=100*_at2_uci
-(129 real changes made)
-
-. 
-. *l date days _at1 _at1_lci _at1_uci _at2 _at2_lci _at2_uci if days<.
-. 
-. twoway  (rarea _at1_lci _at1_uci days, color(red%25)) ///
->                  (rarea _at2_lci _at2_uci days if _at2_uci<1, color(blue%25))
->  ///
->                  (line _at1 days, sort lcolor(red)) ///
->                  (line _at2  days, sort lcolor(blue)) ///
->                  , legend(order(1 "No HCQ" 2 "HCQ") ring(0) cols(1) pos(11) r
-> egion(lwidth(none))) ///
->                                  title("Time to $tableoutcome", justification
-> (left) size(medsmall) )       ///
->                                  yscale(range(0, 1))                         
->                                                            ///
->                                  ylabel(0 (0.1) 1, angle(0) format(%4.1f) lab
-> size(small))       ///
->                                  xlabel(0 (20) 160, labsize(small))          
->                                                    ///                     
->                  ytitle("Cumulative incidence (%)") ///
->                  xtitle("Days since 1 Mar 2020", size(small))                
->    ///
->                                  graphregion(fcolor(white)) saving(adjcurv1, 
-> replace)
-(note: file adjcurv1.gph not found)
-(file adjcurv1.gph saved)
-
-. 
-. graph export "$Tabfigdir/adjcurv1.svg", as(svg) replace
-(file E:\analyses\hydroxychloroquine-research/output/sens3/tabfig/adjcurv1.svg 
-> written in SVG format)
-
-. 
-. * Close window 
-. graph close
-
-. 
-. * Delete unneeded graphs
-. erase adjcurv1.gph
-
+. /*===========================================================================
+> ===
+> DO FILE NAME:                   06_an_models
+> PROJECT:                                HCQ in COVID-19 
+> DATE:                                   6 July 2020 
+> AUTHOR:                                 C Rentsch
+>                                                 adapted from A Schultze      
+>                                                    
+> DESCRIPTION OF FILE:    program 06 
+>                                                 univariable regression
+>                                                 multivariable regression 
+>                                                 interaction models are in: 
+>                                                         07_an_models_interact
+>                                                  model checks are in: 
+>                                                         08_an_model_checks
+> DATASETS USED:                  data in memory ($Tempdir/analysis_dataset_STS
+> ET_$outcome)
+> 
+> DATASETS CREATED:               none
+> OTHER OUTPUT:                   logfiles, printed to folder $Logdir
+>                                                 table2, printed to $Tabfigdir
+> USER-INSTALLED ADO:     parmest 
+>   (place .ado file(s) in analysis folder)                                    
+>                            
+> =============================================================================
+> =*/
 . 
 . 
-. * Close log file 
-. log close
-      name:  <unnamed>
-       log:  E:\analyses\hydroxychloroquine-research/output/sens3/log\05_an_des
-> criptive_plots.log
-  log type:  text
- closed on:  19 Jul 2020, 18:41:43
--------------------------------------------------------------------------------
+. * Open a log file
+. 
+. cap log close

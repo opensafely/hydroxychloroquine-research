@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\02_cr_cre
 > ate_exposure.log
   log type:  text
- opened on:  19 Jul 2020, 18:30:33
+ opened on:  17 Aug 2020, 10:19:19
 
 . 
 . /* TREATMENT EXPOSURE========================================================
@@ -52,16 +52,16 @@ obs. time interval:  (stime_firstpos_sgss[_n-1], stime_firstpos_sgss]
             origin:  time enter_date
 
 ------------------------------------------------------------------------------
-    194,236  total observations
+    195,020  total observations
           0  exclusions
 ------------------------------------------------------------------------------
-    194,236  observations remaining, representing
-    194,236  subjects
-      1,338  failures in single-failure-per-subject data
-   24572831  total analysis time at risk and under observation
+    195,020  observations remaining, representing
+    195,020  subjects
+      1,385  failures in single-failure-per-subject data
+ 29945718.5  total analysis time at risk and under observation
                                                 at risk from t =         0
                                      earliest observed entry t =         0
-                                          last observed exit t =       129
+                                          last observed exit t =       157
 
 . save $Tempdir\analysis_dataset_STSET_$outcome, replace
 file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analysis_dat
@@ -74,5 +74,5 @@ file E:\analyses\hydroxychloroquine-research/output/sens2/tempdata\analysis_dat
        log:  E:\analyses\hydroxychloroquine-research/output/sens2/log\02_cr_cre
 > ate_exposure.log
   log type:  text
- closed on:  19 Jul 2020, 18:30:35
+ closed on:  17 Aug 2020, 10:19:21
 -------------------------------------------------------------------------------

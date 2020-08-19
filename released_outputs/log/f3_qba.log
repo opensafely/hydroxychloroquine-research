@@ -1,0 +1,153 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\f3_qba.log
+  log type:  text
+ opened on:  19 Aug 2020, 18:34:06
+
+. clear
+
+. 
+. 
+. *read in datasets 
+. *covid death
+. *need to do some acrobatics to get tempdata out of multiple folders (one for 
+> each outcome)
+. cd  "$Dodir"
+E:\analyses\hydroxychloroquine-research\analysis
+
+. cd ..
+E:\analyses\hydroxychloroquine-research
+
+. 
+. *pull DAG-Informed model for COVID-19 death as outcome
+. use `c(pwd)'/output/tempdata/parmest_multivar2_mi_onscoviddeath.dta
+
+. 
+. * Keep relevant rows 
+. keep if parm == "1.exposure"
+(15 observations deleted)
+
+. 
+. glob hr = estimate
+
+. glob lci = min95
+
+. glob uci = max95
+
+. 
+. di $hr
+1.0285124
+
+. di $lci
+.79671389
+
+. di $uci
+1.327751
+
+. 
+. 
+. **************************
+. /* Create e-value plots */
+. **************************
+. *NB. Level of unmeasured confounding to explain results
+. /* Note from Jeremy
+> For e-value $hr should be the adjusted HR between HCQ and Covid-19 mortality,
+>  $lcI and $uci should be the lower and upper bounds of the confidence interva
+> l respectively. 
+> True refers to the hypothesised true effect. In our instance this is 0.8 so y
+> ou would put true(0.8). 
+> */
+. 
+. *protective effect of 0.8
+. evalue hr $hr, lcl($lci) ucl($uci) true(0.8) figure(scheme("s1color") aspect(
+> 1.01) ytitle(,size(small) margin(medium)) xtitle(,size(small) margin(medium))
+> )
+   E-value (point estimate): 1.892
+   E-value (CI): 1.000
+
+. graph save "$Tabfigdir/evalue_protect.gph", replace
+(file E:\analyses\hydroxychloroquine-research/output/tabfig/evalue_protect.gph 
+> saved)
+
+. graph export "$Tabfigdir/evalue_protect.svg", replace 
+(file E:\analyses\hydroxychloroquine-research/output/tabfig/evalue_protect.svg 
+> written in SVG format)
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. **************************
+. /* Bias-adjusted hazard ratios */
+. **************************
+. *How would biologics have impacted results
+. 
+. 
+. ** Define program for bias-adjusted HR
+. capture program drop bias_adjusted_hr
+
+. program define bias_adjusted_hr, rclass
+  1. syntax,  prev_exp(real) prev_unexp(real) hr_outcome(real) obshr(real)
+  2.         local numerator = 1 + ((`hr_outcome' - 1) * `prev_exp') 
+  3.         local denominator = 1 + ((`hr_outcome' - 1) * `prev_unexp') 
+  4.         return scalar adj_hr = `obshr'/(`numerator'/`denominator')
+  5. end
+
+. 
+. ** Write bias-adjusted hazard ratios
+. capture file close textfile 
+
+. file open textfile using "$Tabfigdir/bias_adjusted_hr.csv", write text replac
+> e
+
+. file write textfile "sep=;" _n
+
+. file write textfile "Biologics prevalence HCQ exposed;Biologics prevalence HC
+> Q unexposed;Biologics/COVID-19 HR" _n
+
+. file write textfile ";;HR 0.8;HR 0.9;HR 1.1;HR 1.2" _n
+
+. 
+. capture program drop write_bias_adjusted
+
+. program define write_bias_adjusted
+  1. syntax, prev_exp(real) prev_unexp(real)
+  2.         file write textfile "`prev_exp';`prev_unexp';"
+  3.         foreach hr of numlist 0.8 0.9 1.1 1.2 {
+  4.                 bias_adjusted_hr, prev_exp(`prev_exp') prev_unexp(`prev_un
+> exp') hr_outcome(`hr') obshr($hr)
+  5.                 file write textfile %3.2f (r(adj_hr)) 
+  6.                 bias_adjusted_hr, prev_exp(`prev_exp') prev_unexp(`prev_un
+> exp') hr_outcome(`hr') obshr($lci)
+  7.                 file write textfile " (" %3.2f (r(adj_hr)) ", "
+  8.                 bias_adjusted_hr, prev_exp(`prev_exp') prev_unexp(`prev_un
+> exp') hr_outcome(`hr') obshr($uci)
+  9.                 file write textfile %3.2f (r(adj_hr)) ");" 
+ 10.         }
+ 11.         file write textfile _n
+ 12. end 
+
+. 
+. write_bias_adjusted, prev_exp(0.18) prev_unexp(0.21)
+
+. write_bias_adjusted, prev_exp(0.1) prev_unexp(0.3)
+
+. file close textfile
+
+. 
+. 
+. 
+. 
+. 
+. 
+. *close log
+. log close 
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\f3_qba.log
+  log type:  text
+ closed on:  19 Aug 2020, 18:34:08
+-------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\f2_flow_diagram
 > .log
   log type:  text
- opened on:   6 Aug 2020, 12:46:56
+ opened on:  19 Aug 2020, 17:49:44
 
 . 
 . cd  "$Dodir"
@@ -104,5 +104,5 @@ E:\analyses\hydroxychloroquine-research
        log:  E:\analyses\hydroxychloroquine-research/output/log\f2_flow_diagram
 > .log
   log type:  text
- closed on:   6 Aug 2020, 12:49:55
+ closed on:  19 Aug 2020, 17:53:20
 -------------------------------------------------------------------------------
