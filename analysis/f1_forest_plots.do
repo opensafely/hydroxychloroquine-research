@@ -50,9 +50,9 @@ split idstr, p(_)
 drop idstr
 
 *outcomes
-gen outcome = "{bf:COVID-19 mortality}" if idstr3 == "onscoviddeath"
-replace outcome = "{bf:Non COVID-19 mortality}" if idstr3 == "onsnoncoviddeath"
-drop idstr3
+gen outcome = "{bf:COVID-19 mortality}" if idstr3 == "onscoviddeath" || idstr4 == "onscoviddeath"
+replace outcome = "{bf:Non COVID-19 mortality}" if idstr3 == "onsnoncoviddeath" || idstr4 == "onsnoncoviddeath"
+drop idstr3 idstr4
 
 *adjustments
 gen adjust = 1 if idstr2 == "univar"
