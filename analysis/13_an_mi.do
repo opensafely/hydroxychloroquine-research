@@ -26,48 +26,46 @@ log using $Logdir\13_an_mi, replace t
 * Open Stata dataset
 use $Tempdir\analysis_dataset_STSET_$outcome, clear
 
-*recode unknown ethnicity to missing
-recode ethnicity .u=.
-
 *mi set the data (aka stset) 
 mi set mlong
 
-*mi register (tell Stata which variable to impute)
+*mi register (tll Stata which variable to impute)
 mi register imputed ethnicity
 
 *mi impute the dataset
 mi impute mlogit ethnicity, add(10) rseed(8675309)
 
 *mi stset
-mistset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) origin(enter_date)	
+mi	stset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) origin(enter_date)	
  
 /* Main Model=================================================================*/
 
 /* Univariable model */ 
 
-stcox i.exposure, nolog
+mi estimate, dots eform: stcox i.exposure, nolog
 estimates save $Tempdir/univar_mi, replace 
 parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_univar_mi_$outcome", replace) idstr("parmest_univar_mi_$outcome") 
-
+*local hr "`hr' "$Tempdir/univar_mi" "
 
 /* Multivariable models */ 
 
 * Age and Sex 
 * Age fit as spline 
 
-stcox i.exposure i.male age1 age2 age3 
+mi estimate, dots eform: stcox i.exposure i.male age1 age2 age3 
 estimates save $Tempdir/multivar1_mi, replace 
-parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar1_mi_$outcome", replace) idstr("parmest_multivar1_mi_$outcome") 
 
-* DAG adjusted (age, sex, ethnicity, geographic region, other immunosuppressives (will include biologics when we have them))  
-*eform doesnt allow for lincom to build tables. use post
-mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone, strata(stp population)				
+
+* DAG adjusted (age, sex, geographic region, other immunosuppressives (will include biologics when we have them))  
+	*Note: ethnicity missing for ~20-25%. will model ethnicity in several ways in separate do file
+
+mi estimate, dots eform: stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(stp population)				
 estimates save $Tempdir/multivar2_mi, replace 
 parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar2_mi_$outcome", replace) idstr("parmest_multivar2_mi_$outcome") 
 
 * DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
 
-mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)	
+mi estimate, dots eform: stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)	
 estimates save $Tempdir/multivar3_mi, replace 
 parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar3_mi_$outcome", replace) idstr("parmest_multivar3_mi_$outcome") 
 

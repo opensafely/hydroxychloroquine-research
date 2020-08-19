@@ -60,7 +60,6 @@ do "12_an_models_sa_exposure.do"
 
 
 
-
 /* DON'T NEED TO RUN AGAIN
 * =====        PREVALENCE OF HCQ TPP-WIDE     =============================================;
 cd ..
@@ -160,7 +159,7 @@ cd  "$Dodir"
 do "f3_qba.do"
 
 
-/*
+/* DON'T NEED TO RUN AGAIN
 * =====        SENSITIVITY 2: SGSS positive test      =================================================;
 clear 
 cd ..
@@ -279,7 +278,7 @@ do "02_cr_create_exposure.do"
 /* Run analysis */ 
 * Analyses 
 *do "04_an_descriptive_table.do"
-*do "05_an_descriptive_plots.do"     /* stpm2 won't run for this outcome */
+do "05_an_descriptive_plots.do"
 do "06_an_models.do"
 do "07_an_models_interact.do"
 do "08_an_model_checks.do"

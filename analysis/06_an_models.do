@@ -29,14 +29,17 @@ log using $Logdir\06_an_models, replace t
 * Open Stata dataset
 use $Tempdir\analysis_dataset_STSET_$outcome, clear
 
+/* Sense check outcomes=======================================================*/ 
+
+tab exposure $outcome, missing row
+
 /* Main Model=================================================================*/
 
 /* Univariable model */ 
 
-stcox i.exposure, nolog
+stcox i.exposure 
 estimates save $Tempdir/univar, replace 
 parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_univar_$outcome", replace) idstr("parmest_univar_$outcome") 
-
 
 /* Multivariable models */ 
 
@@ -47,35 +50,20 @@ stcox i.exposure i.male age1 age2 age3
 estimates save $Tempdir/multivar1, replace 
 parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar1_$outcome", replace) idstr("parmest_multivar1_$outcome") 
 
+* DAG adjusted (age, sex, geographic region, other immunosuppressives (will include biologics when we have them))  
+	*Note: ethnicity missing for ~20-25%. will model ethnicity in several ways in separate do file
 
-*recode unknown ethnicity to missing
-recode ethnicity .u=.
-*mi set the data (aka stset) 
-mi set mlong
-*mi register (tell Stata which variable to impute)
-mi register imputed ethnicity
-*mi impute the dataset
-mi impute mlogit ethnicity i.exposure _d i.population i.stp i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, add(10) rseed(8675309) augment force 
-*mi stset
-mi stset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) origin(enter_date)	
- * DAG adjusted (age, sex, ethnicity, geographic region, other immunosuppressives (will include biologics when we have them))  
-*eform doesnt allow for lincom to build tables. use post
-mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone, strata(stp population)				
-estimates save $Tempdir/multivar2_mi, replace 
-parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar2_mi_$outcome", replace) idstr("parmest_multivar2_mi_$outcome") 
+stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone, strata(stp population)				
+estimates save $Tempdir/multivar2, replace 
+parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar2_$outcome", replace) idstr("parmest_multivar2_$outcome") 
 
 * DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease, liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory disease excl asthma (OCS capturing ashtma))
 
-mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)	
-estimates save $Tempdir/multivar3_mi, replace 
-parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar3_mi_$outcome", replace) idstr("parmest_multivar3_mi_$outcome") 
-
- 
+stcox i.exposure i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)	
+estimates save $Tempdir/multivar3, replace 
+parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multivar3_$outcome", replace) idstr("parmest_multivar3_$outcome") 
 
 
-
-* Open Stata dataset
-use $Tempdir\analysis_dataset_STSET_$outcome, clear
 
 /* Print table================================================================*/ 
 *  Print the results for the main model 
@@ -84,7 +72,7 @@ cap file close tablecontent
 file open tablecontent using $Tabfigdir/table2.txt, write text replace
 
 * Column headings 
-file write tablecontent ("Table 2: Association between HCQ use and $tableoutcome - IMPUTED ETHNICITY") _n
+file write tablecontent ("Table 2: Association between HCQ use and $tableoutcome") _n
 file write tablecontent _tab ("N") _tab ("Univariable") _tab _tab ("Age/Sex Adjusted") _tab _tab ///
 						("DAG Adjusted") _tab _tab ("Fully Adjusted") _tab _tab  _n
 file write tablecontent _tab _tab ("HR") _tab ("95% CI") _tab ("HR") _tab ///
@@ -123,15 +111,15 @@ estimates use $Tempdir/univar
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
-estimates use $Tempdir/multivar1
+estimates use $Tempdir/multivar1 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
-estimates use $Tempdir/multivar2_mi 
+estimates use $Tempdir/multivar2 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _tab 
 
-estimates use $Tempdir/multivar3_mi 
+estimates use $Tempdir/multivar3 
 lincom 1.exposure, eform
 file write tablecontent %4.2f (r(estimate)) _tab ("(") %4.2f (r(lb)) ("-") %4.2f (r(ub)) (")") _n 
 
@@ -140,7 +128,3 @@ file close tablecontent
 
 * Close log file 
 log close
-
-
-
-
