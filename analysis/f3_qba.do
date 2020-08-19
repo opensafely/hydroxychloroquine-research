@@ -24,7 +24,7 @@ cd  "$Dodir"
 cd ..
 
 *pull DAG-Informed model for COVID-19 death as outcome
-use `c(pwd)'/output/tempdata/parmest_multivar2_mi_onscoviddeath.dta
+use `c(pwd)'/output/tempdata/parmest_multivar2_onscoviddeath.dta
 
 * Keep relevant rows 
 keep if parm == "1.exposure"

@@ -28,13 +28,13 @@ cd  "$Dodir"
 cd ..
 if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_univar_onscoviddeath.dta" "
 if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar1_onscoviddeath.dta" "
-if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar2_mi_onscoviddeath.dta" "
-if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar3_mi_onscoviddeath.dta" "
+if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar2_onscoviddeath.dta" "
+if r(N) > 0 local hr "`hr' "`c(pwd)'/output/tempdata/parmest_multivar3_onscoviddeath.dta" "
 *non covid death
 if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_univar_onsnoncoviddeath.dta" "
 if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar1_onsnoncoviddeath.dta" "
-if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar2_mi_onsnoncoviddeath.dta" "
-if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar3_mi_onsnoncoviddeath.dta" "
+if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar2_onsnoncoviddeath.dta" "
+if r(N) > 0 local hr "`hr' "`c(pwd)'/output/sens1/tempdata/parmest_multivar3_onsnoncoviddeath.dta" "
 
 *concatenate dataets
 dsconcat `hr'
@@ -50,9 +50,9 @@ split idstr, p(_)
 drop idstr
 
 *outcomes
-gen outcome = "{bf:COVID-19 mortality}" if idstr3 == "onscoviddeath" || idstr4 == "onscoviddeath"
-replace outcome = "{bf:Non COVID-19 mortality}" if idstr3 == "onsnoncoviddeath" || idstr4 == "onsnoncoviddeath"
-drop idstr3 idstr4
+gen outcome = "{bf:COVID-19 mortality}" if idstr3 == "onscoviddeath"
+replace outcome = "{bf:Non COVID-19 mortality}" if idstr3 == "onsnoncoviddeath"
+drop idstr3
 
 *adjustments
 gen adjust = 1 if idstr2 == "univar"
