@@ -68,8 +68,7 @@ cap noi lrtest A B
 global multivar1_p_`intvar' = round(r(p),0.001)
 
 * DAG Adjusted 
-stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone, strata(stp population)					
-										
+stcox i.exposure i.agegroup2 i.male i.dmard_pc i.oral_prednisolone, strata(stp population)												
 estimates store A
 
 stcox i.exposure##i.`intvar' i.agegroup2 i.male i.dmard_pc i.oral_prednisolone, strata(stp population)			
