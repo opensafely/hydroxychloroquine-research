@@ -74,7 +74,7 @@ stpm2_standsurv if exposure == 1, at1(exposure 0) at2(exposure 1) timevar(days) 
 gen date = d(1/3/2020)+ days
 format date %tddd_Month
 
-for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci: replace X=100*X
+for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci _contrast2_1 _contrast2_1_lci _contrast2_1_uci: replace X=100*X
 
 *cumulative mortality at last day of follow-up
 list _at1* if days==`tmax', noobs

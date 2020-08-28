@@ -97,10 +97,10 @@ syntax, prev_exp(real) prev_unexp(real)
 end 
 
 write_bias_adjusted, prev_exp(0.18) prev_unexp(0.21)
-write_bias_adjusted, prev_exp(0.3) prev_unexp(0.3)
-write_bias_adjusted, prev_exp(0.1) prev_unexp(0.1)
 write_bias_adjusted, prev_exp(0.1) prev_unexp(0.3)
 write_bias_adjusted, prev_exp(0.3) prev_unexp(0.1)
+write_bias_adjusted, prev_exp(0.03) prev_unexp(0.3)
+write_bias_adjusted, prev_exp(0.3) prev_unexp(0.03)
 file close textfile
 
 
