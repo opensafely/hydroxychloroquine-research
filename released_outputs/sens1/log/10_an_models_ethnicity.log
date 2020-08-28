@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\10_an_mod
 > els_ethnicity.log
   log type:  text
- opened on:  19 Aug 2020, 17:37:58
+ opened on:  28 Aug 2020, 12:26:11
 
 . 
 . * Open Stata dataset
@@ -54,8 +54,6 @@ Log likelihood  =    -24347.56                  Prob > chi2      =      0.0000
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/univar_eth1, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/univa
-> r_eth1.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/univar_eth1.
 > ster saved
 
@@ -100,8 +98,6 @@ Log likelihood  =   -22983.022                  Prob > chi2      =      0.0000
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/multivar1_eth1, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var1_eth1.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar1_et
 > h1.ster saved
 
@@ -149,8 +145,6 @@ Log likelihood  =    -15879.69                  Prob > chi2      =      0.0000
                                                   Stratified by stp population
 
 . estimates save $Tempdir/multivar2_eth1, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var2_eth1.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar2_et
 > h1.ster saved
 
@@ -235,8 +229,6 @@ smoke_nomiss |
                                                   Stratified by stp population
 
 . estimates save $Tempdir/multivar3_eth1, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var3_eth1.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar3_et
 > h1.ster saved
 
@@ -321,8 +313,6 @@ Log likelihood  =   -17749.966                  Prob > chi2      =      0.0000
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/univar_eth2, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/univa
-> r_eth2.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/univar_eth2.
 > ster saved
 
@@ -367,8 +357,6 @@ Log likelihood  =   -16711.066                  Prob > chi2      =      0.0000
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/multivar1_eth2, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var1_eth2.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar1_et
 > h2.ster saved
 
@@ -416,8 +404,6 @@ Log likelihood  =   -11445.968                  Prob > chi2      =      0.0000
                                                   Stratified by stp population
 
 . estimates save $Tempdir/multivar2_eth2, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var2_eth2.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar2_et
 > h2.ster saved
 
@@ -502,8 +488,6 @@ smoke_nomiss |
                                                   Stratified by stp population
 
 . estimates save $Tempdir/multivar3_eth2, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var3_eth2.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar3_et
 > h2.ster saved
 
@@ -549,8 +533,6 @@ Log likelihood  =   -17749.966                  Prob > chi2      =      0.0000
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/univar_eth3, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/univa
-> r_eth3.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/univar_eth3.
 > ster saved
 
@@ -595,8 +577,6 @@ Log likelihood  =   -16711.066                  Prob > chi2      =      0.0000
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/multivar1_eth3, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var1_eth3.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar1_et
 > h3.ster saved
 
@@ -651,8 +631,6 @@ South Asian  |   .6794653   .1117533    -2.35   0.019       .49223    .9379215
                                                   Stratified by stp population
 
 . estimates save $Tempdir/multivar2_eth3, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var2_eth3.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar2_et
 > h3.ster saved
 
@@ -745,8 +723,6 @@ smoke_nomiss |
                                                   Stratified by stp population
 
 . estimates save $Tempdir/multivar3_eth3, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var3_eth3.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar3_et
 > h3.ster saved
 
@@ -1164,5 +1140,5 @@ file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar3_et
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\10_an_mod
 > els_ethnicity.log
   log type:  text
- closed on:  19 Aug 2020, 17:39:44
+ closed on:  28 Aug 2020, 12:27:40
 -------------------------------------------------------------------------------

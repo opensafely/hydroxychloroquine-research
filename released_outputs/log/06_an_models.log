@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\06_an_models.lo
 > g
   log type:  text
- opened on:  19 Aug 2020, 16:55:54
+ opened on:  28 Aug 2020, 11:49:10
 
 . 
 . * Open Stata dataset
@@ -117,7 +117,7 @@ file E:\analyses\hydroxychloroquine-research/output/tempdata/parmest_multivar1_
 > age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp
 > _excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hyperten
 > sion i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_n
-> omiss, add(10) rseed(8675309) augment
+> omiss, add(10) rseed(8675309) augment force 
 
 Univariate imputation                       Imputations =       10
 Augmented multinomial logit regression            added =       10
@@ -157,6 +157,13 @@ obs. time interval:  (stime_onscoviddeath[_n-1], stime_onscoviddeath]
                                      earliest observed entry t =         0
                                           last observed exit t =       134
 
+. *save off MI dataset for later use
+. save $Tempdir\analysis_dataset_STSET_mi_$outcome, replace
+file E:\analyses\hydroxychloroquine-research/output/tempdata\analysis_dataset_S
+> TSET_mi_onscoviddeath.dta saved
+
+. 
+. 
 .  * DAG adjusted (age, sex, ethnicity, geographic region, other immunosuppress
 > ives (will include biologics when we have them))  
 . *eform doesnt allow for lincom to build tables. use post
@@ -451,5 +458,5 @@ file E:\analyses\hydroxychloroquine-research/output/tempdata/parmest_multivar3_
        log:  E:\analyses\hydroxychloroquine-research/output/log\06_an_models.lo
 > g
   log type:  text
- closed on:  19 Aug 2020, 17:03:20
+ closed on:  28 Aug 2020, 11:55:50
 -------------------------------------------------------------------------------

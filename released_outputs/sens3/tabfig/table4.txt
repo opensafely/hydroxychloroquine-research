@@ -1,5 +1,0 @@
-Table 4: Testing the PH assumption for Primary care positive COVID-19 test
-	Univariable	Age/Sex Adjusted	DAG Adjusted	Fully Adjusted	
-	p-value	p-value	p-value	p-value	
-HCQ	.32	.382	.398	.41
-

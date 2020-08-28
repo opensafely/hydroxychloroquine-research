@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\f1_forest_plots
 > .log
   log type:  text
- opened on:  19 Aug 2020, 18:11:11
+ opened on:  28 Aug 2020, 12:29:19
 
 . 
 . 
@@ -100,8 +100,8 @@ variable outcome was str23 now str27
 (2 real changes made)
 
 . 
-. label define adjust 1 "Univariable" 2 "Age/Sex Adjusted" 3 "DAG-Informed Adju
-> stment" 4 "Extended Adjustment"
+. label define adjust 1 "Unadjusted" 2 "Age/Sex Adjusted" 3 "DAG-Informed Adjus
+> tment" 4 "Extended Adjustment"
 
 . label values adjust adjust
 
@@ -159,13 +159,13 @@ file E:\analyses\hydroxychloroquine-research/output/tempdata/HR_forestplot.dta
            Study     |     ES    [95% Conf. Interval]     
 ---------------------+---------------------------------------------------
      {bf:COVID-19 mortali
-Univariable          |    0.777     0.605     0.999        
+Unadjusted           |    0.777     0.605     0.999        
 Age/Sex Adjusted     |    1.084     0.842     1.396        
 DAG-Informed Adjustm |    1.029     0.797     1.328        
 Extended Adjustment  |    1.032     0.799     1.333        
 ---------------------+---------------------------------------------------
      {bf:Non COVID-19 mor
-Univariable          |    0.701     0.611     0.803        
+Unadjusted           |    0.701     0.611     0.803        
 Age/Sex Adjusted     |    0.999     0.871     1.147        
 DAG-Informed Adjustm |    1.003     0.873     1.152        
 Extended Adjustment  |    1.017     0.885     1.169        
@@ -191,5 +191,5 @@ Extended Adjustment  |    1.017     0.885     1.169
        log:  E:\analyses\hydroxychloroquine-research/output/log\f1_forest_plots
 > .log
   log type:  text
- closed on:  19 Aug 2020, 18:11:15
+ closed on:  28 Aug 2020, 12:29:23
 -------------------------------------------------------------------------------
