@@ -58,6 +58,10 @@ mi register imputed ethnicity
 mi impute mlogit ethnicity i.exposure _d i.population i.stp i.male age1 age2 age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, add(10) rseed(8675309) augment force 
 *mi stset
 mi stset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) origin(enter_date)	
+*save off MI dataset for later use
+save $Tempdir\analysis_dataset_STSET_mi_$outcome, replace
+
+
  * DAG adjusted (age, sex, ethnicity, geographic region, other immunosuppressives (will include biologics when we have them))  
 *eform doesnt allow for lincom to build tables. use post
 mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone, strata(stp population)				
