@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  E:\analyses\hydroxychloroquine-research/output/log\f3_qba.log
   log type:  text
- opened on:  19 Aug 2020, 17:53:20
+ opened on:  28 Aug 2020, 12:32:34
 
 . clear
 
@@ -20,12 +20,12 @@ E:\analyses\hydroxychloroquine-research
 
 . 
 . *pull DAG-Informed model for COVID-19 death as outcome
-. use `c(pwd)'/output/tempdata/parmest_multivar2_onscoviddeath.dta
+. use `c(pwd)'/output/tempdata/parmest_multivar2_mi_onscoviddeath.dta
 
 . 
 . * Keep relevant rows 
 . keep if parm == "1.exposure"
-(10 observations deleted)
+(15 observations deleted)
 
 . 
 . glob hr = estimate
@@ -36,13 +36,13 @@ E:\analyses\hydroxychloroquine-research
 
 . 
 . di $hr
-1.0472243
+1.0285124
 
 . di $lci
-.81390553
+.79671389
 
 . di $uci
-1.3474275
+1.327751
 
 . 
 . 
@@ -62,8 +62,8 @@ E:\analyses\hydroxychloroquine-research
 . evalue hr $hr, lcl($lci) ucl($uci) true(0.8) figure(scheme("s1color") aspect(
 > 1.01) ytitle(,size(small) margin(medium)) xtitle(,size(small) margin(medium))
 > )
-   E-value (point estimate): 1.945
-   E-value (CI): 1.150
+   E-value (point estimate): 1.892
+   E-value (CI): 1.000
 
 . graph save "$Tabfigdir/evalue_protect.gph", replace
 (file E:\analyses\hydroxychloroquine-research/output/tabfig/evalue_protect.gph 
@@ -109,7 +109,7 @@ E:\analyses\hydroxychloroquine-research
 . file write textfile "Biologics prevalence HCQ exposed;Biologics prevalence HC
 > Q unexposed;Biologics/COVID-19 HR" _n
 
-. file write textfile ";;HR 0.8;HR 0.9;HR 1.1;HR 1.2" _n
+. file write textfile ";;HR 0.80;HR 0.90;HR 1.10;HR 1.20" _n
 
 . 
 . capture program drop write_bias_adjusted
@@ -123,7 +123,7 @@ E:\analyses\hydroxychloroquine-research
   5.                 file write textfile %3.2f (r(adj_hr)) 
   6.                 bias_adjusted_hr, prev_exp(`prev_exp') prev_unexp(`prev_un
 > exp') hr_outcome(`hr') obshr($lci)
-  7.                 file write textfile " (" %3.2f (r(adj_hr)) ", "
+  7.                 file write textfile " (" %3.2f (r(adj_hr)) "-"
   8.                 bias_adjusted_hr, prev_exp(`prev_exp') prev_unexp(`prev_un
 > exp') hr_outcome(`hr') obshr($uci)
   9.                 file write textfile %3.2f (r(adj_hr)) ");" 
@@ -135,6 +135,12 @@ E:\analyses\hydroxychloroquine-research
 . write_bias_adjusted, prev_exp(0.18) prev_unexp(0.21)
 
 . write_bias_adjusted, prev_exp(0.1) prev_unexp(0.3)
+
+. write_bias_adjusted, prev_exp(0.3) prev_unexp(0.1)
+
+. write_bias_adjusted, prev_exp(0.03) prev_unexp(0.3)
+
+. write_bias_adjusted, prev_exp(0.3) prev_unexp(0.03)
 
 . file close textfile
 
@@ -149,5 +155,5 @@ E:\analyses\hydroxychloroquine-research
       name:  <unnamed>
        log:  E:\analyses\hydroxychloroquine-research/output/log\f3_qba.log
   log type:  text
- closed on:  19 Aug 2020, 17:53:23
+ closed on:  28 Aug 2020, 12:32:36
 -------------------------------------------------------------------------------

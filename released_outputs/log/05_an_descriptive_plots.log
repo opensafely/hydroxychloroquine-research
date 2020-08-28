@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descripti
 > ve_plots.log
   log type:  text
- opened on:  19 Aug 2020, 16:54:16
+ opened on:  28 Aug 2020, 11:47:38
 
 . 
 . * Open Stata dataset
@@ -156,7 +156,8 @@ Note: Estimates are transformed only in the first equation.
 . format date %tddd_Month
 
 . 
-. for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci: replace X=100*X
+. for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci _contrast2_1 _contrast2
+> _1_lci _contrast2_1_uci: replace X=100*X
 
 ->  replace _at1=100*_at1
 (134 real changes made)
@@ -175,6 +176,41 @@ Note: Estimates are transformed only in the first equation.
 
 ->  replace _at2_uci=100*_at2_uci
 (134 real changes made)
+
+->  replace _contrast2_1=100*_contrast2_1
+(134 real changes made)
+
+->  replace _contrast2_1_lci=100*_contrast2_1_lci
+(134 real changes made)
+
+->  replace _contrast2_1_uci=100*_contrast2_1_uci
+(134 real changes made)
+
+. 
+. *cumulative mortality at last day of follow-up
+. list _at1* if days==`tmax', noobs
+
+  +-----------------------------------+
+  |      _at1    _at1_lci    _at1_uci |
+  |-----------------------------------|
+  | .22415231   .20297654   .24753727 |
+  +-----------------------------------+
+
+. list _at2* if days==`tmax', noobs
+
+  +-----------------------------------+
+  |      _at2    _at2_lci    _at2_uci |
+  |-----------------------------------|
+  | .23167599   .18347185   .29254496 |
+  +-----------------------------------+
+
+. list _contrast* if days==`tmax', noobs
+
+  +------------------------------------+
+  | _contra~1   _contr~lci   _cont~uci |
+  |------------------------------------|
+  | .00752368   -.05092969   .06597705 |
+  +------------------------------------+
 
 . 
 . *l date days _at1 _at1_lci _at1_uci _at2 _at2_lci _at2_uci if days<.
@@ -224,5 +260,5 @@ Note: Estimates are transformed only in the first equation.
        log:  E:\analyses\hydroxychloroquine-research/output/log\05_an_descripti
 > ve_plots.log
   log type:  text
- closed on:  19 Aug 2020, 16:55:54
+ closed on:  28 Aug 2020, 11:49:10
 -------------------------------------------------------------------------------

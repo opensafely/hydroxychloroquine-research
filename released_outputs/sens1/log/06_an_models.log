@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\06_an_mod
 > els.log
   log type:  text
- opened on:  19 Aug 2020, 17:20:23
+ opened on:  28 Aug 2020, 12:10:08
 
 . 
 . * Open Stata dataset
@@ -118,7 +118,7 @@ file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parmest_mult
 > age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp
 > _excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hyperten
 > sion i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_n
-> omiss, add(10) rseed(8675309) augment
+> omiss, add(10) rseed(8675309) augment force 
 
 Univariate imputation                       Imputations =       10
 Augmented multinomial logit regression            added =       10
@@ -158,6 +158,15 @@ obs. time interval:  (stime_onsnoncoviddeath[_n-1], stime_onsnoncoviddeath]
                                      earliest observed entry t =         0
                                           last observed exit t =       134
 
+. *save off MI dataset for later use
+. save $Tempdir\analysis_dataset_STSET_mi_$outcome, replace
+(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata\analy
+> sis_dataset_STSET_mi_onsnoncoviddeath.dta not found)
+file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata\analysis_dat
+> aset_STSET_mi_onsnoncoviddeath.dta saved
+
+. 
+. 
 .  * DAG adjusted (age, sex, ethnicity, geographic region, other immunosuppress
 > ives (will include biologics when we have them))  
 . *eform doesnt allow for lincom to build tables. use post
@@ -199,15 +208,11 @@ South Asian  |  -.3244981   .1642316    -1.98   0.050    -.6485674   -.0004288
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/multivar2_mi, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var2_mi.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar2_mi
 > .ster saved
 
 . parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multiv
 > ar2_mi_$outcome", replace) idstr("parmest_multivar2_mi_$outcome") 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parme
-> st_multivar2_mi_onsnoncoviddeath.dta not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parmest_mult
 > ivar2_mi_onsnoncoviddeath.dta saved
 
@@ -290,15 +295,11 @@ smoke_nomiss |
 ------------------------------------------------------------------------------
 
 . estimates save $Tempdir/multivar3_mi, replace 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multi
-> var3_mi.ster not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/multivar3_mi
 > .ster saved
 
 . parmest, label eform format(estimate p lb ub) saving("$Tempdir/parmest_multiv
 > ar3_mi_$outcome", replace) idstr("parmest_multivar3_mi_$outcome") 
-(note: file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parme
-> st_multivar3_mi_onsnoncoviddeath.dta not found)
 file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parmest_mult
 > ivar3_mi_onsnoncoviddeath.dta saved
 
@@ -460,5 +461,5 @@ file E:\analyses\hydroxychloroquine-research/output/sens1/tempdata/parmest_mult
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\06_an_mod
 > els.log
   log type:  text
- closed on:  19 Aug 2020, 17:27:15
+ closed on:  28 Aug 2020, 12:16:47
 -------------------------------------------------------------------------------

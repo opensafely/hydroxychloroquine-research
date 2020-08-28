@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\05_an_des
 > criptive_plots.log
   log type:  text
- opened on:  19 Aug 2020, 17:18:40
+ opened on:  28 Aug 2020, 12:08:41
 
 . 
 . * Open Stata dataset
@@ -155,7 +155,8 @@ Note: Estimates are transformed only in the first equation.
 . format date %tddd_Month
 
 . 
-. for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci: replace X=100*X
+. for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci _contrast2_1 _contrast2
+> _1_lci _contrast2_1_uci: replace X=100*X
 
 ->  replace _at1=100*_at1
 (134 real changes made)
@@ -174,6 +175,41 @@ Note: Estimates are transformed only in the first equation.
 
 ->  replace _at2_uci=100*_at2_uci
 (134 real changes made)
+
+->  replace _contrast2_1=100*_contrast2_1
+(134 real changes made)
+
+->  replace _contrast2_1_lci=100*_contrast2_1_lci
+(134 real changes made)
+
+->  replace _contrast2_1_uci=100*_contrast2_1_uci
+(134 real changes made)
+
+. 
+. *cumulative mortality at last day of follow-up
+. list _at1* if days==`tmax', noobs
+
+  +----------------------------------+
+  |      _at1   _at1_lci    _at1_uci |
+  |----------------------------------|
+  | .76632192   .7274996   .80721596 |
+  +----------------------------------+
+
+. list _at2* if days==`tmax', noobs
+
+  +-----------------------------------+
+  |      _at2    _at2_lci    _at2_uci |
+  |-----------------------------------|
+  | .76853406   .67733541   .87201199 |
+  +-----------------------------------+
+
+. list _contrast* if days==`tmax', noobs
+
+  +----------------------------------+
+  | _contra~1   _con~lci   _cont~uci |
+  |----------------------------------|
+  | .00221214   -.102677   .10710127 |
+  +----------------------------------+
 
 . 
 . *l date days _at1 _at1_lci _at1_uci _at2 _at2_lci _at2_uci if days<.
@@ -223,5 +259,5 @@ Note: Estimates are transformed only in the first equation.
        log:  E:\analyses\hydroxychloroquine-research/output/sens1/log\05_an_des
 > criptive_plots.log
   log type:  text
- closed on:  19 Aug 2020, 17:20:23
+ closed on:  28 Aug 2020, 12:10:08
 -------------------------------------------------------------------------------
