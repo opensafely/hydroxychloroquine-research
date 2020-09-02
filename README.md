@@ -1,8 +1,8 @@
-# Is hydroxychloroquine protective against the risk of COVID-19 infection and severe outcomes? 
+# Hydroxychloroquine and COVID-19
 
 ## This is a work in progress
 
-* The paper is [here]()
+* The paper will be [here]() when available
 * Raw model outputs, including charts, crosstabs, etc, are in `released_analysis_results/`
 * If you are interested in how we defined our covarates, take a look at the [study definition](analysis/study_definition.py); this is written in `python`, but non-programmers should be able to understand what is going on there
 * If you are interested in how we defined our code lists, look in the [codelists folder](./codelists/).
