@@ -118,12 +118,11 @@ study = StudyDefinition(
     #HISTORY OF HYDROXYCHLOROQUINE (FIRST RX in 10 years prior)
     hcq_first_history=patients.with_these_medications(
         hcq_med_codes, 
-        between=["2010-03-01", "2020-02-29"],
+        on_or_before="2020-02-29",
         return_first_date_in_period=True,
         include_month=True,
-        include_day=True,
         return_expectations={
-            "date": {"earliest": "2010-03-01", "latest": "2020-02-29"}
+            "date": {"latest": "2020-02-29"}
         },
     ),    
 
