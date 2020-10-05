@@ -61,6 +61,7 @@ foreach var of varlist 	 azith_last_date					///
 						 dmards_primary_care				///
 						 hba1c_mmol_per_mol_date			///
 						 hba1c_percentage_date				///
+						 hcq_first_history					///
 						 hcq_last_date						///
 						 hypertension						///
 						 esrf 								///		
@@ -95,7 +96,7 @@ foreach var of varlist 	 azith_last_date					///
 * Note - outcome dates are handled separtely below 
 
 
-*HCQ after baseline is in YMD format
+*HCQ after baseline is in YMD format (not MD format as above list)
 gen hcq_first_after_date = date(hcq_first_after, "YMD")
 format hcq_first_after_date %td
 drop hcq_first_after
@@ -507,6 +508,29 @@ tab hcq hcq_sa, m
 
 tab  hcq_count hcq, m
 
+* when was first HCQ Rx before index date
+gen hcq_first = 0 if hcq == 0
+replace hcq_first = 1 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2019) & hcq_first_history_date < mdy(3,1,2020) 
+replace hcq_first = 2 if hcq == 1 & hcq_first_history_date >= mdy(3,1,2019) & hcq_first_history_date < mdy(9,1,2019) 
+replace hcq_first = 3 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2018) & hcq_first_history_date < mdy(3,1,2019) 
+replace hcq_first = 4 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2017) & hcq_first_history_date < mdy(9,1,2018) 
+replace hcq_first = 5 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2016) & hcq_first_history_date < mdy(9,1,2017) 
+replace hcq_first = 6 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2015) & hcq_first_history_date < mdy(9,1,2016) 
+replace hcq_first = 7 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2014) & hcq_first_history_date < mdy(9,1,2015) 
+replace hcq_first = 8 if hcq == 1 & 										  hcq_first_history_date < mdy(9,1,2014) 
+
+label define hcq_first 	0 "unexposed"								///
+						1 "within exposure window"					///
+						2 "up to 6 mos before exposure window"		///
+						3 "6 mos to 1 yr before exposure window"	///
+						4 "1 to 2 yr before exposure window"		///
+						5 "2 to 3 yr before exposure window"		///
+						6 "3 to 4 yr before exposure window"		///
+						7 "4 to 5 yr before exposure window"		///
+						8 "5+ yr before exposure window"
+label values hcq_first hcq_first
+tab hcq_first hcq, m
+
 /* OTHER DRUGS =============================================================*/
 
 *DMARDS
@@ -734,6 +758,9 @@ label var oral_prednisolone_date	"Last OCS Rx"
 label var nsaids_date				"Last NSAIDs Rx"
 label var chloroquine_not_hcq_date	"Last chloroquine phosphate/sulfate Rx"
 
+label var hcq_count					"Number of HCQ Rx in exposure window"
+label var hcq_first					"First HCQ Rx, time categories"
+label var hcq_first_history_date	"First HCQ Rx"
 
 * Comorbidities of interest 
 label var chronic_cardiac_disease 		"Chronic cardiac disease"

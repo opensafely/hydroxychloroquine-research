@@ -114,6 +114,17 @@ study = StudyDefinition(
             "date": {"earliest": "2020-03-01", "latest": "today"}
         },
     ),
+    
+    #HISTORY OF HYDROXYCHLOROQUINE (FIRST RX in 10 years prior)
+    hcq_first_history=patients.with_these_medications(
+        hcq_med_codes, 
+        on_or_before="2020-02-29",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"latest": "2020-02-29"}
+        },
+    ),    
 
     # DMARDS EXPOSURE (PRIMARY CARE) 
     dmards_primary_care_count=patients.with_these_medications(
