@@ -758,6 +758,9 @@ label var oral_prednisolone_date	"Last OCS Rx"
 label var nsaids_date				"Last NSAIDs Rx"
 label var chloroquine_not_hcq_date	"Last chloroquine phosphate/sulfate Rx"
 
+label var hcq_count					"Number of HCQ Rx in exposure window"
+label var hcq_first					"First HCQ Rx, time categories"
+label var hcq_first_history_date	"First HCQ Rx"
 
 * Comorbidities of interest 
 label var chronic_cardiac_disease 		"Chronic cardiac disease"
