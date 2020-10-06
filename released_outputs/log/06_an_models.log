@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\06_an_models.lo
 > g
   log type:  text
- opened on:  28 Aug 2020, 11:49:10
+ opened on:   6 Oct 2020, 12:33:09
 
 . 
 . * Open Stata dataset
@@ -458,5 +458,5 @@ file E:\analyses\hydroxychloroquine-research/output/tempdata/parmest_multivar3_
        log:  E:\analyses\hydroxychloroquine-research/output/log\06_an_models.lo
 > g
   log type:  text
- closed on:  28 Aug 2020, 11:55:50
+ closed on:   6 Oct 2020, 12:40:56
 -------------------------------------------------------------------------------

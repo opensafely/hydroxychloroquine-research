@@ -1,0 +1,414 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\14_reviewer_com
+> ments.log
+  log type:  text
+ opened on:   6 Oct 2020, 16:49:00
+
+. 
+. * Open Stata dataset
+. use $Tempdir\analysis_dataset, clear
+
+. 
+. 
+. ****** When was first HCQ Rx before index date
+. tab hcq_first hcq, m
+
+   First HCQ Rx, time |          HCQ
+           categories |         0          1 |     Total
+----------------------+----------------------+----------
+            unexposed |   164,068          0 |   164,068 
+within exposure windo |         0        862 |       862 
+up to 6 mos before ex |         0      1,313 |     1,313 
+6 mos to 1 yr before  |         0      1,263 |     1,263 
+1 to 2 yr before expo |         0      2,648 |     2,648 
+2 to 3 yr before expo |         0      2,674 |     2,674 
+3 to 4 yr before expo |         0      2,807 |     2,807 
+4 to 5 yr before expo |         0      2,662 |     2,662 
+5+ yr before exposure |         0     16,026 |    16,026 
+                    . |         0        314 |       314 
+----------------------+----------------------+----------
+                Total |   164,068     30,569 |   194,637 
+
+. 
+. 
+. ****** Median number of HCQ Rx in exposure window 
+. summ hcq_count if hcq == 1, detail
+
+             Number of HCQ Rx in exposure window
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            2              2
+ 5%            2              2
+10%            2              2       Obs              30,569
+25%            3              2       Sum of Wgt.      30,569
+
+50%            5                      Mean           5.191436
+                        Largest       Std. Dev.       4.17156
+75%            6             51
+90%            7             53       Variance       17.40191
+95%            8             56       Skewness       6.673511
+99%           28            189       Kurtosis       146.0916
+
+. 
+. 
+. ****** How many non-users were censored after index date because they had a n
+> ew HCQ Rx (and not for the other censoring vars)
+. count if hcq == 0 & stime_onscoviddeath == hcq_first_after_date & stime_onsco
+> viddeath != onscoviddeathcensor_date & stime_onscoviddeath != died_date_ons 
+  2,918
+
+. *2918
+. count if hcq == 0
+  164,068
+
+. *164068
+. *<2%
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. ****** Estimate cumulative mortality separately by RA/SLE population
+. 
+. * Open Stata dataset
+. use $Tempdir\analysis_dataset_STSET_$outcome, clear
+
+. 
+. * RA
+. keep if population == 0
+(26,763 observations deleted)
+
+. stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone population, df(
+> 4) scale(hazard) eform stratify(stp)
+note: population dropped because of collinearity
+
+Iteration 0:   log likelihood = -3331.4365  
+Iteration 1:   log likelihood =  -3324.023  
+Iteration 2:   log likelihood = -3323.0604  
+Iteration 3:   log likelihood = -3323.0546  
+Iteration 4:   log likelihood = -3323.0546  
+
+Log likelihood = -3323.0546                     Number of obs     =    167,874
+
+------------------------------------------------------------------------------
+             |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+xb           |
+    exposure |   .9883295   .1374188    -0.08   0.933     .7525745    1.297938
+        male |   1.409503   .1291089     3.75   0.000     1.177869     1.68669
+        age1 |   1.051864     .04209     1.26   0.206     .9725212     1.13768
+        age2 |    1.07661   .0617954     1.29   0.198     .9620575    1.204802
+        age3 |   .7454628   .1614374    -1.36   0.175     .4876294    1.139625
+    dmard_pc |   .9158139   .0851155    -0.95   0.344     .7633027    1.098798
+oral_pred~ne |   2.468623   .2248536     9.92   0.000     2.065016    2.951115
+       _rcs1 |    2.08956   .3869026     3.98   0.000     1.453605    3.003746
+       _rcs2 |   1.300487   .1537105     2.22   0.026      1.03157    1.639508
+       _rcs3 |   1.015294   .0225923     0.68   0.495     .9719659    1.060554
+       _rcs4 |   .9998235   .0039602    -0.04   0.964     .9920917    1.007616
+   _rcs_stp1 |   1.016845   .0111687     1.52   0.128     .9951884    1.038972
+   _rcs_stp2 |    1.01197   .0070538     1.71   0.088     .9982386     1.02589
+   _rcs_stp3 |   .9979379   .0012562    -1.64   0.101     .9954787    1.000403
+   _rcs_stp4 |    1.00011   .0002048     0.53   0.593     .9997083    1.000511
+       _cons |   .0000159   .0000325    -5.43   0.000     2.95e-07    .0008622
+------------------------------------------------------------------------------
+Note: Estimates are transformed only in the first equation.
+
+. 
+. summ _t
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+          _t |    167,874    131.9623    13.86639         .5        134
+
+. local tmax=r(max)
+
+. local tmaxplus1=r(max)+1
+
+. 
+. range days 0 `tmax' `tmaxplus1'
+(167,739 missing values generated)
+
+. stpm2_standsurv if exposure == 1, at1(exposure 0) at2(exposure 1) timevar(day
+> s) ci contrast(difference) fail
+
+. 
+. gen date = d(1/3/2020)+ days
+(167,739 missing values generated)
+
+. format date %tddd_Month
+
+. 
+. for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci _contrast2_1 _contrast2
+> _1_lci _contrast2_1_uci: replace X=100*X
+
+->  replace _at1=100*_at1
+(134 real changes made)
+
+->  replace _at2=100*_at2
+(134 real changes made)
+
+->  replace _at1_lci=100*_at1_lci
+(134 real changes made)
+
+->  replace _at1_uci=100*_at1_uci
+(134 real changes made)
+
+->  replace _at2_lci=100*_at2_lci
+(134 real changes made)
+
+->  replace _at2_uci=100*_at2_uci
+(134 real changes made)
+
+->  replace _contrast2_1=100*_contrast2_1
+(134 real changes made)
+
+->  replace _contrast2_1_lci=100*_contrast2_1_lci
+(134 real changes made)
+
+->  replace _contrast2_1_uci=100*_contrast2_1_uci
+(134 real changes made)
+
+. 
+. *cumulative mortality at last day of follow-up
+. list _at1* if days==`tmax', noobs
+
+  +-----------------------------------+
+  |      _at1    _at1_lci    _at1_uci |
+  |-----------------------------------|
+  | .25870407   .23393614   .28609429 |
+  +-----------------------------------+
+
+. list _at2* if days==`tmax', noobs
+
+  +-----------------------------------+
+  |      _at2    _at2_lci    _at2_uci |
+  |-----------------------------------|
+  | .25569758   .19874631   .32896839 |
+  +-----------------------------------+
+
+. list _contrast* if days==`tmax', noobs
+
+  +-------------------------------------+
+  | _contras~1   _contr~lci   _cont~uci |
+  |-------------------------------------|
+  | -.00300648   -.07250743   .06649446 |
+  +-------------------------------------+
+
+. 
+. *l date days _at1 _at1_lci _at1_uci _at2 _at2_lci _at2_uci if days<.
+. 
+. twoway  (rarea _at1_lci _at1_uci days, color(red%25)) ///
+>                  (rarea _at2_lci _at2_uci days if _at2_uci<1, color(blue%25))
+>  ///
+>                  (line _at1 days, sort lcolor(red)) ///
+>                  (line _at2 days, sort lcolor(blue) lpattern(dash)) ///
+>                  , legend(order(1 "No HCQ" 2 "HCQ") ring(0) cols(1) pos(11) r
+> egion(lwidth(none))) ///
+>                                  title("Time to $tableoutcome, RA population"
+> , justification(left) size(med) )             ///
+>                                  yscale(range(0, 1))                         
+>                                                            ///
+>                                  ylabel(0 (0.1) 1, angle(0) format(%4.1f) lab
+> size(small))       ///
+>                                  xlabel(0 (20) 160, labsize(small))          
+>                                                    ///                     
+>                  ytitle("Cumulative mortality (%)", size(medsmall)) ///
+>                  xtitle("Days since 1 Mar 2020", size(medsmall))             
+>    ///
+>                                  graphregion(fcolor(white)) saving(adjcurv1, 
+> replace)
+(note:  named style med not found in class gsize, default attributes used)
+(file adjcurv1.gph saved)
+
+. 
+. graph export "$Tabfigdir/adjcurv1_ra.svg", as(svg) replace
+(file E:\analyses\hydroxychloroquine-research/output/tabfig/adjcurv1_ra.svg wri
+> tten in SVG format)
+
+. 
+. * Close window 
+. graph close
+
+. 
+. * Delete unneeded graphs
+. *erase adjcurv1_ra.gph
+. 
+. 
+. 
+. * Open Stata dataset
+. use $Tempdir\analysis_dataset_STSET_$outcome, clear
+
+. 
+. * SLE
+. keep if population == 1
+(167,874 observations deleted)
+
+. stpm2 exposure male age1 age2 age3 dmard_pc oral_prednisolone population, df(
+> 4) scale(hazard) eform stratify(stp)
+note: population dropped because of collinearity
+
+Iteration 0:   log likelihood = -266.62517  
+Iteration 1:   log likelihood = -264.73207  
+Iteration 2:   log likelihood = -264.36422  
+Iteration 3:   log likelihood = -264.36073  
+Iteration 4:   log likelihood = -264.36072  
+
+Log likelihood = -264.36072                     Number of obs     =     26,763
+
+------------------------------------------------------------------------------
+             |     exp(b)   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+xb           |
+    exposure |   1.604057   .6194311     1.22   0.221     .7525153    3.419198
+        male |   2.213909   .7641134     2.30   0.021     1.125575    4.354571
+        age1 |    1.05137   .0904844     0.58   0.561     .8881749    1.244552
+        age2 |   1.086111   .1519119     0.59   0.555     .8256929    1.428663
+        age3 |     .70149   .4045187    -0.61   0.539     .2265534    2.172063
+    dmard_pc |    .720024   .4501679    -0.53   0.599     .2114293    2.452047
+oral_pred~ne |   2.217509   .8008638     2.21   0.027     1.092572    4.500708
+       _rcs1 |   6.212592   7.129592     1.59   0.111     .6552864     58.8999
+       _rcs2 |    1.77291   .9660729     1.05   0.293     .6093409    5.158379
+       _rcs3 |   .9954471   .0958721    -0.05   0.962     .8242112    1.202259
+       _rcs4 |    .996001   .0130941    -0.30   0.761     .9706649    1.021999
+   _rcs_stp1 |   .9813593   .0472859    -0.39   0.696     .8929223    1.078555
+   _rcs_stp2 |   .9969056   .0228735    -0.14   0.893     .9530676     1.04276
+   _rcs_stp3 |   .9981245   .0040688    -0.46   0.645     .9901815    1.006131
+   _rcs_stp4 |   1.000402   .0005914     0.68   0.497     .9992432    1.001561
+       _cons |   8.91e-06   .0000377    -2.75   0.006     2.21e-09    .0358905
+------------------------------------------------------------------------------
+Note: Estimates are transformed only in the first equation.
+
+. 
+. summ _t
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+          _t |     26,763    130.1644    19.41473          1        134
+
+. local tmax=r(max)
+
+. local tmaxplus1=r(max)+1
+
+. 
+. range days 0 `tmax' `tmaxplus1'
+(26,628 missing values generated)
+
+. stpm2_standsurv if exposure == 1, at1(exposure 0) at2(exposure 1) timevar(day
+> s) ci contrast(difference) fail
+
+. 
+. gen date = d(1/3/2020)+ days
+(26,628 missing values generated)
+
+. format date %tddd_Month
+
+. 
+. for var _at1 _at2 _at1_lci _at1_uci _at2_lci _at2_uci _contrast2_1 _contrast2
+> _1_lci _contrast2_1_uci: replace X=100*X
+
+->  replace _at1=100*_at1
+(134 real changes made)
+
+->  replace _at2=100*_at2
+(134 real changes made)
+
+->  replace _at1_lci=100*_at1_lci
+(134 real changes made)
+
+->  replace _at1_uci=100*_at1_uci
+(134 real changes made)
+
+->  replace _at2_lci=100*_at2_lci
+(134 real changes made)
+
+->  replace _at2_uci=100*_at2_uci
+(134 real changes made)
+
+->  replace _contrast2_1=100*_contrast2_1
+(134 real changes made)
+
+->  replace _contrast2_1_lci=100*_contrast2_1_lci
+(134 real changes made)
+
+->  replace _contrast2_1_uci=100*_contrast2_1_uci
+(134 real changes made)
+
+. 
+. *cumulative mortality at last day of follow-up
+. list _at1* if days==`tmax', noobs
+
+  +-----------------------------------+
+  |      _at1    _at1_lci    _at1_uci |
+  |-----------------------------------|
+  | .09300874   .06042288   .14316805 |
+  +-----------------------------------+
+
+. list _at2* if days==`tmax', noobs
+
+  +----------------------------------+
+  |      _at2   _at2_lci    _at2_uci |
+  |----------------------------------|
+  | .14897565   .0803384   .27625325 |
+  +----------------------------------+
+
+. list _contrast* if days==`tmax', noobs
+
+  +------------------------------------+
+  | _contra~1   _contr~lci   _cont~uci |
+  |------------------------------------|
+  | .05596691   -.04449657   .15643039 |
+  +------------------------------------+
+
+. 
+. *l date days _at1 _at1_lci _at1_uci _at2 _at2_lci _at2_uci if days<.
+. 
+. twoway  (rarea _at1_lci _at1_uci days, color(red%25)) ///
+>                  (rarea _at2_lci _at2_uci days if _at2_uci<1, color(blue%25))
+>  ///
+>                  (line _at1 days, sort lcolor(red)) ///
+>                  (line _at2 days, sort lcolor(blue) lpattern(dash)) ///
+>                  , legend(order(1 "No HCQ" 2 "HCQ") ring(0) cols(1) pos(11) r
+> egion(lwidth(none))) ///
+>                                  title("Time to $tableoutcome, SLE population
+> ", justification(left) size(med) )            ///
+>                                  yscale(range(0, 1))                         
+>                                                            ///
+>                                  ylabel(0 (0.1) 1, angle(0) format(%4.1f) lab
+> size(small))       ///
+>                                  xlabel(0 (20) 160, labsize(small))          
+>                                                    ///                     
+>                  ytitle("Cumulative mortality (%)", size(medsmall)) ///
+>                  xtitle("Days since 1 Mar 2020", size(medsmall))             
+>    ///
+>                                  graphregion(fcolor(white)) saving(adjcurv1, 
+> replace)
+(note:  named style med not found in class gsize, default attributes used)
+(file adjcurv1.gph saved)
+
+. 
+. graph export "$Tabfigdir/adjcurv1_sle.svg", as(svg) replace
+(file E:\analyses\hydroxychloroquine-research/output/tabfig/adjcurv1_sle.svg wr
+> itten in SVG format)
+
+. 
+. * Close window 
+. graph close
+
+. 
+. * Delete unneeded graphs
+. *erase adjcurv1_sle.gph
+. 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\14_reviewer_com
+> ments.log
+  log type:  text
+ closed on:   6 Oct 2020, 16:50:38
+-------------------------------------------------------------------------------

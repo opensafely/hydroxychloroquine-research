@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\00_cr_create_an
 > alysis_dataset.log
   log type:  text
- opened on:  28 Aug 2020, 11:46:52
+ opened on:   6 Oct 2020, 12:27:15
 
 . 
 . 
@@ -72,6 +72,8 @@
 >                    ///
 >                                                  hba1c_percentage_date       
 >                    ///
+>                                                  hcq_first_history           
+>                            ///
 >                                                  hcq_last_date               
 >                            ///
 >                                                  hypertension                
@@ -159,6 +161,10 @@ variable hba1c_percentage_date was str7 now str10
 (194,637 real changes made)
 (124,524 real changes made)
 (124,524 missing values generated)
+variable hcq_first_history was str7 now str10
+(194,637 real changes made)
+(121,901 real changes made)
+(121,901 missing values generated)
 variable hcq_last_date was str7 now str10
 (194,637 real changes made)
 (160,755 real changes made)
@@ -212,7 +218,7 @@ variable temporary_immunodeficiency was str7 now str10
 . * Note - outcome dates are handled separtely below 
 . 
 . 
-. *HCQ after baseline is in YMD format
+. *HCQ after baseline is in YMD format (not MD format as above list)
 . gen hcq_first_after_date = date(hcq_first_after, "YMD")
 (161,769 missing values generated)
 
@@ -1029,6 +1035,83 @@ hba1c_mmol~l |    102,961    42.30689    12.18222        2.9        173
      Total |   164,068     30,569 |   194,637 
 
 . 
+. * when was first HCQ Rx before index date
+. gen hcq_first = 0 if hcq == 0
+(30,569 missing values generated)
+
+. replace hcq_first = 1 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2019) &
+>  hcq_first_history_date < mdy(3,1,2020) 
+(862 real changes made)
+
+. replace hcq_first = 2 if hcq == 1 & hcq_first_history_date >= mdy(3,1,2019) &
+>  hcq_first_history_date < mdy(9,1,2019) 
+(1,313 real changes made)
+
+. replace hcq_first = 3 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2018) &
+>  hcq_first_history_date < mdy(3,1,2019) 
+(1,263 real changes made)
+
+. replace hcq_first = 4 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2017) &
+>  hcq_first_history_date < mdy(9,1,2018) 
+(2,648 real changes made)
+
+. replace hcq_first = 5 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2016) &
+>  hcq_first_history_date < mdy(9,1,2017) 
+(2,674 real changes made)
+
+. replace hcq_first = 6 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2015) &
+>  hcq_first_history_date < mdy(9,1,2016) 
+(2,807 real changes made)
+
+. replace hcq_first = 7 if hcq == 1 & hcq_first_history_date >= mdy(9,1,2014) &
+>  hcq_first_history_date < mdy(9,1,2015) 
+(2,662 real changes made)
+
+. replace hcq_first = 8 if hcq == 1 &                                          
+>                                      hcq_first_history_date < mdy(9,1,2014) 
+(16,026 real changes made)
+
+. 
+. label define hcq_first  0 "unexposed"                                        
+>                    ///
+>                                                 1 "within exposure window"   
+>                                    ///
+>                                                 2 "up to 6 mos before exposur
+> e window"          ///
+>                                                 3 "6 mos to 1 yr before expos
+> ure window"        ///
+>                                                 4 "1 to 2 yr before exposure 
+> window"            ///
+>                                                 5 "2 to 3 yr before exposure 
+> window"            ///
+>                                                 6 "3 to 4 yr before exposure 
+> window"            ///
+>                                                 7 "4 to 5 yr before exposure 
+> window"            ///
+>                                                 8 "5+ yr before exposure wind
+> ow"
+
+. label values hcq_first hcq_first
+
+. tab hcq_first hcq, m
+
+                      |          hcq
+            hcq_first |         0          1 |     Total
+----------------------+----------------------+----------
+            unexposed |   164,068          0 |   164,068 
+within exposure windo |         0        862 |       862 
+up to 6 mos before ex |         0      1,313 |     1,313 
+6 mos to 1 yr before  |         0      1,263 |     1,263 
+1 to 2 yr before expo |         0      2,648 |     2,648 
+2 to 3 yr before expo |         0      2,674 |     2,674 
+3 to 4 yr before expo |         0      2,807 |     2,807 
+4 to 5 yr before expo |         0      2,662 |     2,662 
+5+ yr before exposure |         0     16,026 |    16,026 
+                    . |         0        314 |       314 
+----------------------+----------------------+----------
+                Total |   164,068     30,569 |   194,637 
+
+. 
 . /* OTHER DRUGS =============================================================*
 > /
 . 
@@ -1485,6 +1568,14 @@ first_pos_.. |      1,394   26apr2020    100.5767  07feb2014  29jul2020
 > x"
 
 . 
+. label var hcq_count                                     "Number of HCQ Rx in 
+> exposure window"
+
+. label var hcq_first                                     "First HCQ Rx, time c
+> ategories"
+
+. label var hcq_first_history_date        "First HCQ Rx"
+
 . 
 . * Comorbidities of interest 
 . label var chronic_cardiac_disease               "Chronic cardiac disease"
@@ -1636,12 +1727,11 @@ first_pos_.. |      1,394   26apr2020    100.5767  07feb2014  29jul2020
 > =*/
 . *  Drop variables that are not needed (those not labelled)
 . ds, not(varlabel)
-died_ons_c~y  msoa          esrf_date     bmi_age       temp2_ckd_~e
-died_ons_c~g  smoking_st~e  esrf          SCr_adj       hba1ccat
-hcq_count     smoking_st~d  perm_immun~f  min
-dmards_pri~t  oral_predn~t  temp_immun~f  max
-azith_count   creatinine    has_consul~y  egfr_cat_all
-ethnicity_~e  creatinine~e  bmi_time      temp1_ckd_~e
+died_ons_c~y  msoa          creatinine~e  has_consul~y  max
+died_ons_c~g  smoking_st~e  esrf_date     bmi_time      egfr_cat_all
+dmards_pri~t  smoking_st~d  esrf          bmi_age       temp1_ckd_~e
+azith_count   oral_predn~t  perm_immun~f  SCr_adj       temp2_ckd_~e
+ethnicity_~e  creatinine    temp_immun~f  min           hba1ccat
 
 . drop `r(varlist)'
 
@@ -1653,5 +1743,5 @@ ethnicity_~e  creatinine~e  bmi_time      temp1_ckd_~e
        log:  E:\analyses\hydroxychloroquine-research/output/log\00_cr_create_an
 > alysis_dataset.log
   log type:  text
- closed on:  28 Aug 2020, 11:47:12
+ closed on:   6 Oct 2020, 12:27:39
 -------------------------------------------------------------------------------

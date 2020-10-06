@@ -1,5 +1,21 @@
+/* EDITS AT REVISION STAGE, 7 OCT 2020 */
+*cohort extracted to add 1 new variable
+*import new cohort
 import delimited `c(pwd)'/output/input.csv, clear
 set more off 
+*only keep new variable
+keep patient_id hcq_first_history
+sort patient_id 
+*save as Stata dataset
+save `c(pwd)'/output/input_newvar.dta, replace
+*import cohort from original submission
+import delimited `c(pwd)'/output/archive/original_submission/input.csv, clear
+sort patient_id
+*merge new variable into this dataset
+merge 1:1 patient_id using `c(pwd)'/output/input_newvar.dta
+drop if _m == 2
+drop _m
+******************************************
 
 * =====        MAIN ANALYSES       =================================================;
 *set filepaths
@@ -56,7 +72,9 @@ do "11_an_models_sep_pops.do"
 do "12_an_models_sa_exposure.do"
 
 
-
+pwd
+cd  "$Dodir"
+do "14_reviewer_comments.do"
 
 
 
@@ -81,8 +99,20 @@ do "x2_hcq_pop.do"
 * =====        SENSITIVITY 1: Non-COVID death       =================================================;
 clear 
 cd ..
-import delimited `c(pwd)'/output/input.csv, clear
-set more off 
+
+/* EDITS AT REVISION STAGE, 7 OCT 2020 */
+*cohort extracted to add 1 new variable
+*import cohort from original submission
+import delimited `c(pwd)'/output/archive/original_submission/input.csv, clear
+set more off
+sort patient_id
+*merge new variable into this dataset
+merge 1:1 patient_id using `c(pwd)'/output/input_newvar.dta
+drop if _m == 2
+drop _m
+******************************************
+
+
 
 *set filepaths
 global Projectdir `c(pwd)'
@@ -158,6 +188,7 @@ do "f2_flow_diagram.do"
 pwd
 cd  "$Dodir"
 do "f3_qba.do"
+
 
 
 /*

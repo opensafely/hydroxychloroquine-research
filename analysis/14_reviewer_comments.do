@@ -13,7 +13,6 @@ USER-INSTALLED ADO: 	-none-
 
 
 
-
 * Open a log file
 
 capture log close
@@ -31,38 +30,17 @@ tab hcq_first hcq, m
 summ hcq_count if hcq == 1, detail
 
 
-****** How many non-users were censored after index date because they had a new HCQ Rx
-count if stime_onscoviddeath == hcq_first_after_date & hcq == 0 
+****** How many non-users were censored after index date because they had a new HCQ Rx (and not for the other censoring vars)
+count if hcq == 0 & stime_onscoviddeath == hcq_first_after_date & stime_onscoviddeath != onscoviddeathcensor_date & stime_onscoviddeath != died_date_ons 
+*2918
 count if hcq == 0
+*164068
+*<2%
 
 
 
 
 
-
-
-
-
-****** Replace eGFR (nomiss) with CKD into Extended adjustment model 
-/*
-A reminder how CKD was made
-It's eGFR + ESRF codes 
-
-gen ckd = 0
-replace ckd = 1 if ckd_egfr != . & ckd_egfr >= 1
-replace ckd = 1 if esrf == 1
-
-label define ckd 0 "No CKD" 1 "CKD"
-*/
-tab egfr_cat_nomiss ckd, m
-
-* Open Stata dataset
-use $Tempdir\analysis_dataset_STSET_mi_$outcome, clear
-
-*look how they compare 
-tab egfr_cat_nomiss ckd, m
-
-mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_asthma i.ckd i.chronic_liver_disease i.obese4cat i.hypertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, strata(stp population)	
 
 
 
@@ -116,7 +94,7 @@ graph export "$Tabfigdir/adjcurv1_ra.svg", as(svg) replace
 graph close
 
 * Delete unneeded graphs
-erase adjcurv1_ra.gph
+*erase adjcurv1_ra.gph
 
 
 
@@ -165,7 +143,7 @@ graph export "$Tabfigdir/adjcurv1_sle.svg", as(svg) replace
 graph close
 
 * Delete unneeded graphs
-erase adjcurv1_sle.gph
+*erase adjcurv1_sle.gph
 
 log close
 

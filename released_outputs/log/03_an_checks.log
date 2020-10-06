@@ -3,7 +3,7 @@
        log:  E:\analyses\hydroxychloroquine-research/output/log\03_an_checks.lo
 > g
   log type:  text
- opened on:  28 Aug 2020, 11:47:16
+ opened on:   6 Oct 2020, 12:28:17
 
 . 
 . * Open Stata dataset
@@ -243,7 +243,7 @@ f~t_primcare |        536   29apr2020    140.3248  07feb2014  29jul2020
     Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
 onscovidde~e |    194,637   13jul2020           0  13jul2020  13jul2020
-hcq_first_~e |      3,066   19apr2020     40.0515  02mar2020  30jul2020
+hcq_f~r_date |      3,066   19apr2020     40.0515  02mar2020  30jul2020
 
 . 
 . * Last dates
@@ -1809,5 +1809,5 @@ Failure/ce |
        log:  E:\analyses\hydroxychloroquine-research/output/log\03_an_checks.lo
 > g
   log type:  text
- closed on:  28 Aug 2020, 11:47:21
+ closed on:   6 Oct 2020, 12:28:23
 -------------------------------------------------------------------------------
