@@ -97,6 +97,7 @@ twoway  (rarea _at1_lci _at1_uci days, color(red%25)) ///
 				 graphregion(fcolor(white)) saving(adjcurv1, replace)
 
 graph export "$Tabfigdir/adjcurv1.svg", as(svg) replace
+graph export "$Tabfigdir/adjcurv1.eps", as(eps) replace
 
 * Close window 
 graph close

@@ -85,6 +85,7 @@ metan log_estimate log_min95 log_max95 , eform random ///
 	saving("`c(pwd)'/output/tabfig\forestplot1.gph", replace)
 	
 graph export "`c(pwd)'/output/tabfig\forestplot1.svg", replace  
+graph export "`c(pwd)'/output/tabfig\forestplot1.eps", replace  
 
 * Close window 
 graph close
