@@ -38,7 +38,7 @@ label values agegroup2 agegroup2
 tab agegroup agegroup2 , m
 
 
-foreach intvar of varlist agegroup2 dmard_pc oral_prednisolone nsaids {
+foreach intvar of varlist agegroup2 dmard_pc oral_prednisolone nsaids male {
 /* Check Counts */ 
 
 bysort `intvar': tab exposure $outcome, row
@@ -186,8 +186,9 @@ printinteraction, variable(oral_prednisolone) min(0) max(1)
 file write tablecontent _n _n
 
 printinteraction, variable(nsaids) min(0) max(1) 
+file write tablecontent _n _n
 
-
+printinteraction, variable(male) min(0) max(1) 
 
 file write tablecontent _n
 file close tablecontent
