@@ -20,6 +20,14 @@ opensafely/dmards/2020-06-23
 opensafely/ethnicity/2020-04-27
 opensafely/haematological-cancer/2020-04-15
 opensafely/hiv/2020-07-13
+opensafely/high-cost-drugs-abatacept/07fc04eb
+opensafely/high-cost-drugs-adalimumab/6eec91b5
+opensafely/high-cost-drugs-certolizumab/2670f80c
+opensafely/high-cost-drugs-etanercept/0d6184d7
+opensafely/high-cost-drugs-golimumab/745211a1
+opensafely/high-cost-drugs-infliximab/42332b37
+opensafely/high-cost-drugs-sarilumab/2e8937ee
+opensafely/high-cost-drugs-tocilizumab/635ade4e
 opensafely/hydroxychloroquine/2020-06-15
 opensafely/hypertension/2020-04-28
 opensafely/influenza-vaccination/2020-05-12
