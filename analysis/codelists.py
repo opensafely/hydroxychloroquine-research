@@ -54,6 +54,11 @@ dmards_med_codes = codelist_from_csv(
     column="snomed_id",
 )
 
+#EDIT 20 MAY 2021: ADD IN biologic DMARDS
+adalimumab_codes = codelist_from_csv(
+    "codelists/opensafely-high-cost-drugs-adalimumab.csv", system="highcostdrugs", column="olddrugname"
+)
+
 #AZITHROMYCIN
 azithromycin_med_codes = codelist_from_csv(
     "codelists/opensafely-azithromycin-medication.csv",

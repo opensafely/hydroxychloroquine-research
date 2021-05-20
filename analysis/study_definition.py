@@ -146,7 +146,17 @@ study = StudyDefinition(
             "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
         },
     ),
-
+    
+    #EDIT 20 MAY 2021: ADD IN biologic DMARDS
+    bdmard_adalimumab_count=patients.with_high_cost_drugs(
+        drug_name_matches= adalimumab_codes,
+        between = ["2019-09-01", "2020-02-29"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 2},
+            "incidence": 0.30,
+        },
+    ),
     
     #MACROLIDES EXPOSURE PLACEHOLDER -  - https://github.com/opensafely/hydroxychloroquine-research/issues/4
     azith_count=patients.with_these_medications(
