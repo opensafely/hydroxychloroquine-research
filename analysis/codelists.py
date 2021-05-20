@@ -55,8 +55,36 @@ dmards_med_codes = codelist_from_csv(
 )
 
 #EDIT 20 MAY 2021: ADD IN biologic DMARDS
+abatacept_codes = codelist_from_csv(
+    "codelists/opensafely-high-cost-drugs-abatacept.csv", system="highcostdrugs", column="olddrugname"
+)
+
 adalimumab_codes = codelist_from_csv(
     "codelists/opensafely-high-cost-drugs-adalimumab.csv", system="highcostdrugs", column="olddrugname"
+)
+
+certolizumab_codes = codelist_from_csv(
+    "codelists/opensafely-high-cost-drugs-certolizumab.csv", system="highcostdrugs", column="olddrugname"
+)
+
+etanercept_codes = codelist_from_csv(
+    "codelists/opensafely-high-cost-drugs-etanercept.csv", system="highcostdrugs", column="olddrugname"
+)
+
+golimumab_codes = codelist_from_csv(
+    "codelists/opensafely-high-cost-drugs-golimumab.csv", system="highcostdrugs", column="olddrugname"
+)
+
+infliximab_codes = codelist_from_csv(
+    "codelists/opensafely-high-cost-drugs-infliximab.csv", system="highcostdrugs", column="olddrugname"
+)
+
+sarilumab_codes = codelist_from_csv(
+    "codelists/opensafely-high-cost-drugs-sarilumab.csv", system="highcostdrugs", column="olddrugname"
+)
+
+tocilizumab_codes = codelist_from_csv(
+    "codelists/opensafely-high-cost-drugs-tocilizumab.csv", system="highcostdrugs", column="olddrugname"
 )
 
 #AZITHROMYCIN
