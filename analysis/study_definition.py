@@ -146,7 +146,72 @@ study = StudyDefinition(
             "date": {"earliest": "2019-09-01", "latest": "2020-02-29"}
         },
     ),
-
+    
+    #EDIT 20 MAY 2021: ADD IN biologic DMARDS
+    bdmard_abatacept=patients.with_high_cost_drugs(
+        drug_name_matches= abatacept_codes,
+        between = ["2019-09-01", "2020-02-29"],
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.05,},
+    ),
+    
+    bdmard_adalimumab=patients.with_high_cost_drugs(
+        drug_name_matches= adalimumab_codes,
+        between = ["2019-09-01", "2020-02-29"],
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.05,},
+    ),
+        
+   bdmard_certolizumab=patients.with_high_cost_drugs(
+        drug_name_matches= certolizumab_codes,
+        between = ["2019-09-01", "2020-02-29"],
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.05,},
+    ),
+            
+   bdmard_etanercept=patients.with_high_cost_drugs(
+        drug_name_matches= etanercept_codes,
+        between = ["2019-09-01", "2020-02-29"],
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.05,},
+    ),
+                
+   bdmard_golimumab=patients.with_high_cost_drugs(
+        drug_name_matches= golimumab_codes,
+        between = ["2019-09-01", "2020-02-29"],
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.05,},
+    ),
+                    
+   bdmard_infliximab=patients.with_high_cost_drugs(
+        drug_name_matches= infliximab_codes,
+        between = ["2019-09-01", "2020-02-29"],
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.05,},
+    ),
+                        
+   bdmard_sarilumab=patients.with_high_cost_drugs(
+        drug_name_matches= sarilumab_codes,
+        between = ["2019-09-01", "2020-02-29"],
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.05,},
+    ),
+                            
+   bdmard_tocilizumab=patients.with_high_cost_drugs(
+        drug_name_matches= tocilizumab_codes,
+        between = ["2019-09-01", "2020-02-29"],
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.05,},
+    ),
+                                
     
     #MACROLIDES EXPOSURE PLACEHOLDER -  - https://github.com/opensafely/hydroxychloroquine-research/issues/4
     azith_count=patients.with_these_medications(
