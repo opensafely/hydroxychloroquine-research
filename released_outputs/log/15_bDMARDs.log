@@ -1,0 +1,632 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\15_bDMARDs.log
+  log type:  text
+ opened on:  21 May 2021, 18:56:20
+
+. 
+. * Open Stata dataset used for publication
+. use E:\analyses\hydroxychloroquine-research\output\archive\original_submissio
+> n\tempdata\analysis_dataset.dta, clear
+
+. *n=194,637
+. 
+. *pull in new cohort extract that includes bDMARDs
+. import delimited E:\analyses\hydroxychloroquine-research/output/input.csv, cl
+> ear
+(68 vars, 197,172 obs)
+
+. *only keep patient_id and bDMARDs 
+. keep patient_id bdmard*
+
+. 
+. tab1 bdmard*, m
+
+-> tabulation of bdmard_abatacept  
+
+bdmard_abat |
+      acept |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |    196,889       99.86       99.86
+          1 |        283        0.14      100.00
+------------+-----------------------------------
+      Total |    197,172      100.00
+
+-> tabulation of bdmard_adalimumab  
+
+bdmard_adal |
+     imumab |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |    195,183       98.99       98.99
+          1 |      1,989        1.01      100.00
+------------+-----------------------------------
+      Total |    197,172      100.00
+
+-> tabulation of bdmard_certolizumab  
+
+bdmard_cert |
+   olizumab |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |    196,819       99.82       99.82
+          1 |        353        0.18      100.00
+------------+-----------------------------------
+      Total |    197,172      100.00
+
+-> tabulation of bdmard_etanercept  
+
+bdmard_etan |
+     ercept |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |    194,940       98.87       98.87
+          1 |      2,232        1.13      100.00
+------------+-----------------------------------
+      Total |    197,172      100.00
+
+-> tabulation of bdmard_golimumab  
+
+bdmard_goli |
+      mumab |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |    196,900       99.86       99.86
+          1 |        272        0.14      100.00
+------------+-----------------------------------
+      Total |    197,172      100.00
+
+-> tabulation of bdmard_infliximab  
+
+bdmard_infl |
+     iximab |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |    196,900       99.86       99.86
+          1 |        272        0.14      100.00
+------------+-----------------------------------
+      Total |    197,172      100.00
+
+-> tabulation of bdmard_sarilumab  
+
+bdmard_sari |
+      lumab |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |    197,120       99.97       99.97
+          1 |         52        0.03      100.00
+------------+-----------------------------------
+      Total |    197,172      100.00
+
+-> tabulation of bdmard_tocilizumab  
+
+bdmard_toci |
+    lizumab |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |    196,479       99.65       99.65
+          1 |        693        0.35      100.00
+------------+-----------------------------------
+      Total |    197,172      100.00
+
+. 
+. *create a flag for any bDMARD in the 6 months prior to index date
+. gen bdmard_any = 1 if bdmard_abatacept == 1 | bdmard_adalimumab == 1 | bdmard
+> _certolizumab == 1 | bdmard_etanercept == 1 | bdmard_golimumab == 1 | bdmard_
+> infliximab == 1 | bdmard_sarilumab == 1 | bdmard_tocilizumab == 1
+(191,130 missing values generated)
+
+. recode bdmard_any .=0
+(bdmard_any: 191130 changes made)
+
+. 
+. tab1 bdmard_any, m
+
+-> tabulation of bdmard_any  
+
+ bdmard_any |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |    191,130       96.94       96.94
+          1 |      6,042        3.06      100.00
+------------+-----------------------------------
+      Total |    197,172      100.00
+
+. 
+. *save off as bDMARD table
+. save $Outdir/bdmard.dta , replace
+file E:\analyses\hydroxychloroquine-research/output/bdmard.dta saved
+
+. 
+. *bring in analysis dataset from publication
+. sort patient_id
+
+. merge 1:1 patient_id using E:\analyses\hydroxychloroquine-research\output\arc
+> hive\original_submission\tempdata\analysis_dataset.dta
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                         7,275
+        from master                     4,905  (_merge==1)
+        from using                      2,370  (_merge==2)
+
+    matched                           192,267  (_merge==3)
+    -----------------------------------------
+
+. 
+. *there are 2370 missing in new cohort extract who were in published analytic 
+> dataset
+. *there are 4905 additional in new cohort extrat who were not in published ana
+> lytic dataset
+. *192,267 were found in both
+. 
+. **look at bDMARD prevalence among those missing
+. tab _m bdmard_any  , m row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+                      |            bdmard_any
+               _merge |         0          1          . |     Total
+----------------------+---------------------------------+----------
+      master only (1) |     4,779        126          0 |     4,905 
+                      |     97.43       2.57       0.00 |    100.00 
+----------------------+---------------------------------+----------
+       using only (2) |         0          0      2,370 |     2,370 
+                      |      0.00       0.00     100.00 |    100.00 
+----------------------+---------------------------------+----------
+          matched (3) |   186,351      5,916          0 |   192,267 
+                      |     96.92       3.08       0.00 |    100.00 
+----------------------+---------------------------------+----------
+                Total |   191,130      6,042      2,370 |   199,542 
+                      |     95.78       3.03       1.19 |    100.00 
+
+. 
+. *only keep those in published analytic dataset
+. drop if _m == 1
+(4,905 observations deleted)
+
+. 
+. *fill in missing bDMARD info as no bDMARDs
+. recode bdmard_any .=0
+(bdmard_any: 2370 changes made)
+
+. 
+. *prevalence of bDMARD among HCQ exposed and unexposed
+. tab bdmard_any hcq  ,m col
+
++-------------------+
+| Key               |
+|-------------------|
+|     frequency     |
+| column percentage |
++-------------------+
+
+           |          HCQ
+bdmard_any |         0          1 |     Total
+-----------+----------------------+----------
+         0 |   158,836     29,885 |   188,721 
+           |     96.81      97.76 |     96.96 
+-----------+----------------------+----------
+         1 |     5,232        684 |     5,916 
+           |      3.19       2.24 |      3.04 
+-----------+----------------------+----------
+     Total |   164,068     30,569 |   194,637 
+           |    100.00     100.00 |    100.00 
+
+. 
+. *not looking like a difference
+. /*
+> 
+>            |          HCQ
+> bdmard_any |         0          1 |     Total
+> -----------+----------------------+----------
+>          0 |   158,836     29,885 |   188,721 
+>            |     96.81      97.76 |     96.96 
+> -----------+----------------------+----------
+>          1 |     5,232        684 |     5,916 
+>            |      3.19       2.24 |      3.04 
+> -----------+----------------------+----------
+>      Total |   164,068     30,569 |   194,637 
+>            |    100.00     100.00 |    100.00 
+> */
+. 
+. 
+. 
+. 
+. ***stset the dataset and then run the primary models
+. stset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) origin(
+> enter_date)
+
+                id:  patient_id
+     failure event:  onscoviddeath != 0 & onscoviddeath < .
+obs. time interval:  (stime_onscoviddeath[_n-1], stime_onscoviddeath]
+ enter on or after:  time enter_date
+ exit on or before:  failure
+    t for analysis:  (time-origin)
+            origin:  time enter_date
+
+------------------------------------------------------------------------------
+    194,637  total observations
+          0  exclusions
+------------------------------------------------------------------------------
+    194,637  observations remaining, representing
+    194,637  subjects
+        547  failures in single-failure-per-subject data
+ 25636621.5  total analysis time at risk and under observation
+                                                at risk from t =         0
+                                     earliest observed entry t =         0
+                                          last observed exit t =       134
+
+. 
+end of do-file
+
+. do "E:\STATATMP\STD5078_000000.tmp"
+
+. stcox i.exposure, nolog
+
+         failure _d:  onscoviddeath
+   analysis time _t:  (stime_onscoviddeath-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+
+Cox regression -- Breslow method for ties
+
+No. of subjects =      194,637                  Number of obs    =     194,637
+No. of failures =          547
+Time at risk    =   25636621.5
+                                                LR chi2(1)       =        4.13
+Log likelihood  =   -6651.1805                  Prob > chi2      =      0.0421
+
+------------------------------------------------------------------------------
+          _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |   .7771215    .099466    -1.97   0.049     .6047017    .9987036
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "E:\STATATMP\STD5078_000000.tmp"
+
+. stcox i.exposure i.male age1 age2 age3 
+
+         failure _d:  onscoviddeath
+   analysis time _t:  (stime_onscoviddeath-origin)
+             origin:  time enter_date
+  enter on or after:  time enter_date
+                 id:  patient_id
+
+Iteration 0:   log likelihood = -6653.2457
+Iteration 1:   log likelihood = -6363.7842
+Iteration 2:   log likelihood = -6299.4394
+Iteration 3:   log likelihood = -6293.4165
+Iteration 4:   log likelihood = -6292.6884
+Iteration 5:   log likelihood = -6292.6429
+Iteration 6:   log likelihood = -6292.6426
+Refining estimates:
+Iteration 0:   log likelihood = -6292.6426
+
+Cox regression -- Breslow method for ties
+
+No. of subjects =      194,637                  Number of obs    =     194,637
+No. of failures =          547
+Time at risk    =   25636621.5
+                                                LR chi2(5)       =      721.21
+Log likelihood  =   -6292.6426                  Prob > chi2      =      0.0000
+
+------------------------------------------------------------------------------
+          _t | Haz. Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |   1.084274   .1398098     0.63   0.530     .8421363    1.396033
+      1.male |   1.462889   .1293406     4.30   0.000     1.230135    1.739682
+        age1 |   1.050966   .0377137     1.39   0.166     .9795883    1.127545
+        age2 |   1.088567   .0570047     1.62   0.105     .9823821    1.206229
+        age3 |   .7057895   .1409865    -1.74   0.081     .4771353     1.04402
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "E:\STATATMP\STD5078_000000.tmp"
+
+. 
+. *recode unknown ethnicity to missing
+. recode ethnicity .u=.
+(ethnicity: 45328 changes made)
+
+. *mi set the data (aka stset) 
+. mi set mlong
+
+. *mi register (tell Stata which variable to impute)
+. mi register imputed ethnicity
+(45328 m=0 obs. now marked as incomplete)
+
+. *mi impute the dataset
+. mi impute mlogit ethnicity i.exposure _d i.population i.stp i.male age1 age2 
+> age3 i.dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp
+> _excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hyperten
+> sion i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_n
+> omiss, add(10) rseed(8675309) augment force 
+
+Univariate imputation                       Imputations =       10
+Augmented multinomial logit regression            added =       10
+Imputed: m=1 through m=10                       updated =        0
+
+------------------------------------------------------------------
+                   |               Observations per m             
+                   |----------------------------------------------
+          Variable |   Complete   Incomplete   Imputed |     Total
+-------------------+-----------------------------------+----------
+         ethnicity |     149309        45328     45328 |    194637
+------------------------------------------------------------------
+(complete + incomplete = total; imputed is the minimum across m
+ of the number of filled-in observations.)
+
+. *mi stset
+. mi stset stime_$outcome, fail($outcome) id(patient_id) enter(enter_date) orig
+> in(enter_date)     
+
+                id:  patient_id
+     failure event:  onscoviddeath != 0 & onscoviddeath < .
+obs. time interval:  (stime_onscoviddeath[_n-1], stime_onscoviddeath]
+ enter on or after:  time enter_date
+ exit on or before:  failure
+    t for analysis:  (time-origin)
+            origin:  time enter_date
+
+------------------------------------------------------------------------------
+    194,637  total observations
+          0  exclusions
+------------------------------------------------------------------------------
+    194,637  observations remaining, representing
+    194,637  subjects
+        547  failures in single-failure-per-subject data
+ 25636621.5  total analysis time at risk and under observation
+                                                at risk from t =         0
+                                     earliest observed entry t =         0
+                                          last observed exit t =       134
+
+. 
+. 
+.  * DAG adjusted (age, sex, ethnicity, geographic region, other immunosuppress
+> ives 
+. mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.
+> dmard_pc i.oral_prednisolone, strata(stp population)       
+
+Imputations (10):
+  .........10 done
+
+Multiple-imputation estimates                   Imputations       =         10
+Stratified Cox regr.: Breslow method for ties   Number of obs     =    194,637
+                                                Average RVI       =     0.0654
+                                                Largest FMI       =     0.2391
+DF adjustment:   Large sample                   DF:     min       =     169.86
+                                                        avg       =   4.94e+10
+                                                        max       =   5.28e+11
+Model F test:       Equal FMI                   F(  11,24290.0)   =      53.60
+Within VCE type:          OIM                   Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+          _t |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |   .0285269   .1302978     0.22   0.827     -.226852    .2839058
+      1.male |   .3826265   .0887484     4.31   0.000     .2086829    .5565701
+        age1 |   .0531518    .036232     1.47   0.142    -.0178615    .1241652
+        age2 |   .0723631   .0527411     1.37   0.170    -.0310076    .1757337
+        age3 |  -.2910996   .2011452    -1.45   0.148     -.685337    .1031378
+             |
+   ethnicity |
+South Asian  |  -.0125526   .2579374    -0.05   0.961    -.5217286    .4966233
+      Black  |   .2227668   .3725073     0.60   0.550    -.5099038    .9554375
+      Mixed  |   .5313558   .5644616     0.94   0.347    -.5790138    1.641725
+      Other  |   -.513612    .711265    -0.72   0.470    -1.908421    .8811971
+             |
+  1.dmard_pc |  -.0684303    .092241    -0.74   0.458    -.2492194    .1123588
+1.oral_pr~ne |   .9017267   .0884847    10.19   0.000     .7282999    1.075154
+------------------------------------------------------------------------------
+
+. *AND NOW WITH BDMARDS
+. mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.
+> dmard_pc i.oral_prednisolone i.bdmard_any, strata(stp population)            
+>               
+
+Imputations (10):
+  .........10 done
+
+Multiple-imputation estimates                   Imputations       =         10
+Stratified Cox regr.: Breslow method for ties   Number of obs     =    194,637
+                                                Average RVI       =     0.0599
+                                                Largest FMI       =     0.2390
+DF adjustment:   Large sample                   DF:     min       =     170.01
+                                                        avg       =   3.98e+10
+                                                        max       =   4.55e+11
+Model F test:       Equal FMI                   F(  12,31394.2)   =      49.40
+Within VCE type:          OIM                   Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+          _t |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |    .026942   .1303168     0.21   0.836    -.2284743    .2823582
+      1.male |   .3814014   .0887647     4.30   0.000     .2074257    .5553771
+        age1 |   .0532439    .036248     1.47   0.142    -.0178009    .1242886
+        age2 |   .0719329   .0527618     1.36   0.173    -.0314784    .1753441
+        age3 |  -.2897301   .2012054    -1.44   0.150    -.6840854    .1046252
+             |
+   ethnicity |
+South Asian  |  -.0144019   .2579335    -0.06   0.956    -.5235668    .4947631
+      Black  |    .222718   .3725848     0.60   0.550    -.5101138    .9555498
+      Mixed  |   .5325203     .56449     0.94   0.346    -.5779073    1.642948
+      Other  |  -.5156849   .7112587    -0.73   0.469    -1.910481    .8791114
+             |
+  1.dmard_pc |  -.0661528   .0922823    -0.72   0.473    -.2470229    .1147172
+1.oral_pr~ne |   .9027907   .0884948    10.20   0.000     .7293441    1.076237
+1.bdmard_any |   -.241456   .3435338    -0.70   0.482    -.9147698    .4318578
+------------------------------------------------------------------------------
+
+. 
+. 
+. * DAG+ other adjustments (NSAIDs, heart disease, lung disease, kidney disease
+> , liver disease, BMI, hypertension, cancer, stroke, dementia, and respiratory
+>  disease excl asthma (OCS capturing ashtma))
+. mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.
+> dmard_pc i.oral_prednisolone i.nsaids i.chronic_cardiac_disease i.resp_excl_a
+> sthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hypertension i.
+> cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.smoke_nomiss, 
+> strata(stp population)      
+
+Imputations (10):
+  .........10 done
+
+Multiple-imputation estimates                   Imputations       =         10
+Stratified Cox regr.: Breslow method for ties   Number of obs     =    194,637
+                                                Average RVI       =     0.0230
+                                                Largest FMI       =     0.2512
+DF adjustment:   Large sample                   DF:     min       =     154.21
+                                                        avg       =   1.75e+10
+                                                        max       =   4.49e+11
+Model F test:       Equal FMI                   F(  33,571669.6)  =      23.32
+Within VCE type:          OIM                   Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+          _t |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |   .0318172    .130578     0.24   0.807     -.224111    .2877453
+      1.male |   .2309919   .0919566     2.51   0.012     .0507603    .4112235
+        age1 |   .0508603    .036682     1.39   0.166    -.0210351    .1227556
+        age2 |   .0581797   .0534692     1.09   0.277    -.0466181    .1629774
+        age3 |  -.2282442   .2039396    -1.12   0.263    -.6279586    .1714701
+             |
+   ethnicity |
+South Asian  |  -.0070955   .2664159    -0.03   0.979    -.5333913    .5192003
+      Black  |   .1496099   .3777811     0.40   0.692    -.5938354    .8930551
+      Mixed  |   .4113579   .5675262     0.72   0.469     -.705141    1.527857
+      Other  |  -.4990897   .7157606    -0.70   0.486    -1.902961    .9047817
+             |
+  1.dmard_pc |   .0358967   .0933189     0.38   0.700     -.147005    .2187983
+1.oral_pr~ne |   .7653866   .0918056     8.34   0.000     .5854509    .9453223
+    1.nsaids |  -.1579472   .1647767    -0.96   0.338    -.4809036    .1650091
+1.~c_disease |   .3624651   .0931859     3.89   0.000     .1798241    .5451061
+1.resp_exc~a |   .2938016   .0993924     2.96   0.003      .098996    .4886072
+             |
+egfr_cat_n~s |
+      30-59  |   .1463562   .1003716     1.46   0.145    -.0503685    .3430809
+        <30  |   .7221998   .1990871     3.63   0.000     .3319963    1.112403
+             |
+1.~r_disease |   .2270496   .3209316     0.71   0.479    -.4019647     .856064
+             |
+   obese4cat |
+Obese I ..)  |   .0234392   .1170073     0.20   0.841    -.2058909    .2527694
+Obese II..)  |   .1692693   .1745649     0.97   0.332    -.1728715    .5114102
+Obese II..)  |    .281474   .2541509     1.11   0.268    -.2166526    .7796007
+             |
+1.hyperten~n |   .0157624   .0977859     0.16   0.872    -.1758945    .2074193
+1.cancer_e~r |   .2398571   .1078505     2.22   0.026     .0284739    .4512403
+1.neuro_co~s |   .5326513   .1096701     4.86   0.000     .3177019    .7476007
+1.flu_vacc~e |  -.2131849     .10606    -2.01   0.044    -.4210587   -.0053112
+             |
+         imd |
+          2  |   .2760597   .1449943     1.90   0.057    -.0081239    .5602433
+          3  |   .4197961   .1436299     2.92   0.003     .1382867    .7013054
+          4  |   .3556495   .1479074     2.40   0.016     .0657562    .6455428
+5 most de..  |   .4651572   .1509007     3.08   0.002     .1693966    .7609178
+             |
+     diabcat |
+Controlle..  |   .0916063   .1158582     0.79   0.429    -.1354722    .3186847
+Uncontrol..  |   .4157891   .1578308     2.63   0.008     .1064451    .7251332
+Diabetes,..  |   .5636605   .2372921     2.38   0.018     .0985766    1.028744
+             |
+smoke_nomiss |
+     Former  |   .3513538   .1050842     3.34   0.001     .1453891    .5573185
+    Current  |   .1255568   .1848341     0.68   0.497    -.2367135    .4878271
+------------------------------------------------------------------------------
+
+. *AND NOW WITH BDMARDS
+. mi estimate, dots post: stcox i.exposure i.male age1 age2 age3 i.ethnicity i.
+> dmard_pc i.oral_prednisolone i.bdmard_any i.nsaids i.chronic_cardiac_disease 
+> i.resp_excl_asthma i.egfr_cat_nomiss i.chronic_liver_disease i.obese4cat i.hy
+> pertension i.cancer_ever i.neuro_conditions i.flu_vaccine i.imd i.diabcat i.s
+> moke_nomiss, strata(stp population) 
+
+Imputations (10):
+  .........10 done
+
+Multiple-imputation estimates                   Imputations       =         10
+Stratified Cox regr.: Breslow method for ties   Number of obs     =    194,637
+                                                Average RVI       =     0.0224
+                                                Largest FMI       =     0.2512
+DF adjustment:   Large sample                   DF:     min       =     154.19
+                                                        avg       =   1.68e+10
+                                                        max       =   4.35e+11
+Model F test:       Equal FMI                   F(  34,623815.3)  =      22.64
+Within VCE type:          OIM                   Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+          _t |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    exposure |
+        HCQ  |    .030802   .1305955     0.24   0.814    -.2251605    .2867645
+      1.male |   .2303819   .0919616     2.51   0.012     .0501404    .4106234
+        age1 |   .0509013   .0366902     1.39   0.165    -.0210101    .1228128
+        age2 |   .0579199     .05348     1.08   0.279    -.0468989    .1627386
+        age3 |  -.2273845   .2039701    -1.11   0.265    -.6271586    .1723896
+             |
+   ethnicity |
+South Asian  |  -.0081158    .266423    -0.03   0.976    -.5344261    .5181945
+      Black  |   .1508072   .3778839     0.40   0.690    -.5928513    .8944657
+      Mixed  |   .4118313   .5675572     0.73   0.469     -.704731    1.528394
+      Other  |  -.4999753   .7157817    -0.70   0.485     -1.90389     .903939
+             |
+  1.dmard_pc |   .0372155   .0933481     0.40   0.690    -.1457435    .2201745
+1.oral_pr~ne |   .7659037   .0918138     8.34   0.000     .5859519    .9458555
+1.bdmard_any |  -.1644516   .3440862    -0.48   0.633    -.8388482    .5099449
+    1.nsaids |  -.1568902   .1647821    -0.95   0.341    -.4798571    .1660767
+1.~c_disease |   .3621296   .0931859     3.89   0.000     .1794885    .5447707
+1.resp_exc~a |   .2940843    .099398     2.96   0.003     .0992678    .4889008
+             |
+egfr_cat_n~s |
+      30-59  |   .1463695   .1003685     1.46   0.145    -.0503491    .3430881
+        <30  |   .7220863    .199081     3.63   0.000     .3318947    1.112278
+             |
+1.~r_disease |   .2274707   .3209363     0.71   0.478    -.4015529    .8564943
+             |
+   obese4cat |
+Obese I ..)  |   .0234518   .1170031     0.20   0.841    -.2058701    .2527737
+Obese II..)  |   .1694071     .17456     0.97   0.332    -.1727242    .5115384
+Obese II..)  |   .2814817   .2541401     1.11   0.268    -.2166238    .7795873
+             |
+1.hyperten~n |   .0157676   .0977851     0.16   0.872    -.1758876    .2074228
+1.cancer_e~r |    .238224   .1078945     2.21   0.027     .0267547    .4496933
+1.neuro_co~s |   .5321376   .1096729     4.85   0.000     .3171828    .7470925
+1.flu_vacc~e |  -.2117971   .1061026    -2.00   0.046    -.4197544   -.0038397
+             |
+         imd |
+          2  |   .2758277   .1449965     1.90   0.057    -.0083602    .5600157
+          3  |   .4194369   .1436297     2.92   0.003     .1379278    .7009459
+          4  |   .3550584   .1479106     2.40   0.016     .0651589     .644958
+5 most de..  |   .4642566   .1509059     3.08   0.002      .168486    .7600273
+             |
+     diabcat |
+Controlle..  |   .0911861   .1158607     0.79   0.431    -.1358972    .3182695
+Uncontrol..  |   .4158411   .1578159     2.63   0.008     .1065263     .725156
+Diabetes,..  |   .5628878   .2372996     2.37   0.018     .0977892    1.027986
+             |
+smoke_nomiss |
+     Former  |   .3516003   .1050847     3.35   0.001     .1456346    .5575661
+    Current  |   .1255297   .1848404     0.68   0.497    -.2367528    .4878123
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "E:\STATATMP\STD5078_000000.tmp"
+
+. 
+. log close
+      name:  <unnamed>
+       log:  E:\analyses\hydroxychloroquine-research/output/log\15_bDMARDs.log
+  log type:  text
+ closed on:  21 May 2021, 19:13:58
+-------------------------------------------------------------------------------
